@@ -64,12 +64,12 @@ const EstocView = () => {
             >
                 <Tab eventKey="source" title="Data Source Selection">
                     <div className="row m-3 bg-light border p-2 ">
-                        <div className="col-sm-4 col-md-2 ">
+                        <div className="col-sm-6 col-md-3 ">
                             <EstocCatalogs send={obtainCoords}/>
                         </div>
                     
                         {/* Map */}
-                        <div className="col-sm-8 col-sm-offset-4 col-md-10 col-md-offset-3">
+                        <div className="col-sm-6 col-sm-offset-4 col-md-9 col-md-offset-3">
                             <MapViewEstoc filesData={dataFile}/>
                         </div>
                     </div>

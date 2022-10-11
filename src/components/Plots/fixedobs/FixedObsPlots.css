@@ -55,3 +55,8 @@
   grid-gap: 10px;
   grid-auto-rows: minmax(100px, auto);
   }
+
+.image_style{
+    width: 100%;
+    height: auto;
+}
