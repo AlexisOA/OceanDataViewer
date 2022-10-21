@@ -38,10 +38,10 @@ const Home = () => {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      ESTOC
+                      Fixed Observatories
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Estoc description
+                       Description
                     </Typography>
                   </CardContent>
                 </CardActionArea>

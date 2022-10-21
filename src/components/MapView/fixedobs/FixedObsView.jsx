@@ -55,35 +55,35 @@ const EstocView = () => {
 
             <div className='row m-3'>
             
-            <Tabs
-                // defaultActiveKey={tabStatus.key}
-                activeKey={selectTab.status}
-                id="controlled-tab-example"
-                onSelect={(k) => dispatch(getSelectTab(k))}
-                
-            >
-                <Tab eventKey="source" title="Data Source Selection">
-                    <div className="row m-3 bg-light border p-2 ">
-                        <div className="col-sm-6 col-md-3 ">
-                            <EstocCatalogs send={obtainCoords}/>
-                        </div>
+                <Tabs
+                    // defaultActiveKey={tabStatus.key}
+                    activeKey={selectTab.status}
+                    id="controlled-tab-example"
+                    onSelect={(k) => dispatch(getSelectTab(k))}
                     
-                        {/* Map */}
-                        <div className="col-sm-6 col-sm-offset-4 col-md-9 col-md-offset-3">
-                            <MapViewEstoc filesData={dataFile}/>
+                >
+                    <Tab eventKey="source" title="Data Source Selection">
+                        <div className="row m-3 bg-light border p-2 ">
+                            <div className="col-sm-6 col-md-3 ">
+                                <EstocCatalogs send={obtainCoords}/>
+                            </div>
+                        
+                            {/* Map */}
+                            <div className="col-sm-6 col-sm-offset-4 col-md-9 col-md-offset-3">
+                                <MapViewEstoc filesData={dataFile}/>
+                            </div>
                         </div>
-                    </div>
-                </Tab>
+                    </Tab>
 
 
 
-                <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>
-                    <h1>Tab 2</h1>
-                </Tab>
-                <Tab eventKey="plots" title="Plots" disabled={statusPlot.status}>
-                    <FixedObsPlots url={statusPlot.url}/>
-                </Tab>
-            </Tabs>
+                    <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>
+                        <h1>Tab 2</h1>
+                    </Tab>
+                    <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
+                        <FixedObsPlots url={statusPlot.url}/>
+                    </Tab>
+                </Tabs>
             </div>
 
             
