@@ -9,8 +9,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setTranferlistChoose } from '../../../../store/actions/highchartActions';
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
   }
@@ -23,74 +23,13 @@ function not(a, b) {
     return [...a, ...not(b, a)];
   }
 
-
 const TransferList = () => {
-
-    const data = [
-        {
-            "Standard_name": "Sea water temperature",
-            "Variable_name": "Temp",
-            "name_data": "TEMP",
-            "info": [
-                {
-                    "Units": "Degree celsius",
-                    "Min_value": 0.0,
-                    "Max_value": 36.0
-                }
-            ]
-        },
-        {
-            "Standard_name": "Sea water electrical conductivity",
-            "Variable_name": "Cndc",
-            "name_data": "CNDC",
-            "info": [
-                {
-                    "Units": "S/m",
-                    "Min_value": 0.0,
-                    "Max_value": 60.0
-                }
-            ]
-        },
-        {
-            "Standard_name": "Sea water practical salinity",
-            "Variable_name": "Psal",
-            "name_data": "PSAL",
-            "info": [
-                {
-                    "Units": "Psu",
-                    "Min_value": 34.0,
-                    "Max_value": 38.0
-                }
-            ]
-        },
-        {
-            "Standard_name": "Mass concentration of oxygen in sea water was dissolved oxygen",
-            "Variable_name": "Doxy",
-            "name_data": "DOXY",
-            "info": [
-                {
-                    "Units": "Micromol/l",
-                    "Min_value": 100.0,
-                    "Max_value": 260.0
-                }
-            ]
-        },
-        {
-            "Standard_name": "Total chlorophyll-a",
-            "Variable_name": "Cphl",
-            "name_data": "CPHL",
-            "info": [
-                {
-                    "Units": "Microgrammes/l",
-                    "Min_value": -3.0,
-                    "Max_value": 3.0
-                }
-            ]
-        }
-    ]
+    const state = useSelector(state=>state);
+    const data_highcharts = state.dataHighchart;
+    const dispatch = useDispatch();
 
     const [checked, setChecked] = React.useState([]);
-    const [left, setLeft] = React.useState(data);
+    const [left, setLeft] = React.useState(data_highcharts.table_info);
     const [right, setRight] = React.useState([]);
 
     const leftChecked = intersection(checked, left);
@@ -133,8 +72,7 @@ const TransferList = () => {
     };
 
     const btnClick = () => {
-      console.log(right)
-
+      dispatch(setTranferlistChoose(right))
     };
     const customList = (title, items) => (
         <Card >
@@ -201,7 +139,12 @@ const TransferList = () => {
     return (
         <div className='row'>
         <Grid container spacing={2} className='mt-4 d-flex justify-content-end '>
-        <Grid item >{customList('Properties', left)}</Grid>
+        {
+          left != null ?
+          <Grid item >{customList('Properties', left)}</Grid>
+          :
+          null
+        }
         <Grid item>
           <Grid container direction="column" alignItems="center">
             <Button
@@ -226,7 +169,12 @@ const TransferList = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid item>{customList('Chosen', right)}</Grid>
+        {
+          left != null ?
+          <Grid item>{customList('Chosen', right)}</Grid>
+          :
+          null
+        }
       </Grid>
         <div className="row mt-3">
           <div className='col-md-12 d-flex justify-content-end'>

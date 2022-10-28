@@ -13,7 +13,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import { styled } from '@mui/material/styles';
-import Checkbox from '@mui/material/Checkbox';
+import { useSelector } from 'react-redux';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -102,68 +102,9 @@ function Row(props) {
 
 
 const TableInformation = () => {
-    const data = [
-      {
-          "Standard_name": "Sea water temperature",
-          "Variable_name": "Temp",
-          "name_data": "TEMP",
-          "info": [
-              {
-                  "Units": "Degree celsius",
-                  "Min_value": 0.0,
-                  "Max_value": 36.0
-              }
-          ]
-      },
-      {
-          "Standard_name": "Sea water electrical conductivity",
-          "Variable_name": "Cndc",
-          "name_data": "CNDC",
-          "info": [
-              {
-                  "Units": "S/m",
-                  "Min_value": 0.0,
-                  "Max_value": 60.0
-              }
-          ]
-      },
-      {
-          "Standard_name": "Sea water practical salinity",
-          "Variable_name": "Psal",
-          "name_data": "PSAL",
-          "info": [
-              {
-                  "Units": "Psu",
-                  "Min_value": 34.0,
-                  "Max_value": 38.0
-              }
-          ]
-      },
-      {
-          "Standard_name": "Mass concentration of oxygen in sea water was dissolved oxygen",
-          "Variable_name": "Doxy",
-          "name_data": "DOXY",
-          "info": [
-              {
-                  "Units": "Micromol/l",
-                  "Min_value": 100.0,
-                  "Max_value": 260.0
-              }
-          ]
-      },
-      {
-          "Standard_name": "Total chlorophyll-a",
-          "Variable_name": "Cphl",
-          "name_data": "CPHL",
-          "info": [
-              {
-                  "Units": "Microgrammes/l",
-                  "Min_value": -3.0,
-                  "Max_value": 3.0
-              }
-          ]
-      }
-  ]
+  const state = useSelector(state=>state);
+  const data_highcharts = state.dataHighchart;
+
     return (
         <TableContainer component={Paper} className='mt-4 d-flex justify-content-start '>
           <Table aria-label="collapsible table">
@@ -186,9 +127,12 @@ const TableInformation = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => (
+              {data_highcharts != null ?
+                data_highcharts.table_info.map((row) => (
                 <Row key={row.name_data} row={row} />
-              ))}
+              ))
+              :
+              null}
             </TableBody>
           </Table>
         </TableContainer>

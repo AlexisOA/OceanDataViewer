@@ -6,11 +6,16 @@ import TransferList from './List/TransferList';
 import FixedObsHighcharts from './plotshighcharts/FixedObsHighcharts';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Grid';
+import { useSelector, useDispatch } from 'react-redux';
+import { setDataFile } from '../../../store/actions/highchartActions';
+import FixedObsHighStock from './plotshighcharts/FixedObsHighStock';
 
 const FixedObsPlots = ({url}) => {
-    const [plot, setPlot] = useState(null);
-    const [isLoading, setIsLoading] = useState(true)
+    const state = useSelector(state=>state);
+    const data_highcharts = state.dataHighchart;
+    
+    const dispatch = useDispatch();
+
     useEffect(() => {
 
         console.log("en el useeffect")
@@ -25,7 +30,7 @@ const FixedObsPlots = ({url}) => {
         .then((response) => {
             if(response.status === 200){
                 console.log(response.data)
-                setPlot(response.data);
+                dispatch(setDataFile(response.data))
             }
         })
         .catch((error) => alert(`Error loading graphics: ${error}`))
@@ -35,7 +40,7 @@ const FixedObsPlots = ({url}) => {
     return (
         <div className='container'>
             {
-                plot != null ?
+                data_highcharts != null ?
                 (
                         <div className="row">
                             <div className="col-sm-8 col-md-4 ">
@@ -46,7 +51,11 @@ const FixedObsPlots = ({url}) => {
                             </div>
                             <Divider/>
                             <div className='mt-5'>
+                                {
+
+                                }
                                 <FixedObsHighcharts/>
+                                {/* <FixedObsHighStock/> */}
                             </div>
                         </div>
                 )

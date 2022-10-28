@@ -1,114 +1,116 @@
 import React from 'react';
 import { render } from 'react-dom';
-import Highcharts from 'highcharts/highstock';
+import Highcharts from 'highcharts';
 import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
-
+import drilldown from 'highcharts/modules/drilldown.js';
+import { useSelector, useDispatch } from 'react-redux';
 // init the module
 exporting(Highcharts);
+drilldown(Highcharts);
 
 const FixedObsHighcharts = () => {
-    const data = [
-        {
-            "coordinates" :{
-                "Lat": [29.452],
-                "Lon": [-15.789],
-                "Depth": [1000],
-                "Time": ['2022-06-22 12:30:00', '2022-06-22 12:40:00', '2022-06-22 12:50:00']
-            },
-            "data":{
-                "names": ["TEMP", "PSAL"],
-                "units": ["degC", "PSU"],
-                "values": [
-                    [7.0, 8.0, 9.0],
-                    [21.0, 22.0, 23.0]
-                ]
-            }
-        }
-    
-    ]
-
-    const options = {
-      exporting:{
-        enabled: true
-    },
-    accessibility: {
-      enabled: false
-    },
-      title: {
-        text: 'Sample chart'
+  const state = useSelector(state=>state);
+    const transferList_Data = state.transferListData;
+    let options = {}
+    if(transferList_Data != null){
+      options = {
+        exporting:{
+          enabled: true
       },
-      yAxis: [{ // Primary yAxis
-        labels: {
-            format: '{value}°C',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        },
+      accessibility: {
+        enabled: false
+      },
+      title: {
+        text: transferList_Data[0].Standard_name
+      },
+      subtitle: {
+        text: transferList_Data[0].description
+    },
+      xAxis: {
         title: {
-            text: 'Temperature',
-            style: {
-                color: Highcharts.getOptions().colors[1]
-            }
-        },
-        opposite: false
-    }, { // Tertiary yAxis
+          text: transferList_Data[0].name_data
+      }
+    },
+      yAxis: [{ // Tertiary yAxis
+          reversed:true,
             gridLineWidth: 0,
             title: {
-                text: 'Sea-Level Depth',
+                text: transferList_Data[0].Standard_name_coord,
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
             },
             labels: {
-                format: '{value} m',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
-            },
-            opposite: true
+            }
         }],
-        exporting: {
-          enabled: true
-        },
-      series: [
-        {
-          name: 'DEPTH',
-          type: 'spline',
-          yAxis: 1,
-          color: '#071418',
-          data: [[new Date('2022-06-22 12:30:00').getTime(), 1000],
-          [new Date('2022-06-22 12:40:00').getTime(), 1000],
-          [new Date('2022-06-22 12:50:00').getTime(), 1000]],
-          marker: {
-            enabled: false
-          },
-          dashStyle: 'shortdot',
-          tooltip: {
-            valueSuffix: ' m'
+        plotOptions: {
+          spline: {
+              marker: {
+                  radius: 5,
+                  states: {
+                      hover: {
+                          enabled: true,
+                          lineColor: 'rgb(100,100,100)'
+                      }
+                  }
+              },
+              tooltip: {
+                  headerFormat: `<b>${transferList_Data[0].Standard_name_coord} - ${transferList_Data[0].name_data}</b><br>`,
+                  pointFormat: `{point.y} ${transferList_Data[0].dataset.units[1]}, {point.x} ${transferList_Data[0].dataset.units[0]}`
+              }
           }
-        },
-        {
-          name: 'TEMP',
-          type: 'line',
-          color: '#7cb5ef',
-          data: [[new Date('2022-06-22 12:30:00').getTime(),5],
-          [new Date('2022-06-22 12:40:00').getTime(), 7],
-          [new Date('2022-06-22 12:50:00').getTime(), 3]],
-          tooltip: {
-            valueSuffix: '°C'
+      },
+      colorAxis: {
+        min: 1,
+        max: 50,
+        type: 'logarithmic',
+        minColor: '#EEEEFF',
+        maxColor: '#ff0000'
+    },
+        series: [
+          {
+            name: transferList_Data[0].name_data,
+            type: 'spline',
+            colorAxis: null,
+            // xAxis: 0,
+            // color: '#071418',
+            data: transferList_Data[0].dataset.values,
+          //   zoneAxis: 'x',
+          //   zones: [{
+          //         value: 200,  
+          //         color: '#bdbdbd'  
+          //     },{
+          //         value:300,
+          //         color: '#ff0000'  
+          //     },
+          //     {
+          //         value:500,
+          //         color: 'blue'  
+          //     },{
+          //         value:800,
+          //         color: 'black'  
+          // }]
           }
-        }
-      ]
-    };
+        ]
+      };
+    }
 
     return (
         <div>
-            <HighchartsReact
+        {
+          transferList_Data != null ? 
+          (<HighchartsReact
               highcharts={Highcharts}
-              constructorType={'stockChart'}
               options={options}
-            />
+            />)
+          :
+          null
+        }
+            
         </div>
     );
 }
