@@ -13,14 +13,14 @@ import FixedObsHighStock from './plotshighcharts/FixedObsHighStock';
 const FixedObsPlots = ({url}) => {
     const state = useSelector(state=>state);
     const data_highcharts = state.dataHighchart;
-    
+    const transferList_Data = state.transferListData;
+
+    const [dataChart, setDataChart] = useState(null);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
-
-        console.log("en el useeffect")
         if(url != null){
-            console.log("en el if")
             obtainDataForm(url)
         }
     }, [url]);
@@ -29,7 +29,6 @@ const FixedObsPlots = ({url}) => {
         getDataToForm(url)
         .then((response) => {
             if(response.status === 200){
-                console.log(response.data)
                 dispatch(setDataFile(response.data))
             }
         })
@@ -52,10 +51,32 @@ const FixedObsPlots = ({url}) => {
                             <Divider/>
                             <div className='mt-5'>
                                 {
+                                    data_highcharts.type == 'basic' && transferList_Data.length > 0 ?
+                                    (
+                                        transferList_Data.map((value, index) => {
+                                            return (<div key={index} className='card text-center  mt-5'>
+                                                        {<FixedObsHighcharts data={value}/>}
+                                                    </div>)
+                                            
+                                        })
 
+                                        
+                                    )
+                                    :
+                                    data_highcharts.type == 'complex' && transferList_Data.length > 0 ?
+                                    (
+                                        transferList_Data.map((value, index) => {
+                                            return (<div key={index} className='card text-center  mt-5'>
+                                                        {<FixedObsHighStock data={value}/>}
+                                                    </div>)
+                                            
+                                        })
+
+                                        
+                                    )
+                                    :
+                                    null
                                 }
-                                <FixedObsHighcharts/>
-                                {/* <FixedObsHighStock/> */}
                             </div>
                         </div>
                 )

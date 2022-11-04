@@ -1,7 +1,7 @@
 import { HIGHCHARTS_DATA, TRANSFERLIST_DATA } from "../actions/highchartActions";
 
 let initialData = null
-let initialTransferList = null
+let initialTransferList = []
 
 export const dataHighchartReducer = (state=initialData, action)=> {
     switch (action.type) {

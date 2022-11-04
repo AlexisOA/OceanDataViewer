@@ -7,9 +7,10 @@ import Tabs from 'react-bootstrap/Tabs';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSelectTab, getStatusPlotTab, getStatusProductTab } from '../../../store/actions/tabActions';
 import FixedObsPlots from '../../Plots/fixedobs/FixedObsPlots';
+import { setDataFile, setTranferlistChoose } from '../../../store/actions/highchartActions';
 
 const EstocView = () => {
-    const [dataFile, setDataFile] = useState(null);
+    const [dataFile, setDataPopUp] = useState(null);
     // const [selectTab, setSelectTab] = useState("source");
     
     const state = useSelector(state=>state);
@@ -35,11 +36,12 @@ const EstocView = () => {
         //Disable tabs before click to file
         dispatch(getStatusProductTab(true));
         dispatch(getStatusPlotTab(true));
-
+        //here it need remove data from status data plots
+        dispatch(setDataFile(null))
+        dispatch(setTranferlistChoose([]))
         getCoordinatesFromURL(name)
             .then((response) => {
-                console.log(response.data)
-                setDataFile(response.data);
+                setDataPopUp(response.data);
             })
             .catch((error) => alert(`Error method post coordinates: ${error}`))
     };

@@ -72,6 +72,7 @@ const TransferList = () => {
     };
 
     const btnClick = () => {
+      console.log(right)
       dispatch(setTranferlistChoose(right))
     };
     const customList = (title, items) => (
