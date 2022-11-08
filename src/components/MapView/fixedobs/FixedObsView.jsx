@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import { getCoordinatesFromURL } from '../../../services/ThreddsService';
 import EstocCatalogs from './FixedObsCatalogs';
 import MapViewEstoc from './FixedObsMapView';
@@ -12,14 +12,18 @@ import { setDataFile, setTranferlistChoose } from '../../../store/actions/highch
 const EstocView = () => {
     const [dataFile, setDataPopUp] = useState(null);
     // const [selectTab, setSelectTab] = useState("source");
-    
     const state = useSelector(state=>state);
     const statusPlot = state.statusPlotTab;
     const statusProduct = state.statusProductTab;
     const selectTab = state.statusSelect;
 
     const dispatch = useDispatch();
-
+    useEffect(() => {
+        window.history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function(event) {
+        window.location.replace("/");
+        });
+    }, []);
 
     const divider_style = {
         borderRight: "1px dashed #333"
@@ -80,7 +84,7 @@ const EstocView = () => {
 
 
                     <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>
-                        <h1>Tab 2</h1>
+                        
                     </Tab>
                     <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
                         <FixedObsPlots url={statusPlot.url}/>

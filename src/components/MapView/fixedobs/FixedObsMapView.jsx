@@ -21,8 +21,8 @@ const MapViewEstoc = ({filesData}) => {
     const dispatch = useDispatch();
 
     const onClickProducto = (name) => {
-        dispatch(getStatusProductTab(false, filesData.site.url));
-        dispatch(getSelectTab(name));
+        // dispatch(getStatusProductTab(false, filesData.site.url));
+        // dispatch(getSelectTab(name));
     };
 
     const onClickPlot = (name) => {
@@ -85,7 +85,7 @@ const MapViewEstoc = ({filesData}) => {
                                 </ul>
                             </div>
                             <div className='d-flex justify-content-end'>
-                                <Button variant="primary" onClick={()=> onClickProducto("product") } disabled>Select Product</Button>
+                                <Button variant="primary" onClick={()=> onClickProducto("product")} disabled={true}>Select Product</Button>
                                 <Button className='mx-2' variant="primary" onClick={()=> onClickPlot("plots")}>Generate Plots</Button>
                             </div>
 

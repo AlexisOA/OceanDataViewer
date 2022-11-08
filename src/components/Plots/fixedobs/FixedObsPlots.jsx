@@ -12,6 +12,8 @@ import FixedObsHighStock from './plotshighcharts/FixedObsHighStock';
 
 const FixedObsPlots = ({url}) => {
     const state = useSelector(state=>state);
+    const [loading, setLoading] = useState(true);
+
     const data_highcharts = state.dataHighchart;
     const transferList_Data = state.transferListData;
 
@@ -32,7 +34,10 @@ const FixedObsPlots = ({url}) => {
                 dispatch(setDataFile(response.data))
             }
         })
-        .catch((error) => alert(`Error loading graphics: ${error}`))
+        .catch((error) => {
+            dispatch(setDataFile(null));
+            setLoading(false);
+        })
         
     }
 
@@ -81,9 +86,16 @@ const FixedObsPlots = ({url}) => {
                         </div>
                 )
                 :
-                <div className='d-flex align-items-center justify-content-center align-self-center' style={{minHeight: "100vh"}}>
+                loading ?
+                (<div className='d-flex align-items-center justify-content-center align-self-center' style={{minHeight: "100vh"}}>
                     <CircularProgress/>
+                </div>)
+                :
+                <div>
+                    <h4 className='d-flex align-items-center justify-content-center align-self-center mt-5'>Not implemented yet</h4>
                 </div>
+                
+                
             }
         </div>
 

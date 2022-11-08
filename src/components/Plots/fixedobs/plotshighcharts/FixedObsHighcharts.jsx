@@ -17,6 +17,24 @@ const FixedObsHighcharts = ({data}) => {
     console.log(data);
   }, []);
 
+  //   var buttons = Highcharts.getOptions().exporting.buttons.contextButton.menuItems.slice();
+
+  //   buttons.push({
+  //       text: 'Export to CSV (large)',
+  //       onclick: function () {
+  //           // this.exportChart();
+  //           console.log("Nuevo png")
+  //       },
+  //       separator: false
+  //   });
+  //   exporting: {
+  //     buttons: {
+  //         contextButton: {
+  //             menuItems: buttons
+  //         }
+  //     }
+  // },
+
   let options = {}
 
     options = {
@@ -55,7 +73,7 @@ const FixedObsHighcharts = ({data}) => {
       plotOptions: {
         spline: {
             marker: {
-                radius: 5,
+                radius: 2,
                 states: {
                     hover: {
                         enabled: true,

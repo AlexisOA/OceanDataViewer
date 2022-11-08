@@ -60,7 +60,7 @@ const FixedObsHighStock = ({data}) => {
             marker: {
               enabled: true,
               radius: 2
-          },
+            },
             tooltip: {
               valueSuffix: " " + data.dataset.units[0]
             },
