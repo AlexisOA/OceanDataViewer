@@ -3,12 +3,13 @@ export const STATUS_PRODUCT_TAB = 'STATUS_PRODUCT_TAB'
 export const SELECT_TAB = 'SELECT_TAB'
 
 
-export const getStatusPlotTab= (data, url) => {
+export const getStatusPlotTab= (data, url, url_download) => {
     return {
         type: STATUS_PLOT_TAB,
         payload: {
             data,
-            url
+            url,
+            url_download
         }
     }
 }

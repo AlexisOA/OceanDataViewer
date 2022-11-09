@@ -64,7 +64,7 @@ const EstocCatalogs = ({send}) => {
         key={nodes.id}
         nodeId={nodes.id}
         label={nodes.name}
-        onClick={() => checkTree(nodes.is_file, nodes.id, nodes.url)}
+        onClick={() => checkTree(nodes.is_file, nodes.id, nodes.url, nodes.url_download)}
         endIcon={nodes.is_file ? <AnalyticsOutlinedIcon/> : <FolderIcon/>}
         >
           {Array.isArray(nodes.children)
@@ -73,9 +73,9 @@ const EstocCatalogs = ({send}) => {
         </TreeItem>
       );
 
-    const checkTree = (is_file, id, url) => {
+    const checkTree = (is_file, id, url, url_download) => {
       (is_file) ?
-      send(is_file, url)
+      send(is_file, url, url_download)
       : 
       obtainLayerByURL(url, id);
     }
@@ -84,6 +84,7 @@ const EstocCatalogs = ({send}) => {
       console.log("obtainlayersbyURL: ", url)
       getCatalogByURL(url)
           .then((response) => {
+            console.log(response.data)
               const aux = updateTree(layerList)(
                   (node) => 
                       node?.id === name

@@ -26,7 +26,7 @@ const MapViewEstoc = ({filesData}) => {
     };
 
     const onClickPlot = (name) => {
-        dispatch(getStatusPlotTab(false, filesData.site.url));
+        dispatch(getStatusPlotTab(false, filesData.site.url, filesData.site.url_download));
         dispatch(getSelectTab(name));
     };
 
@@ -126,7 +126,7 @@ const MapViewEstoc = ({filesData}) => {
             (
                 <Marker position={[filesData.site.Latitude, filesData.site.Longitude]}
                 >   
-                    <Popup maxWidth={600} maxHeight={600}>
+                    <Popup maxWidth={600} maxHeight={600} closeButton={false}>
                         {/* <Plots fileName={coords.id}/> */}
                         <div className='container'>
                             

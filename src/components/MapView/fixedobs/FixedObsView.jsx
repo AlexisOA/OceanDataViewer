@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSelectTab, getStatusPlotTab, getStatusProductTab } from '../../../store/actions/tabActions';
 import FixedObsPlots from '../../Plots/fixedobs/FixedObsPlots';
 import { setDataFile, setTranferlistChoose } from '../../../store/actions/highchartActions';
+import Swal from 'sweetalert2';
 
 const EstocView = () => {
     const [dataFile, setDataPopUp] = useState(null);
@@ -29,25 +30,33 @@ const EstocView = () => {
         borderRight: "1px dashed #333"
     }
 
-    function obtainCoords(is_file, url) {
+    function obtainCoords(is_file, url, url_download) {
         (is_file) ?
-            obtainCoordinatesNetCDF(url)
+            obtainCoordinatesNetCDF(url, url_download)
             : 
             console.log()
     }
 
-    const obtainCoordinatesNetCDF = (name) => {
+    const obtainCoordinatesNetCDF = (url, url_download) => {
         //Disable tabs before click to file
         dispatch(getStatusProductTab(true));
         dispatch(getStatusPlotTab(true));
         //here it need remove data from status data plots
         dispatch(setDataFile(null))
         dispatch(setTranferlistChoose([]))
-        getCoordinatesFromURL(name)
+        getCoordinatesFromURL(url, url_download)
             .then((response) => {
+                console.log(response.data)
                 setDataPopUp(response.data);
             })
-            .catch((error) => alert(`Error method post coordinates: ${error}`))
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Plots under Construction...',
+                    text: 'We are working in this file',
+                    confirmButtonColor:"#FFA233"
+                  })
+            })
     };
     
     return (
@@ -87,7 +96,7 @@ const EstocView = () => {
                         
                     </Tab>
                     <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
-                        <FixedObsPlots url={statusPlot.url}/>
+                        <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download}/>
                     </Tab>
                 </Tabs>
             </div>

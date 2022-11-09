@@ -12,8 +12,10 @@ export const getCatalogByURL = (url) =>{
     return axios.post('http://127.0.0.1:8000/api/estoc/layers', body);
 }
 
-export const getCoordinatesFromURL = (url) =>{
+export const getCoordinatesFromURL = (url, url_download) =>{
+    console.log(url_download)
     let body = {
+        url_download: url_download,
         url: url
     }
     return axios.post('http://127.0.0.1:8000/api/estoc/coords', body);
@@ -45,9 +47,10 @@ export const getImageFromLocalFile = (name) =>{
 }
 
 
-export const getDataToForm = (name) =>{
+export const getDataToForm = (url, url_download) =>{
     let body = {
-        name: name
+        url: url,
+        url_download:url_download
     }
     return axios.post('http://127.0.0.1:8000/api/estoc/formdata', body);
 }
@@ -59,5 +62,11 @@ export const getDatafromChooseForm = (dataForm) =>{
     return axios.post('http://127.0.0.1:8000/api/estoc/formdatachoose', body);
 }
 
-
+export const getCSVFileFromNetcdf = (url) =>{
+    let body = {
+        url: url,
+        responseType: 'blob'
+    }
+    return axios.post('http://127.0.0.1:8000/api/estoc/convertcsv', body);
+}
 
