@@ -5,7 +5,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import L from 'leaflet';
 import Button from 'react-bootstrap/Button';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getSelectTab, getStatusPlotTab, getStatusProductTab, getStatusTab } from '../../../store/actions/tabActions';
 
 let DefaultIcon = L.icon({
@@ -15,10 +15,23 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const MapViewEstoc = ({filesData}) => {
-
+    const state = useSelector(state=>state);
     const styleMap = { "width": "100%", "height": "100vh" };
     const { BaseLayer, Overlay } = LayersControl;
     const dispatch = useDispatch();
+    const [map, setMap] = useState(null);
+
+    const sizewindow = state.getSizeWindowMap;
+
+    useEffect(() => {
+        if(sizewindow.width != null){
+         console.log("estamos redimensionando")
+           setInterval(function () {
+                map.invalidateSize();
+                }, 100);
+
+        }
+    }, [sizewindow]);
 
     const onClickProducto = (name) => {
         // dispatch(getStatusProductTab(false, filesData.site.url));
@@ -94,16 +107,18 @@ const MapViewEstoc = ({filesData}) => {
                     </Popup>
               </Marker>
         );
-      }
+    
+    }
 
 
 
     return (
         <MapContainer 
-            style={styleMap}
+            style={{ height: "100vh"}}
             center={[28.0000000, -15.5000000]}
             zoom={8}
-            >
+            ref={setMap}>
+            
               <LayersControl position="topright">
                 <BaseLayer checked name="OpenStreetMap">
                 <TileLayer
