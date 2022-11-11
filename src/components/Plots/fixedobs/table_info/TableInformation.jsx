@@ -52,7 +52,7 @@ function Row(props) {
             </IconButton>
           </StyledTableCell>
           <StyledTableCell component="th" scope="row">
-            {row.Variable_name}
+            {row.name_data}
           </StyledTableCell>
           <StyledTableCell>{row.Standard_name}</StyledTableCell>
           {/* <StyledTableCell padding="checkbox">

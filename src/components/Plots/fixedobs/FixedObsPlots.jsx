@@ -133,24 +133,24 @@ const FixedObsPlots = ({url, url_download}) => {
                         <div className="row">
                             <div className='mt-5'>
                                 {
-                                    data_highcharts.type == 'basic' && transferList_Data.length > 0 ?
+                                    transferList_Data.length > 0 ?
                                     (
+                                        console.log("TransferList", transferList_Data),
                                         transferList_Data.map((value, index) => {
-                                            return (<div key={index} className='card text-center  mt-5'>
+                                            if(value.type_chart == "basic"){
+                                                return (<div key={index} className='card text-center  mt-5'>
                                                         {<FixedObsHighcharts data={value}/>}
                                                     </div>)
-                                            
-                                        })
-
-                                        
-                                    )
-                                    :
-                                    data_highcharts.type == 'complex' && transferList_Data.length > 0 ?
-                                    (
-                                        transferList_Data.map((value, index) => {
-                                            return (<div key={index} className='card text-center  mt-5'>
+                                            }else if(value.type_chart == "complex"){
+                                                return (<div key={index} className='card text-center  mt-5'>
                                                         {<FixedObsHighStock data={value}/>}
                                                     </div>)
+                                            }else{
+                                                return (<div key={index} className='card text-center  mt-5'>
+                                                       Estamos ante un gráfico múltiple
+                                                    </div>)
+                                            }
+                                            
                                             
                                         })
 
