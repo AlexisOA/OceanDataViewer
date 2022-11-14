@@ -13,6 +13,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { NoEncryptionGmailerrorredOutlined } from '@mui/icons-material';
 import { setSizeWindow } from '../../../store/actions/windowActions';
+import FixedObsHighStockMultiple from './plotshighcharts/FixedObsHighStockMultiple';
 const FixedObsPlots = ({url, url_download}) => {
     const state = useSelector(state=>state);
     const [loading, setLoading] = useState(true);
@@ -135,7 +136,6 @@ const FixedObsPlots = ({url, url_download}) => {
                                 {
                                     transferList_Data.length > 0 ?
                                     (
-                                        console.log("TransferList", transferList_Data),
                                         transferList_Data.map((value, index) => {
                                             if(value.type_chart == "basic"){
                                                 return (<div key={index} className='card text-center  mt-5'>
@@ -147,8 +147,9 @@ const FixedObsPlots = ({url, url_download}) => {
                                                     </div>)
                                             }else{
                                                 return (<div key={index} className='card text-center  mt-5'>
-                                                       Estamos ante un gráfico múltiple
-                                                    </div>)
+                                                    <FixedObsHighStockMultiple data={value}/>
+                                                </div>)
+                                                
                                             }
                                             
                                             

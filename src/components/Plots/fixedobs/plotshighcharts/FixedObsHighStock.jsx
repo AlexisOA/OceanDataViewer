@@ -68,7 +68,7 @@ const FixedObsHighStock = ({data}) => {
               hover: {
                   lineWidthPlus: 0
               }
-          }
+            }
           }
         ]
       };
