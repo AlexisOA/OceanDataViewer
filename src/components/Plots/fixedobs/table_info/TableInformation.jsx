@@ -129,7 +129,10 @@ const TableInformation = () => {
             <TableBody>
               {data_highcharts != null ?
                 data_highcharts.table_info.map((row) => (
-                <Row key={row.name_data} row={row} />
+                   row.show_data ?
+                    <Row key={row.name_data} row={row} />
+                    :
+                    null
               ))
               :
               null}

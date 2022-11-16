@@ -81,7 +81,6 @@ const EstocCatalogs = ({send}) => {
     }
 
     const obtainLayerByURL = (url, name) => {
-      console.log("obtainlayersbyURL: ", url)
       getCatalogByURL(url)
           .then((response) => {
             console.log(response.data)

@@ -14,6 +14,7 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { NoEncryptionGmailerrorredOutlined } from '@mui/icons-material';
 import { setSizeWindow } from '../../../store/actions/windowActions';
 import FixedObsHighStockMultiple from './plotshighcharts/FixedObsHighStockMultiple';
+import FixedObsHighStockSediments from './plotshighcharts/FixedObsHighStockSediments';
 const FixedObsPlots = ({url, url_download}) => {
     const state = useSelector(state=>state);
     const [loading, setLoading] = useState(true);
@@ -141,15 +142,19 @@ const FixedObsPlots = ({url, url_download}) => {
                                                 return (<div key={index} className='card text-center  mt-5'>
                                                         {<FixedObsHighcharts data={value}/>}
                                                     </div>)
-                                            }else if(value.type_chart == "complex"){
+                                            }else if(value.type_chart == "complex" && value.sediments_info.length > 0){
                                                 return (<div key={index} className='card text-center  mt-5'>
-                                                        {<FixedObsHighStock data={value}/>}
+                                                        {<FixedObsHighStockSediments data={value}/> }
                                                     </div>)
-                                            }else{
+                                            }else if(value.type_chart == "multiple"){
                                                 return (<div key={index} className='card text-center  mt-5'>
                                                     <FixedObsHighStockMultiple data={value}/>
                                                 </div>)
                                                 
+                                            }else{
+                                                return (<div key={index} className='card text-center  mt-5'>
+                                                    <FixedObsHighStock data={value}/>
+                                                </div>)
                                             }
                                             
                                             

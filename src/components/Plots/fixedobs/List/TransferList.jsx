@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
@@ -31,6 +31,9 @@ const TransferList = () => {
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState(data_highcharts.table_info);
     const [right, setRight] = React.useState([]);
+
+    // const newList = data_highcharts.table_info.filter((item) => item.show_data !== true)
+    // setLeft(newList)
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
@@ -72,9 +75,24 @@ const TransferList = () => {
     };
 
     const btnClick = () => {
+      let new_object = []
+      data_highcharts.table_info.map((value, idx) => {
+        if(!value.show_data){
+          const obj = {
+            "name": value.Variable_name,
+            "value": value.dataset.values
+          }
+          new_object.push(obj)
+        }
+      });
+
+      right.map((value_right, index) => {
+        value_right['sediments_info'] = new_object;
+      });
       console.log(right)
       dispatch(setTranferlistChoose(right))
     };
+    
     const customList = (title, items) => (
         <Card >
           <CardHeader
@@ -142,7 +160,7 @@ const TransferList = () => {
         <Grid container spacing={2} className='mt-4 d-flex justify-content-end '>
         {
           left != null ?
-          <Grid item >{customList('Properties', left)}</Grid>
+          <Grid item >{customList('Properties', left.filter((item) => item.show_data !== false))}</Grid>
           :
           null
         }

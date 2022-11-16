@@ -26,7 +26,8 @@ const FixedObsHighStockMultiple = ({data}) => {
               radius: 2
             },
             tooltip: {
-              valueSuffix: " " + value.units[0]
+              valueSuffix: " " + value.units[0],
+              valueDecimals: 3
             },
             states: {
               hover: {

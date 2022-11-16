@@ -31,7 +31,7 @@ const FixedObsHighStock = ({data}) => {
         enabled: true
     },
         title: {
-          text: data.name_data
+          text: data.Standard_name
         },
         subtitle: {
           text: data.description
@@ -53,7 +53,7 @@ const FixedObsHighStock = ({data}) => {
       }],
         series: [
           {
-            name: `<b>${data.Standard_name_coord} ${data.value_coord} </b>`,
+            name: `<b>${data.Standard_name_coord} ${data.value_coord} ${data.dataset.units[1]} </b>`,
             color: '#7cb5ef',
             data: data_time.sort(),
             lineWidth: 0,
@@ -62,7 +62,8 @@ const FixedObsHighStock = ({data}) => {
               radius: 2
             },
             tooltip: {
-              valueSuffix: " " + data.dataset.units[0]
+              valueSuffix: " " + data.dataset.units[0],
+              valueDecimals: 3
             },
             states: {
               hover: {

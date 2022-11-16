@@ -38,6 +38,14 @@ const FixedObsHighcharts = ({data}) => {
   let options = {}
 
     options = {
+      chart: {
+        zoomType: 'y',
+        panning: true,
+        panKey: 'shift',
+        scrollablePlotArea: {
+            minWidth: 600
+        }
+    },
       exporting:{
         enabled: true
     },
@@ -99,24 +107,10 @@ const FixedObsHighcharts = ({data}) => {
           name: data.name_data,
           type: 'spline',
           colorAxis: null,
-          // xAxis: 0,
-          // color: '#071418',
           data: data.dataset.values,
-        //   zoneAxis: 'x',
-        //   zones: [{
-        //         value: 200,  
-        //         color: '#bdbdbd'  
-        //     },{
-        //         value:300,
-        //         color: '#ff0000'  
-        //     },
-        //     {
-        //         value:500,
-        //         color: 'blue'  
-        //     },{
-        //         value:800,
-        //         color: 'black'  
-        // }]
+          tooltip: {
+            valueDecimals: 3
+          },
         }
       ]
     };
