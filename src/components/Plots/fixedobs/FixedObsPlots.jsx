@@ -15,6 +15,7 @@ import { NoEncryptionGmailerrorredOutlined } from '@mui/icons-material';
 import { setSizeWindow } from '../../../store/actions/windowActions';
 import FixedObsHighStockMultiple from './plotshighcharts/FixedObsHighStockMultiple';
 import FixedObsHighStockSediments from './plotshighcharts/FixedObsHighStockSediments';
+import FixedObsHighStockMeteo from './plotshighcharts/FixedObsHighStockMeteo';
 const FixedObsPlots = ({url, url_download}) => {
     const state = useSelector(state=>state);
     const [loading, setLoading] = useState(true);
@@ -149,6 +150,11 @@ const FixedObsPlots = ({url, url_download}) => {
                                             }else if(value.type_chart == "multiple"){
                                                 return (<div key={index} className='card text-center  mt-5'>
                                                     <FixedObsHighStockMultiple data={value}/>
+                                                </div>)
+                                                
+                                            }else if(value.type_chart == "meteo"){
+                                                return (<div key={index} className='card text-center  mt-5'>
+                                                    <FixedObsHighStockMeteo data={value}/>
                                                 </div>)
                                                 
                                             }else{
