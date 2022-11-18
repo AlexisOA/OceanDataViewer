@@ -4,8 +4,25 @@ import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
 // init the module
 exporting(Highcharts);
-
+require("highcharts/modules/export-data")(Highcharts);
 const FixedObsHighStock = ({data}) => {
+
+    var buttons = [{
+      type: 'hour',
+      count: 1,
+      text: 'Hour'
+    }, {
+      type: 'hour',
+      count: 12,
+      text: '12 hours'
+    }, {
+      type: 'day',
+      count: 1,
+      text: 'Day'
+    }, {
+      type: 'all',
+      text: 'All'
+    }];
 
     let data_time = []
     if("values" in data.dataset){
@@ -18,9 +35,14 @@ const FixedObsHighStock = ({data}) => {
       chart: {
         animation: false,
       },
-        rangeSelector: {
-          buttons: []
+      rangeSelector: {
+        allButtonsEnabled: true,
+        buttons: buttons,
+        buttonTheme: {
+          width: 49
         },
+        selected: 5
+      },
         exporting:{
           enabled: true
       },

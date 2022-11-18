@@ -6,6 +6,22 @@ import HighchartsReact from 'highcharts-react-official';
 exporting(Highcharts);
 
 const FixedObsHighStockMultiple = ({data}) => {
+    var buttons = [{
+      type: 'hour',
+      count: 1,
+      text: 'Hour'
+    }, {
+      type: 'hour',
+      count: 12,
+      text: '12 hours'
+    }, {
+      type: 'day',
+      count: 1,
+      text: 'Day'
+    }, {
+      type: 'all',
+      text: 'All'
+    }];
     let series = []
     let visible = true
 
@@ -43,9 +59,14 @@ const FixedObsHighStockMultiple = ({data}) => {
         chart: {
           animation: false,
         },
-          rangeSelector: {
-            buttons: []
+        rangeSelector: {
+          allButtonsEnabled: true,
+          buttons: buttons,
+          buttonTheme: {
+            width: 49
           },
+          selected: 5
+        },
           exporting:{
             enabled: true
         },

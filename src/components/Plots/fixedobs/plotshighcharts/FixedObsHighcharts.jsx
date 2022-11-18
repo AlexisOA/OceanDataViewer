@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // init the module
 exporting(Highcharts);
 drilldown(Highcharts);
+require("highcharts/modules/export-data")(Highcharts);
 
 const FixedObsHighcharts = ({data}) => {
   // const [dataState, setDataState] = useState(data);
@@ -17,13 +18,14 @@ const FixedObsHighcharts = ({data}) => {
     console.log(data);
   }, []);
 
-  //   var buttons = Highcharts.getOptions().exporting.buttons.contextButton.menuItems.slice();
+  // var buttons = Highcharts.getOptions().exporting.buttons.contextButton.menuItems.slice();
 
   //   buttons.push({
   //       text: 'Export to CSV (large)',
   //       onclick: function () {
   //           // this.exportChart();
-  //           console.log("Nuevo png")
+  //             let csv = this.getCSV();
+  //             console.log(csv);
   //       },
   //       separator: false
   //   });
@@ -47,7 +49,23 @@ const FixedObsHighcharts = ({data}) => {
         }
     },
       exporting:{
-        enabled: true
+        enabled: true,
+        csv: {
+          columnHeaderFormatter: function(item, key) {
+            // console.log("------")
+            // console.log(item)
+            // console.log(key)
+            // if (item.isXAxis) {
+            //   return item.name
+            // } else {
+            //   return 'Depth'
+            // }
+            if (item.name) {
+              return item.name
+            }
+            return item.coll
+          }
+        }
     },
     accessibility: {
       enabled: false

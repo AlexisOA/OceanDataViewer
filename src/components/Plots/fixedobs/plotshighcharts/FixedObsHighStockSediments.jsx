@@ -6,6 +6,22 @@ import { DateRange } from '@mui/icons-material';
 // init the module
 exporting(Highcharts);
 const FixedObsHighStockSediments = ({data}) => {
+    var buttons = [{
+      type: 'hour',
+      count: 1,
+      text: 'Hour'
+    }, {
+      type: 'hour',
+      count: 12,
+      text: '12 hours'
+    }, {
+      type: 'day',
+      count: 1,
+      text: 'Day'
+    }, {
+      type: 'all',
+      text: 'All'
+    }];
     //Data con sediments_info
     let data_time = []
     let data_finish = []
@@ -44,9 +60,14 @@ const FixedObsHighStockSediments = ({data}) => {
         chart: {
           animation: false,
         },
-          rangeSelector: {
-            buttons: []
+        rangeSelector: {
+          allButtonsEnabled: true,
+          buttons: buttons,
+          buttonTheme: {
+            width: 49
           },
+          selected: 5
+        },
           exporting:{
             enabled: true
         },
