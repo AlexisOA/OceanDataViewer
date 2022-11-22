@@ -44,7 +44,21 @@ const FixedObsHighStock = ({data}) => {
         selected: 5
       },
         exporting:{
-          enabled: true
+          enabled: true,
+          tableCaption: 'Data table',
+        csv: {
+          columnHeaderFormatter: function(item, key) {
+            if (!item || item instanceof Highcharts.Axis) {
+              return 'Datetime';
+          }
+            // Item is not axis, now we are working with series.
+            // Key is the property on the series we show in this column.
+            return {
+                topLevelColumnTitle: `${data.Standard_name_coord.charAt(0) + data.Standard_name_coord.slice(1)} ${data.value_coord} ${data.dataset.units[1]}`,
+                columnTitle: key === 'y' ? data.name_data : key
+            };
+          }
+        }
       },
       accessibility: {
         enabled: false

@@ -11,31 +11,27 @@ drilldown(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 
 const FixedObsHighcharts = ({data}) => {
-  // const [dataState, setDataState] = useState(data);
 
   useEffect(() => {
-    console.log("En el useEffect de highcharts");
     console.log(data);
   }, []);
 
-  // var buttons = Highcharts.getOptions().exporting.buttons.contextButton.menuItems.slice();
+  (function(H) {
+    H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
+      console.log("en la funcion")
+      console.log(this);
+        var rows = proceed.call(this, multiLevelHeaders),
+            xMin = this.xAxis[0].min,
+            xMax = this.xAxis[0].max,
+            yMin = this.yAxis[0].min,
+            yMax = this.yAxis[0].max;
 
-  //   buttons.push({
-  //       text: 'Export to CSV (large)',
-  //       onclick: function () {
-  //           // this.exportChart();
-  //             let csv = this.getCSV();
-  //             console.log(csv);
-  //       },
-  //       separator: false
-  //   });
-  //   exporting: {
-  //     buttons: {
-  //         contextButton: {
-  //             menuItems: buttons
-  //         }
-  //     }
-  // },
+        rows = rows.filter(function(row) {
+            return typeof row.x !== 'number' || ((row[0] >= xMin && row[0] <= xMax) && (row[1] >= yMin && row[1] <= yMax));
+        });
+        return rows;
+    });
+  }(Highcharts));
 
   let options = {}
 
@@ -52,18 +48,11 @@ const FixedObsHighcharts = ({data}) => {
         enabled: true,
         csv: {
           columnHeaderFormatter: function(item, key) {
-            // console.log("------")
-            // console.log(item)
-            // console.log(key)
-            // if (item.isXAxis) {
-            //   return item.name
-            // } else {
-            //   return 'Depth'
-            // }
-            if (item.name) {
-              return item.name
+            if (item.isXAxis) {
+              return data.name_data
+            } else {
+              return data.Standard_name_coord
             }
-            return item.coll
           }
         }
     },
@@ -126,6 +115,7 @@ const FixedObsHighcharts = ({data}) => {
           type: 'spline',
           colorAxis: null,
           data: data.dataset.values,
+          turboThreshold:5000,
           tooltip: {
             valueDecimals: 3
           },
