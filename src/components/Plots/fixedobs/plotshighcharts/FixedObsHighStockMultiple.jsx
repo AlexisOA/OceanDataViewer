@@ -4,8 +4,10 @@ import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
 // init the module
 exporting(Highcharts);
+require("highcharts/modules/export-data")(Highcharts);
 
 const FixedObsHighStockMultiple = ({data}) => {
+  
     var buttons = [{
       type: 'hour',
       count: 1,
@@ -28,8 +30,8 @@ const FixedObsHighStockMultiple = ({data}) => {
     data.dataset_multiple.map((value, index) => {
         let data_time = []
         value.values.map((value_data, idx) => {
-            data_time.push([new Date(value_data[0]).getTime(), value_data[1]])
-          })
+              data_time.push([new Date(value_data[0]).getTime(), value_data[1]])
+        })
 
         const obj = {
             name: `<b>${data.Standard_name_coord} ${value.value_coord} </b>`,
@@ -67,9 +69,24 @@ const FixedObsHighStockMultiple = ({data}) => {
           },
           selected: 5
         },
-          exporting:{
-            enabled: true
-        },
+        exporting:{
+          enabled: true,
+          tableCaption: 'Data table',
+        csv: {
+          columnHeaderFormatter: function(item, key) {
+            if (!item || item instanceof Highcharts.Axis) {
+              return 'Datetime';
+            }
+            // Item is not axis, now we are working with series.
+            // Key is the property on the series we show in this column.
+            return {
+                topLevelColumnTitle: `${data.Standard_name} (${data.dataset_multiple[0].units[0].toLowerCase()}) - ${data.Standard_name_coord.toLowerCase()} (${data.dataset_multiple[0].units[1].toLowerCase()})`,
+                columnTitle: key === 'y' ? `${data.name_data} (${data.dataset_multiple[item.index].value_coord} ${data.dataset_multiple[0].units[1].toLowerCase()})` : key
+                
+            };
+          }
+        }
+      },
         accessibility: {
           enabled: false
         },
@@ -77,7 +94,7 @@ const FixedObsHighStockMultiple = ({data}) => {
           enabled: true
       },
           title: {
-            text: data.name_data
+            text: data.Standard_name
           },
           subtitle: {
             text: data.description

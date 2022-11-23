@@ -7,6 +7,20 @@ exporting(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 const FixedObsHighStock = ({data}) => {
 
+  (function(H) {
+    H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
+        var rows = proceed.call(this, multiLevelHeaders),
+            xMin = this.xAxis[0].min,
+            xMax = this.xAxis[0].max;
+
+        rows = rows.filter(function(row) {
+            return typeof row.x !== 'number' || (row.x >= xMin && row.x <= xMax);
+        });
+
+        return rows;
+    });
+  }(Highcharts));
+
     var buttons = [{
       type: 'hour',
       count: 1,
@@ -54,8 +68,9 @@ const FixedObsHighStock = ({data}) => {
             // Item is not axis, now we are working with series.
             // Key is the property on the series we show in this column.
             return {
-                topLevelColumnTitle: `${data.Standard_name_coord.charAt(0) + data.Standard_name_coord.slice(1)} ${data.value_coord} ${data.dataset.units[1]}`,
-                columnTitle: key === 'y' ? data.name_data : key
+                topLevelColumnTitle: `${data.Standard_name} (${data.dataset.units[0].toLowerCase()}) - ${data.Standard_name_coord.toLowerCase()} (${data.dataset.units[1]})`,
+                columnTitle: key === 'y' ? `${data.name_data} (${data.value_coord} ${data.dataset.units[1].toLowerCase()})` : key
+                
             };
           }
         }
