@@ -6,6 +6,21 @@ import { DateRange } from '@mui/icons-material';
 // init the module
 exporting(Highcharts);
 const FixedObsHighStockSediments = ({data}) => {
+
+  (function(H) {
+    H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
+        var rows = proceed.call(this, multiLevelHeaders),
+            xMin = this.xAxis[0].min,
+            xMax = this.xAxis[0].max;
+
+        rows = rows.filter(function(row) {
+            return typeof row.x !== 'number' || (row.x >= xMin && row.x <= xMax);
+        });
+
+        return rows;
+      });
+    }(Highcharts));
+
     var buttons = [{
       type: 'hour',
       count: 1,
@@ -48,7 +63,7 @@ const FixedObsHighStockSediments = ({data}) => {
 
       data_time.map((list_sediments, idxs) => {
         data_finish.push({
-            name:`<b>Time bounds: ${list_sediments[2]} days<br>Bottle number: #${list_sediments[3]}<br>Depth: ${list_sediments[4]} meters<br>${list_sediments[5]}</b><br>`,
+            name:`Time bounds: ${list_sediments[2]} days - Bottle number: #${list_sediments[3]} - Depth: ${list_sediments[4]} meters - ${list_sediments[5]}`,
             x:list_sediments[0],
             y:list_sediments[1]
         })
@@ -68,8 +83,29 @@ const FixedObsHighStockSediments = ({data}) => {
           },
           selected: 5
         },
+        time: {
+          timezone: 'Europe/Berlin',
+          useUTC: false,
+        },
           exporting:{
-            enabled: true
+            enabled: true,
+          tableCaption: 'Data table',
+        csv: {
+          columnHeaderFormatter: function(item, key) {
+            if (!item || item instanceof Highcharts.Axis) {
+              console.log("----");
+              console.log(item);
+              return 'Properties';
+          }
+            // Item is not axis, now we are working with series.
+            // Key is the property on the series we show in this column.
+            return {
+                topLevelColumnTitle: `${data.Standard_name} (${data.dataset.units[0].toLowerCase()})`,
+                columnTitle: key === 'y' ? `${data.name_data} (${data.dataset.units[0].toLowerCase()})` : "Datetime"
+                
+            };
+          }
+        }
         },
         accessibility: {
           enabled: false

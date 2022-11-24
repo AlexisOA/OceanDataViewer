@@ -7,6 +7,20 @@ exporting(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 
 const FixedObsHighStockMultiple = ({data}) => {
+
+  (function(H) {
+    H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
+        var rows = proceed.call(this, multiLevelHeaders),
+            xMin = this.xAxis[0].min,
+            xMax = this.xAxis[0].max;
+
+        rows = rows.filter(function(row) {
+            return typeof row.x !== 'number' || (row.x >= xMin && row.x <= xMax);
+        });
+
+        return rows;
+    });
+  }(Highcharts));
   
     var buttons = [{
       type: 'hour',
@@ -81,7 +95,7 @@ const FixedObsHighStockMultiple = ({data}) => {
             // Key is the property on the series we show in this column.
             return {
                 topLevelColumnTitle: `${data.Standard_name} (${data.dataset_multiple[0].units[0].toLowerCase()}) - ${data.Standard_name_coord.toLowerCase()} (${data.dataset_multiple[0].units[1].toLowerCase()})`,
-                columnTitle: key === 'y' ? `${data.name_data} (${data.dataset_multiple[item.index].value_coord} ${data.dataset_multiple[0].units[1].toLowerCase()})` : key
+                columnTitle: key === 'y' ? `${data.name_data}(${data.dataset_multiple[0].units[0].toLowerCase()}) (at ${data.dataset_multiple[item.index].value_coord} ${data.dataset_multiple[0].units[1].toLowerCase()})` : key
                 
             };
           }
