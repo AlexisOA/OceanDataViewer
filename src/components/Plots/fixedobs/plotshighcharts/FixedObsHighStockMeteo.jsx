@@ -2,10 +2,26 @@ import React from 'react';
 import Highcharts from 'highcharts/highstock';
 import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSizeWindow } from '../../../../store/actions/windowActions';
 // init the module
 exporting(Highcharts);
 
 const FixedObsHighStockMeteo = ({data}) => {
+  const dispatch = useDispatch();
+  (function(H) {
+    H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
+        var rows = proceed.call(this, multiLevelHeaders),
+            xMin = this.xAxis[0].min,
+            xMax = this.xAxis[0].max;
+
+        rows = rows.filter(function(row) {
+            return typeof row.x !== 'number' || (row.x >= xMin && row.x <= xMax);
+        });
+
+        return rows;
+    });
+  }(Highcharts));
 
   var buttons = [{
 				type: 'hour',
@@ -46,22 +62,17 @@ const FixedObsHighStockMeteo = ({data}) => {
     const options = {
       chart: {
         animation: false,
-        // events: {
-        //   load: function() {
-        //     var chart = this,
-        //       yAxis = chart.yAxis[0];
-  
-        //     chart.update({
-        //       plotOptions: {
-        //         series: {
-        //           color: {
-        //             linearGradient: [0, yAxis.min, 0, yAxis.max]
-        //           }
-        //         }
-        //       }
-        //     });
-        //   }
-        // }
+        events: {
+          exportData : function(){
+            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+          },
+          fullscreenOpen : function(){
+            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+          },
+          beforePrint : function(){
+            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+          },
+        }
       },
         rangeSelector: {
           allButtonsEnabled: true,
@@ -72,7 +83,31 @@ const FixedObsHighStockMeteo = ({data}) => {
 			    selected: 5
         },
         exporting:{
-          enabled: true
+          enabled: true,
+          tableCaption: 'Data table',
+        csv: {
+          columnHeaderFormatter: function(item, key) {
+            if (!item || item instanceof Highcharts.Axis) {
+              return 'Datetime';
+          }
+            // Item is not axis, now we are working with series.
+            // Key is the property on the series we show in this column.
+            return {
+                topLevelColumnTitle: `${data.Standard_name} (${data.dataset.units[0].toLowerCase()}) - ${data.Standard_name_coord.toLowerCase()} (${data.dataset.units[1]})`,
+                columnTitle: key === 'y' ? `${data.name_data} (${data.dataset.units[0].toLowerCase()}) (at ${data.value_coord} ${data.dataset.units[1].toLowerCase()})` : key
+                
+            };
+          }
+        },
+        chartOptions: {
+          chart: {
+            events: {
+              render : function(){	
+                dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
+              },
+            }
+          },
+        }
       },
       accessibility: {
         enabled: false

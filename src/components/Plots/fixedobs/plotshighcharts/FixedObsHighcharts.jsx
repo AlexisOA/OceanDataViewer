@@ -4,22 +4,21 @@ import Highcharts from 'highcharts';
 import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
 import drilldown from 'highcharts/modules/drilldown.js';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setSizeWindow } from '../../../../store/actions/windowActions';
 // init the module
 exporting(Highcharts);
 drilldown(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 
 const FixedObsHighcharts = ({data}) => {
-
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log(data);
   }, []);
 
   (function(H) {
     H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
-      console.log("en la funcion")
-      console.log(this);
         var rows = proceed.call(this, multiLevelHeaders),
             xMin = this.xAxis[0].min,
             xMax = this.xAxis[0].max,
@@ -42,6 +41,17 @@ const FixedObsHighcharts = ({data}) => {
         panKey: 'shift',
         scrollablePlotArea: {
             minWidth: 600
+        },
+        events: {
+          exportData : function(){
+            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+          },
+          fullscreenOpen : function(){
+            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+          },
+          beforePrint : function(){
+            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+          },
         }
     },
       exporting:{
@@ -54,7 +64,16 @@ const FixedObsHighcharts = ({data}) => {
               return data.Standard_name_coord
             }
           }
-        }
+        },
+        chartOptions: {
+          chart: {
+            events: {
+              render : function(){
+                dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
+              },
+            }
+          },
+        },
     },
     accessibility: {
       enabled: false

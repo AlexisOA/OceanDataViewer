@@ -2,12 +2,14 @@ import React from 'react';
 import Highcharts from 'highcharts/highstock';
 import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
+import { useDispatch } from 'react-redux';
+import { setSizeWindow } from '../../../../store/actions/windowActions';
 // init the module
 exporting(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 
 const FixedObsHighStockMultiple = ({data}) => {
-
+  const dispatch = useDispatch();
   (function(H) {
     H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
         var rows = proceed.call(this, multiLevelHeaders),
@@ -74,6 +76,17 @@ const FixedObsHighStockMultiple = ({data}) => {
     const options = {
         chart: {
           animation: false,
+          events: {
+            exportData : function(){
+              dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+            },
+            fullscreenOpen : function(){
+              dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+            },
+            beforePrint : function(){
+              dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+            },
+          }
         },
         rangeSelector: {
           allButtonsEnabled: true,
@@ -99,6 +112,15 @@ const FixedObsHighStockMultiple = ({data}) => {
                 
             };
           }
+        },
+        chartOptions: {
+          chart: {
+            events: {
+              render : function(){
+                dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
+              },
+            }
+          },
         }
       },
         accessibility: {

@@ -20,6 +20,7 @@ const EstocView = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
+        console.log("aqui")
         window.history.pushState(null, null, document.URL);
         window.addEventListener('popstate', function(event) {
         window.location.replace("/");

@@ -2,11 +2,15 @@ import React from 'react';
 import Highcharts from 'highcharts/highstock';
 import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
-import { DateRange } from '@mui/icons-material';
+import {useDispatch } from 'react-redux';
+import { setSizeWindow } from '../../../../store/actions/windowActions';
+// init the module
 // init the module
 exporting(Highcharts);
-const FixedObsHighStockSediments = ({data}) => {
+require("highcharts/modules/export-data")(Highcharts);
 
+const FixedObsHighStockSediments = ({data}) => {
+  const dispatch = useDispatch();
   (function(H) {
     H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
         var rows = proceed.call(this, multiLevelHeaders),
@@ -74,6 +78,17 @@ const FixedObsHighStockSediments = ({data}) => {
     const options = {
         chart: {
           animation: false,
+          events: {
+            exportData : function(){
+              dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+            },
+            fullscreenOpen : function(){
+              dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+            },
+            beforePrint : function(){
+              dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+            },
+          }
         },
         rangeSelector: {
           allButtonsEnabled: true,
@@ -105,6 +120,15 @@ const FixedObsHighStockSediments = ({data}) => {
                 
             };
           }
+        },
+        chartOptions: {
+          chart: {
+            events: {
+              render : function(){
+                dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
+              },
+            }
+          },
         }
         },
         accessibility: {

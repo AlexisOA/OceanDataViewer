@@ -22,7 +22,8 @@ const MapViewEstoc = ({filesData}) => {
     const [map, setMap] = useState(null);
 
     const sizewindow = state.getSizeWindowMap;
-
+    console.log(sizewindow);
+    
     useEffect(() => {
         if(sizewindow.width != null){
          console.log("estamos redimensionando")
@@ -110,20 +111,29 @@ const MapViewEstoc = ({filesData}) => {
     
     }
 
-
+    // const settingMap = ( map: LeafletMap ) => {
+    //     const resizeObserver = new ResizeObserver( () => {
+    //             map.invalidateSize()
+    //     } 
+    //     const container = document.getElementById('map-container')
+    //     resizeObserver.observe(container!)
+    //     }
 
     return (
         <MapContainer 
             style={{ height: "100vh"}}
             center={[28.0000000, -15.5000000]}
             zoom={8}
-            ref={setMap}>
+            ref={setMap}
+            whenReady={(f) => {
+                console.log(f)
+            }}>
             
               <LayersControl position="topright">
                 <BaseLayer checked name="OpenStreetMap">
                 <TileLayer
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 </BaseLayer>
 

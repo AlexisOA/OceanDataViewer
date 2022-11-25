@@ -11,7 +11,6 @@ import { setDataFile } from '../../../store/actions/highchartActions';
 import FixedObsHighStock from './plotshighcharts/FixedObsHighStock';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { NoEncryptionGmailerrorredOutlined } from '@mui/icons-material';
 import { setSizeWindow } from '../../../store/actions/windowActions';
 import FixedObsHighStockMultiple from './plotshighcharts/FixedObsHighStockMultiple';
 import FixedObsHighStockSediments from './plotshighcharts/FixedObsHighStockSediments';
