@@ -9,6 +9,7 @@ import { getSelectTab, getStatusPlotTab, getStatusProductTab } from '../../../st
 import FixedObsPlots from '../../Plots/fixedobs/FixedObsPlots';
 import { setDataFile, setTranferlistChoose } from '../../../store/actions/highchartActions';
 import Swal from 'sweetalert2';
+import { setSizeWindow } from '../../../store/actions/windowActions';
 
 const EstocView = () => {
     const [dataFile, setDataPopUp] = useState(null);
@@ -19,12 +20,22 @@ const EstocView = () => {
     const selectTab = state.statusSelect;
 
     const dispatch = useDispatch();
+
     useEffect(() => {
-        console.log("aqui")
         window.history.pushState(null, null, document.URL);
         window.addEventListener('popstate', function(event) {
-        window.location.replace("/");
+            window.location.replace("/");
         });
+
+        function handleResize() {
+            console.log("resizing event");
+            dispatch(setSizeWindow(window.devicePixelRatio, window.innerHeight))
+        }
+        window.addEventListener('resize', handleResize);
+        return _ => {
+            window.removeEventListener('resize', handleResize)
+        };
+
     }, []);
 
     const divider_style = {

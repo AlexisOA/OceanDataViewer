@@ -13,8 +13,8 @@ require("highcharts/modules/export-data")(Highcharts);
 
 const FixedObsHighcharts = ({data}) => {
   const dispatch = useDispatch();
+  let chartData = data.dataset.values.sort((a, b) => a[0] - b[0]);
   useEffect(() => {
-    console.log(data);
   }, []);
 
   (function(H) {
@@ -42,17 +42,17 @@ const FixedObsHighcharts = ({data}) => {
         scrollablePlotArea: {
             minWidth: 600
         },
-        events: {
-          exportData : function(){
-            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
-          },
-          fullscreenOpen : function(){
-            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
-          },
-          beforePrint : function(){
-            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
-          },
-        }
+        // events: {
+        //   exportData : function(){
+        //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+        //   },
+        //   fullscreenOpen : function(){
+        //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+        //   },
+        //   beforePrint : function(){
+        //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+        //   },
+        // }
     },
       exporting:{
         enabled: true,
@@ -65,15 +65,15 @@ const FixedObsHighcharts = ({data}) => {
             }
           }
         },
-        chartOptions: {
-          chart: {
-            events: {
-              render : function(){
-                dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
-              },
-            }
-          },
-        },
+        // chartOptions: {
+        //   chart: {
+        //     events: {
+        //       render : function(){
+        //         dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
+        //       },
+        //     }
+        //   },
+        // },
     },
     accessibility: {
       enabled: false
@@ -90,7 +90,7 @@ const FixedObsHighcharts = ({data}) => {
     }
   },
     yAxis: [{ // Tertiary yAxis
-        reversed:true,
+        // reversed:true,
           gridLineWidth: 0,
           title: {
               text: data.Standard_name_coord,
@@ -133,7 +133,7 @@ const FixedObsHighcharts = ({data}) => {
           name: data.name_data,
           type: 'spline',
           colorAxis: null,
-          data: data.dataset.values,
+          data: chartData,
           turboThreshold:5000,
           tooltip: {
             valueDecimals: 3

@@ -50,17 +50,17 @@ const FixedObsHighStock = ({data}) => {
     const options = {
       chart: {
         animation: false,
-        events: {
-          exportData : function(){
-            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
-          },
-          fullscreenOpen : function(){
-            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
-          },
-          beforePrint : function(){
-            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
-          },
-        }
+        // events: {
+        //   exportData : function(){
+        //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+        //   },
+        //   fullscreenOpen : function(){
+        //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
+        //   },
+        //   beforePrint : function(){
+        //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+        //   },
+        // }
       },
       rangeSelector: {
         allButtonsEnabled: true,
@@ -87,15 +87,15 @@ const FixedObsHighStock = ({data}) => {
             };
           }
         },
-        chartOptions: {
-          chart: {
-            events: {
-              render : function(){
-                dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
-              },
-            }
-          },
-        }
+        // chartOptions: {
+        //   chart: {
+        //     events: {
+        //       render : function(){
+        //         dispatch(setSizeWindow(window.innerWidth, window.innerHeight))	                
+        //       },
+        //     }
+        //   },
+        // }
       },
       accessibility: {
         enabled: false

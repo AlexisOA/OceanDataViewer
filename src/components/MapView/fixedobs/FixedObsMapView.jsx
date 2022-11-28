@@ -22,11 +22,10 @@ const MapViewEstoc = ({filesData}) => {
     const [map, setMap] = useState(null);
 
     const sizewindow = state.getSizeWindowMap;
-    console.log(sizewindow);
     
     useEffect(() => {
         if(sizewindow.width != null){
-         console.log("estamos redimensionando")
+         console.log("estamos redimensionando el mapa")
            setInterval(function () {
                 map.invalidateSize();
                 }, 100);

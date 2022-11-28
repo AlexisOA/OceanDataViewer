@@ -15,6 +15,7 @@ import { setSizeWindow } from '../../../store/actions/windowActions';
 import FixedObsHighStockMultiple from './plotshighcharts/FixedObsHighStockMultiple';
 import FixedObsHighStockSediments from './plotshighcharts/FixedObsHighStockSediments';
 import FixedObsHighStockMeteo from './plotshighcharts/FixedObsHighStockMeteo';
+
 const FixedObsPlots = ({url, url_download}) => {
     const state = useSelector(state=>state);
     const [loading, setLoading] = useState(true);
@@ -25,8 +26,6 @@ const FixedObsPlots = ({url, url_download}) => {
 
     const data_highcharts = state.dataHighchart;
     const transferList_Data = state.transferListData;
-
-    const [dataChart, setDataChart] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -62,7 +61,7 @@ const FixedObsPlots = ({url, url_download}) => {
             document.body.appendChild(link);
             link.click();
             setLoadingCSV(false)
-            dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+            // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
 
         })
         .catch((error) => {
@@ -75,7 +74,7 @@ const FixedObsPlots = ({url, url_download}) => {
     const downloadNetCDF = () => {
         setLoadingNetCDF(true)
         setTimeout(() => setLoadingNetCDF(false), 2000);
-        dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+        // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
     }
 
 
