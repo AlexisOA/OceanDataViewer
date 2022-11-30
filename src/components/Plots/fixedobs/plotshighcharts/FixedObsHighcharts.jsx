@@ -90,7 +90,7 @@ const FixedObsHighcharts = ({data}) => {
     }
   },
     yAxis: [{ // Tertiary yAxis
-        // reversed:true,
+        reversed:true,
           gridLineWidth: 0,
           title: {
               text: data.Standard_name_coord,

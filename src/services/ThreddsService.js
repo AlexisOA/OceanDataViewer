@@ -1,15 +1,24 @@
 import axios from "axios";
 
 
-export const getAllCatalogs = () =>{
-    return axios.get('http://127.0.0.1:8000/api/estoc/layers');
+export const getAllCatalogs = (baselayer) =>{
+    if(baselayer === "fixedobs"){
+        return axios.get('http://127.0.0.1:8000/api/estoc/fixedobslayers');
+    }else{
+        return axios.get('http://127.0.0.1:8000/api/estoc/gliderslayers');
+    }
 }
 
-export const getCatalogByURL = (url) =>{
+export const getCatalogByURL = (url, baselayer) =>{
+    console.log(baselayer);
     let body = {
         url: url
     }
-    return axios.post('http://127.0.0.1:8000/api/estoc/layers', body);
+    if(baselayer === "fixedobs"){
+        return axios.post('http://127.0.0.1:8000/api/estoc/fixedobslayers', body);
+    }else{
+        return axios.post('http://127.0.0.1:8000/api/estoc/gliderslayers', body);
+    }
 }
 
 export const getCoordinatesFromURL = (url, url_download) =>{

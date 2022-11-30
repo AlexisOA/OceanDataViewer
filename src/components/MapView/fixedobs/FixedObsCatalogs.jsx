@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import  TreeView from '@mui/lab/TreeView/TreeView';
 import TreeItem from '@mui/lab/TreeItem/TreeItem';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -41,21 +41,28 @@ function MinusSquare(props) {
   }
 
   
-const EstocCatalogs = ({send}) => {
+const EstocCatalogs = ({send, baselayer}) => {
 
     const [layerList, setLayerList] = useState(null);
+    const [layertype, setLayertype] = useState(null);
 
-    const obtainLayers = () => {
+
+    useEffect(() => {
+      setLayertype(baselayer)
+    }, []);
+
+
+
+    const obtainLayersBase = (baselayer) => {
         console.log("En obtainlayer base")
-        getAllCatalogs()
+        getAllCatalogs(baselayer)
         .then((response) => {
             if(response.status === 200){
+              console.log(response.data);
                 setLayerList(response.data);
             }
         })
         .catch((error) => alert(`Error loading thredds catalog: ${error}`))
-        
-          
       }
 
 
@@ -64,7 +71,7 @@ const EstocCatalogs = ({send}) => {
         key={nodes.id}
         nodeId={nodes.id}
         label={nodes.name}
-        onClick={() => checkTree(nodes.is_file, nodes.id, nodes.url, nodes.url_download)}
+        onClick={() => checkTree(nodes.is_file, nodes.id, nodes.url, nodes.url_download, layertype)}
         endIcon={nodes.is_file ? <AnalyticsOutlinedIcon/> : <FolderIcon/>}
         >
           {Array.isArray(nodes.children)
@@ -73,15 +80,15 @@ const EstocCatalogs = ({send}) => {
         </TreeItem>
       );
 
-    const checkTree = (is_file, id, url, url_download) => {
+    const checkTree = (is_file, id, url, url_download, layertype) => {
       (is_file) ?
       send(is_file, url, url_download)
       : 
-      obtainLayerByURL(url, id);
+      obtainLayerByURL(url, id, layertype);
     }
 
-    const obtainLayerByURL = (url, name) => {
-      getCatalogByURL(url)
+    const obtainLayerByURL = (url, name, layertype) => {
+      getCatalogByURL(url, layertype)
           .then((response) => {
             console.log(response.data)
               const aux = updateTree(layerList)(
@@ -123,12 +130,12 @@ const EstocCatalogs = ({send}) => {
               // defaultEndIcon={<FolderIcon />}
               sx={{ height: "100vh", flexGrow: 1, maxWidth: 500, overflow: "auto", fontSize: "0.5rem"}}
             >
-              {renderTree(layerList)}
+              {renderTree(layerList, layertype)}
             </TreeView>
           )
           :
           (
-            obtainLayers()
+            obtainLayersBase(baselayer)
           )
         }
       </div>

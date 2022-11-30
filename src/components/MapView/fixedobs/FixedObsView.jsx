@@ -92,7 +92,7 @@ const EstocView = () => {
                     <Tab eventKey="source" title="Data Source Selection">
                         <div className="row m-3 bg-light border p-2 ">
                             <div className="col-sm-6 col-md-3 ">
-                                <EstocCatalogs send={obtainCoords}/>
+                                <EstocCatalogs send={obtainCoords} baselayer={"fixedobs"}/>
                             </div>
                         
                             {/* Map */}
