@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getCSVFileFromNetcdf, getDataToForm} from '../../../services/ThreddsService';
+import {getCSVFileFromNetcdf, getDataToForm, getDataToFormProfiles} from '../../../services/ThreddsService';
 import '../fixedobs/FixedObsPlots.css';
 import TableInformation from './table_info/TableInformation';
 import TransferList from './List/TransferList';
@@ -16,7 +16,7 @@ import FixedObsHighStockMultiple from './plotshighcharts/FixedObsHighStockMultip
 import FixedObsHighStockSediments from './plotshighcharts/FixedObsHighStockSediments';
 import FixedObsHighStockMeteo from './plotshighcharts/FixedObsHighStockMeteo';
 
-const FixedObsPlots = ({url, url_download}) => {
+const FixedObsPlots = ({url, url_download, is_profile}) => {
     const state = useSelector(state=>state);
     const [loading, setLoading] = useState(true);
 
@@ -31,12 +31,30 @@ const FixedObsPlots = ({url, url_download}) => {
 
     useEffect(() => {
         if(url != null){
-            obtainDataForm(url)
+            if(is_profile){
+                obtainDataFormProfiles(url)
+            }else{
+                obtainDataForm(url)
+            }
         }
     }, [url]);
 
     const obtainDataForm = (url) => {
         getDataToForm(url, url_download)
+        .then((response) => {
+            if(response.status === 200){
+                console.log(response.data)
+                dispatch(setDataFile(response.data))
+            }
+        })
+        .catch((error) => {
+            dispatch(setDataFile(null));
+            setLoading(false);
+        })
+    }
+
+    const obtainDataFormProfiles = (url) => {
+        getDataToFormProfiles(url, url_download)
         .then((response) => {
             if(response.status === 200){
                 console.log(response.data)

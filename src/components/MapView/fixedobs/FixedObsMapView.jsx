@@ -39,7 +39,7 @@ const MapViewEstoc = ({filesData}) => {
     };
 
     const onClickPlot = (name) => {
-        dispatch(getStatusPlotTab(false, filesData.site.url, filesData.site.url_download));
+        dispatch(getStatusPlotTab(false, filesData.site.url, filesData.site.url_download, filesData.isprofile));
         dispatch(getSelectTab(name));
     };
 

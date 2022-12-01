@@ -30,6 +30,14 @@ export const getCoordinatesFromURL = (url, url_download) =>{
     return axios.post('http://127.0.0.1:8000/api/estoc/coords', body);
 }
 
+export const getCoordinatesProfilesFromURL = (url, url_download) =>{
+    let body = {
+        url_download: url_download,
+        url: url
+    }
+    return axios.post('http://127.0.0.1:8000/api/estoc/coordsprofiles', body);
+}
+
 export const getCoordinatesFromFile = (url) =>{
     let body = {
         url: url
@@ -62,6 +70,14 @@ export const getDataToForm = (url, url_download) =>{
         url_download:url_download
     }
     return axios.post('http://127.0.0.1:8000/api/estoc/formdata', body);
+}
+
+export const getDataToFormProfiles = (url, url_download) =>{
+    let body = {
+        url: url,
+        url_download:url_download
+    }
+    return axios.post('http://127.0.0.1:8000/api/estoc/formdataProfiles', body);
 }
 
 export const getDatafromChooseForm = (dataForm) =>{

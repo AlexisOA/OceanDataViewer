@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import { getCoordinatesFromURL } from '../../../services/ThreddsService';
+import { getCoordinatesFromURL, getCoordinatesProfilesFromURL } from '../../../services/ThreddsService';
 import EstocCatalogs from './FixedObsCatalogs';
 import MapViewEstoc from './FixedObsMapView';
 import Tab from 'react-bootstrap/Tab';
@@ -42,9 +42,12 @@ const EstocView = () => {
         borderRight: "1px dashed #333"
     }
 
-    function obtainCoords(is_file, url, url_download) {
+    function obtainCoords(is_file, url, url_download, is_profile) {
         (is_file) ?
-            obtainCoordinatesNetCDF(url, url_download)
+            (is_profile) ?
+                obtainCoordinatesProfilesNetCDF(url, url_download)
+                :
+                obtainCoordinatesNetCDF(url, url_download)
             : 
             console.log()
     }
@@ -57,6 +60,28 @@ const EstocView = () => {
         dispatch(setDataFile(null))
         dispatch(setTranferlistChoose([]))
         getCoordinatesFromURL(url, url_download)
+            .then((response) => {
+                console.log(response.data)
+                setDataPopUp(response.data);
+            })
+            .catch((error) => {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Plots under Construction...',
+                    text: 'We are working in this file',
+                    confirmButtonColor:"#FFA233"
+                  })
+            })
+    };
+
+    const obtainCoordinatesProfilesNetCDF = (url, url_download) => {
+        //Disable tabs before click to file
+        dispatch(getStatusProductTab(true));
+        dispatch(getStatusPlotTab(true));
+        //here it need remove data from status data plots
+        dispatch(setDataFile(null))
+        dispatch(setTranferlistChoose([]))
+        getCoordinatesProfilesFromURL(url, url_download)
             .then((response) => {
                 console.log(response.data)
                 setDataPopUp(response.data);
@@ -108,7 +133,7 @@ const EstocView = () => {
                         
                     </Tab>
                     <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
-                        <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download}/>
+                        <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download} is_profile={statusPlot.is_profile}/>
                     </Tab>
                 </Tabs>
             </div>
