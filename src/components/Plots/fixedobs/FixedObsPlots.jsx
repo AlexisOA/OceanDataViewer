@@ -15,6 +15,8 @@ import { setSizeWindow } from '../../../store/actions/windowActions';
 import FixedObsHighStockMultiple from './plotshighcharts/FixedObsHighStockMultiple';
 import FixedObsHighStockSediments from './plotshighcharts/FixedObsHighStockSediments';
 import FixedObsHighStockMeteo from './plotshighcharts/FixedObsHighStockMeteo';
+import TransferListProfiles from './List/TransferListProfiles';
+import TableInformationProfiles from './table_info/TableInformationProfiles';
 
 const FixedObsPlots = ({url, url_download, is_profile}) => {
     const state = useSelector(state=>state);
@@ -31,9 +33,12 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
 
     useEffect(() => {
         if(url != null){
+            console.log(is_profile)
             if(is_profile){
+                console.log("profile")
                 obtainDataFormProfiles(url)
             }else{
+                console.log("not profile")
                 obtainDataForm(url)
             }
         }
@@ -102,17 +107,32 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                 data_highcharts != null ?
                 (
                     <div>
-                        <div className="row">
+                        {
+                            (data_highcharts.isprofile) ?
+                            <div className="row">
                             <div className="col-sm-8 col-md-4 ">
-                                <TableInformation/>
+                                    <TableInformationProfiles/>
+                                </div>
+                                <div className="col-sm-4 col-md-6 align-self-center">
+                                    <TransferListProfiles/>
+                                </div>
+                                <Divider/>
                             </div>
+                            :
+                            <div className="row">
+                                <div className="col-sm-8 col-md-4 ">
+                                    <TableInformation/>
+                                </div>
 
-                            <div className="col-sm-4 col-md-6 align-self-center">
-                                <TransferList/>
+                                <div className="col-sm-4 col-md-6 align-self-center">
+                                    <TransferList/>
+                                </div>
+
+                                <Divider/>
                             </div>
-
-                            <Divider/>
-                        </div>
+                        
+                        }
+                        
 
                         <div className='row justify-content-left mt-4  text-center'>
                             <div className='col-2'>

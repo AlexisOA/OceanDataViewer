@@ -61,6 +61,7 @@ const EstocView = () => {
         dispatch(setTranferlistChoose([]))
         getCoordinatesFromURL(url, url_download)
             .then((response) => {
+                console.log("a ver: ")
                 console.log(response.data)
                 setDataPopUp(response.data);
             })
@@ -83,6 +84,7 @@ const EstocView = () => {
         dispatch(setTranferlistChoose([]))
         getCoordinatesProfilesFromURL(url, url_download)
             .then((response) => {
+                console.log("a ver: ")
                 console.log(response.data)
                 setDataPopUp(response.data);
             })
@@ -133,7 +135,7 @@ const EstocView = () => {
                         
                     </Tab>
                     <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
-                        <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download} is_profile={statusPlot.is_profile}/>
+                        <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download} is_profile={dataFile ? dataFile.site.isprofile: null}/>
                     </Tab>
                 </Tabs>
             </div>
