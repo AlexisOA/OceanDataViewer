@@ -35,6 +35,8 @@ const TransferList = () => {
     // const newList = data_highcharts.table_info.filter((item) => item.show_data !== true)
     // setLeft(newList)
 
+    console.log(data_highcharts.table_info);
+
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
 

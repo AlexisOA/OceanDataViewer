@@ -28,6 +28,11 @@ const TransferListProfiles = () => {
     const data_highcharts = state.dataHighchart;
     const dispatch = useDispatch();
 
+    
+
+
+    
+    
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState(data_highcharts.variables_names);
     const [right, setRight] = React.useState([]);
@@ -75,23 +80,26 @@ const TransferListProfiles = () => {
     };
 
     const btnClick = () => {
-    //   let new_object = []
-    //   data_highcharts.table_info.map((value, idx) => {
-    //     if(!value.show_data){
-    //       const obj = {
-    //         "name": value.Variable_name,
-    //         "value": value.dataset.values
-    //       }
-    //       new_object.push(obj)
-    //     }
-    //   });
+    
+      let data = []
+      let data_obj = {}
+      right.map((value, idx) => {
+        let data_variables = []
+        for (const key in data_highcharts.table_info) {
+          data_highcharts.table_info[key].map((variables, index) => {
+            if(variables.Standard_name_variable === value){
+              data_variables.push(variables)
+            }
+          })
+        }
+        data.push(data_variables);
+      })
+      data_obj.type_chart = "profile";
+      data_obj.dataset = data;
 
-    //   right.map((value_right, index) => {
-    //     value_right['sediments_info'] = new_object;
-    //   });
-    //   console.log(right)
-    //   dispatch(setTranferlistChoose(right))
-    console.log(right)
+
+      console.log([data_obj]);
+      dispatch(setTranferlistChoose([data_obj]))
     };
     
     const customList = (title, items) => (

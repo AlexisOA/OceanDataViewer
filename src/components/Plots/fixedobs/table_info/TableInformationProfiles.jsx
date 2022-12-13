@@ -39,6 +39,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const TableInformationProfiles = () => {
     const state = useSelector(state=>state);
   const data_highcharts = state.dataHighchart;
+  
   const [open, setOpen] = React.useState(false);
     return (
         <TableContainer component={Paper} className='mt-4 d-flex justify-content-start '>
@@ -55,16 +56,16 @@ const TableInformationProfiles = () => {
                         
               {data_highcharts != null ?
                 data_highcharts.variables_names.map((row, index) => (
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                         <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                         <StyledTableCell>
-                            <IconButton
+                            {/* <IconButton
                             aria-label="expand row"
                             size="small"
                             onClick={() => setOpen(!open)}
                             >
                             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                            </IconButton>
+                            </IconButton> */}
             </StyledTableCell>
                             <StyledTableCell component="th" scope="row">
                                 {row}

@@ -172,8 +172,11 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                         <div className="row">
                             <div className='mt-5'>
                                 {
+                                    
                                     transferList_Data.length > 0 ?
+
                                     (
+                                        console.log("ahh:",transferList_Data),
                                         transferList_Data.map((value, index) => {
                                             if(value.type_chart == "basic"){
                                                 return (<div key={index} className='card text-center  mt-5'>
@@ -191,6 +194,13 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                             }else if(value.type_chart == "meteo"){
                                                 return (<div key={index} className='card text-center  mt-5'>
                                                     <FixedObsHighStockMeteo data={value}/>
+                                                </div>)
+                                                
+                                            }
+                                            else if(value.type_chart == "profile"){
+                                                return (<div key={index} className='card text-center  mt-5'>
+                                                    {/* <FixedObsHighStockMeteo data={value}/> */}
+                                                    Profile
                                                 </div>)
                                                 
                                             }else{
