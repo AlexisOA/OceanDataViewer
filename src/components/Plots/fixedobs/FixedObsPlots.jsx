@@ -17,6 +17,7 @@ import FixedObsHighStockSediments from './plotshighcharts/FixedObsHighStockSedim
 import FixedObsHighStockMeteo from './plotshighcharts/FixedObsHighStockMeteo';
 import TransferListProfiles from './List/TransferListProfiles';
 import TableInformationProfiles from './table_info/TableInformationProfiles';
+import FixedObsProfiles from './plotshighcharts/FixedObsProfiles';
 
 const FixedObsPlots = ({url, url_download, is_profile}) => {
     const state = useSelector(state=>state);
@@ -176,7 +177,6 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                     transferList_Data.length > 0 ?
 
                                     (
-                                        console.log("ahh:",transferList_Data),
                                         transferList_Data.map((value, index) => {
                                             if(value.type_chart == "basic"){
                                                 return (<div key={index} className='card text-center  mt-5'>
@@ -200,7 +200,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                             else if(value.type_chart == "profile"){
                                                 return (<div key={index} className='card text-center  mt-5'>
                                                     {/* <FixedObsHighStockMeteo data={value}/> */}
-                                                    Profile
+                                                    <FixedObsProfiles data={value}/>
                                                 </div>)
                                                 
                                             }else{

@@ -80,10 +80,9 @@ const TransferListProfiles = () => {
     };
 
     const btnClick = () => {
-    
       let data = []
-      let data_obj = {}
       right.map((value, idx) => {
+        let data_obj = {}
         let data_variables = []
         for (const key in data_highcharts.table_info) {
           data_highcharts.table_info[key].map((variables, index) => {
@@ -92,14 +91,16 @@ const TransferListProfiles = () => {
             }
           })
         }
-        data.push(data_variables);
+        data_obj.type_chart = "profile";
+        data_obj.dataset = data_variables;
+        data.push(data_obj);
+        console.log("___")
       })
-      data_obj.type_chart = "profile";
-      data_obj.dataset = data;
+      
 
-
-      console.log([data_obj]);
-      dispatch(setTranferlistChoose([data_obj]))
+      console.log("---------")
+      console.log(data);
+      dispatch(setTranferlistChoose(data))
     };
     
     const customList = (title, items) => (
