@@ -10,6 +10,7 @@ import FixedObsPlots from '../../Plots/fixedobs/FixedObsPlots';
 import { setDataFile, setTranferlistChoose } from '../../../store/actions/highchartActions';
 import Swal from 'sweetalert2';
 import { setSizeWindow } from '../../../store/actions/windowActions';
+import { setStateLoading } from '../../../store/actions/LoadingActions';
 
 const EstocView = () => {
     const [dataFile, setDataPopUp] = useState(null);
@@ -18,7 +19,7 @@ const EstocView = () => {
     const statusPlot = state.statusPlotTab;
     const statusProduct = state.statusProductTab;
     const selectTab = state.statusSelect;
-
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -43,22 +44,25 @@ const EstocView = () => {
     }
 
     function obtainCoords(is_file, url, url_download, is_profile) {
-        (is_file) ?
-            (is_profile) ?
+        if(is_file){
+            setDataPopUp(null);
+            if(is_profile){
                 obtainCoordinatesProfilesNetCDF(url, url_download)
-                :
+            }else{
                 obtainCoordinatesNetCDF(url, url_download)
-            : 
-            console.log()
+            }
+        } 
     }
 
     const obtainCoordinatesNetCDF = (url, url_download) => {
+        
         //Disable tabs before click to file
         dispatch(getStatusProductTab(true));
         dispatch(getStatusPlotTab(true));
         //here it need remove data from status data plots
         dispatch(setDataFile(null))
         dispatch(setTranferlistChoose([]))
+        dispatch(setStateLoading(true))
         getCoordinatesFromURL(url, url_download)
             .then((response) => {
                 console.log("a ver: ")
@@ -82,6 +86,7 @@ const EstocView = () => {
         //here it need remove data from status data plots
         dispatch(setDataFile(null))
         dispatch(setTranferlistChoose([]))
+        dispatch(setStateLoading(true))
         getCoordinatesProfilesFromURL(url, url_download)
             .then((response) => {
                 console.log("a ver: ")
@@ -124,7 +129,7 @@ const EstocView = () => {
                         
                             {/* Map */}
                             <div className="col-sm-6 col-sm-offset-4 col-md-9 col-md-offset-3">
-                                <MapViewEstoc filesData={dataFile}/>
+                                <MapViewEstoc filesData={dataFile} loadingMap={loading}/>
                             </div>
                         </div>
                     </Tab>
@@ -139,7 +144,6 @@ const EstocView = () => {
                     </Tab>
                 </Tabs>
             </div>
-
             
         </div>
     );

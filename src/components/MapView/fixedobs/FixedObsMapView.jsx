@@ -7,6 +7,8 @@ import L from 'leaflet';
 import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux'
 import { getSelectTab, getStatusPlotTab, getStatusProductTab, getStatusTab } from '../../../store/actions/tabActions';
+import CircularProgress from '@mui/material/CircularProgress';
+import { setStateLoading } from '../../../store/actions/LoadingActions';
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -14,7 +16,7 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const MapViewEstoc = ({filesData}) => {
+const MapViewEstoc = ({filesData, loadingMap}) => {
     const state = useSelector(state=>state);
     const styleMap = { "width": "100%", "height": "100vh" };
     const { BaseLayer, Overlay } = LayersControl;
@@ -22,7 +24,8 @@ const MapViewEstoc = ({filesData}) => {
     const [map, setMap] = useState(null);
 
     const sizewindow = state.getSizeWindowMap;
-    
+    const stateLoading = state.StateLoading;
+    console.log("estado de loading redux: ",stateLoading)
     useEffect(() => {
         if(sizewindow.width != null){
          console.log("estamos redimensionando el mapa")
@@ -127,7 +130,6 @@ const MapViewEstoc = ({filesData}) => {
             whenReady={(f) => {
                 console.log(f)
             }}>
-            
               <LayersControl position="topright">
                 <BaseLayer checked name="OpenStreetMap">
                 <TileLayer
@@ -146,8 +148,8 @@ const MapViewEstoc = ({filesData}) => {
 
           {
             filesData != null ?
-            
             (
+                dispatch(setStateLoading(false)),
                 <Marker position={[filesData.site.Latitude, filesData.site.Longitude]}
                 >   
                     <Popup maxWidth={600} maxHeight={600} closeButton={false}>
@@ -196,6 +198,12 @@ const MapViewEstoc = ({filesData}) => {
                 
                 
             )
+            :
+            stateLoading ?
+                <div className='d-flex align-items-center justify-content-center align-self-center' style={{minHeight: "100vh", zIndex: 400, position: "relative"}}>
+                    <CircularProgress
+                    />
+                </div>
             :
             null
         }

@@ -6,31 +6,32 @@ import HighchartsReact from 'highcharts-react-official';
 exporting(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 const FixedObsProfiles = ({data}) => {
-    console.log(data);
     console.log("*****************");
+    console.log(data)
     let series = []
     data.dataset.map((value, index) => {
         let data_series = []
-        let chartData = value.dataset.values.sort((a, b) => a[a] - b[0]);
-        chartData.map((val, idx) => {
-            data_series.push(
-                {
-                    x: val[1],
-                    y: val[0]
-                }
-            )
-        })
+        let chartData = value.dataset.values.sort((a, b) => a[0] - b[0]);
+        // let chartData2 = value.dataset.values.sort((a, b) => b[0] - a[0]);
+        // console.log(chartData2)
+        // chartData.map((val, idx) => {
+        //     data_series.push(
+        //         {
+        //             x: val[1],
+        //             y: val[0]
+        //         }
+        //     )
+        // })
         series.push({
-            name:value.time,
-            data:data_series,
+            name: value.time,
+            data: chartData,
             turboThreshold: 0
         })
     })
-    console.log(series)
+    console.log(series);
     const options = {
         chart: {
             type: "line",
-            inverted: true,
             zoomType: "xy"
           },
           title: {
@@ -43,17 +44,25 @@ const FixedObsProfiles = ({data}) => {
             enabled: false
           },
           xAxis: [{
-            reversed: true,
+            
             title: {
-              text: data.dataset[0].Standard_name_coord.toLowerCase()
+              text: data.dataset[0].long_name + " (" + data.dataset[0].units[0] + ")"
             }
           }, ],
           yAxis: {
+            reversed: true,
             title: {
-              text: data.dataset[0].long_name
+              text: data.dataset[0].Standard_name_coord.toLowerCase() + " (" + data.dataset[0].units[1] + ")"
             }
           },
-        
+          plotOptions: {
+            line: {
+              tooltip: {
+              headerFormat: '<b>{series.name}</b><br>',
+              pointFormat: `{point.x} ${data.dataset[0].units[0]}, {point.y} ${data.dataset[0].units[1]}`
+              }
+            }
+          },
           series: series
     }
 

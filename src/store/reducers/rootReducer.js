@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { dataHighchartReducer, dataTransferList } from "./statusHighchartReducer";
 import { TabPlotReducer, TabProductReducer, TabSelect } from "./statusTabReducer";
 import {getSizeWindow} from "./windowReduces"
-
+import { stateLoadingMarker } from "./loadingReducer";
 
 export const rootReducer = combineReducers(
     {
@@ -12,7 +12,8 @@ export const rootReducer = combineReducers(
         statusSelect: TabSelect,
         dataHighchart:dataHighchartReducer,
         transferListData:dataTransferList,
-        getSizeWindowMap: getSizeWindow
+        getSizeWindowMap: getSizeWindow,
+        StateLoading :stateLoadingMarker
         //... add more states and reducers to include them in the store
     }
 )

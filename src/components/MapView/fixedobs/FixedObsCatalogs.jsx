@@ -73,6 +73,7 @@ const EstocCatalogs = ({send, baselayer}) => {
         label={nodes.name}
         onClick={() => checkTree(nodes.is_file, nodes.id, nodes.url, nodes.url_download, nodes.is_profile, layertype)}
         endIcon={nodes.is_file ? <AnalyticsOutlinedIcon/> : <FolderIcon/>}
+        
         >
           {Array.isArray(nodes.children)
             ? nodes.children.map((node) => renderTree(node))
