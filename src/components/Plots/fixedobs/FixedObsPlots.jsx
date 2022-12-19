@@ -6,6 +6,7 @@ import TransferList from './List/TransferList';
 import FixedObsHighcharts from './plotshighcharts/FixedObsHighcharts';
 import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDataFile } from '../../../store/actions/highchartActions';
 import FixedObsHighStock from './plotshighcharts/FixedObsHighStock';
@@ -25,6 +26,8 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
 
     const [loadingCSV, setLoadingCSV] = useState(false);
     const [loadingNetCDF, setLoadingNetCDF] = useState(false);
+    const [loadingLinearProgress, setLinearProgress] = useState(false);
+    const [disabledBtnLoadings, setDisabledBtnLoadings] = useState(false);
 
 
     const data_highcharts = state.dataHighchart;
@@ -75,7 +78,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
     }
 
     const downloadCSV = (url) => {
-        setLoadingCSV(true)
+        setLinearProgress(true)
         getCSVFileFromNetcdf(url)
         .then((response) => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -84,20 +87,20 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
             link.setAttribute('download', `${data_highcharts.name}.csv`);
             document.body.appendChild(link);
             link.click();
-            setLoadingCSV(false)
+            setLinearProgress(false)
             // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
 
         })
         .catch((error) => {
             console.log("Error al descargar fichero", error)
-            setLoadingCSV(false)
+            setLinearProgress(false)
 
         })
     }
 
     const downloadNetCDF = () => {
-        setLoadingNetCDF(true)
-        setTimeout(() => setLoadingNetCDF(false), 2000);
+        setLinearProgress(true)
+        setTimeout(() => setLinearProgress(false), 2000);
         // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
     }
 
@@ -108,66 +111,92 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                 data_highcharts != null ?
                 (
                     <div>
-                        {
-                            (data_highcharts.isprofile) ?
-                            <div className="row">
-                            <div className="col-sm-8 col-md-4 ">
-                                    <TableInformationProfiles/>
-                                </div>
-                                <div className="col-sm-4 col-md-6 align-self-center">
-                                    <TransferListProfiles/>
-                                </div>
-                                <Divider/>
-                            </div>
-                            :
-                            <div className="row">
-                                <div className="col-sm-8 col-md-4 ">
-                                    <TableInformation/>
-                                </div>
+                        <div>
+                            {
+                                (data_highcharts.isprofile) ?
+                                <div className="row">
+                                    <div className="col-sm-8 col-md-4 ">
+                                            <TableInformationProfiles/>
+                                        </div>
+                                        <div className="col-sm-4 col-md-6 align-self-center">
+                                            <TransferListProfiles/>
+                                        </div>
+                                        <Divider/>
+                                    </div>
+                                :
+                                <div className="row">
+                                    <div className="col-sm-8 col-md-4 ">
+                                        <TableInformation/>
+                                    </div>
 
-                                <div className="col-sm-4 col-md-6 align-self-center">
-                                    <TransferList/>
-                                </div>
+                                    <div className="col-sm-4 col-md-6 align-self-center">
+                                        <TransferList/>
+                                    </div>
 
-                                <Divider/>
-                            </div>
+                                    <Divider/>
+                                </div>
+                            
+                            }
+                        </div>
+
+                        <div className='row justify-content-left mt-4  text-center table-responsive'>
                         
+                        <table className="table">
+                            <caption>List of files</caption>
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Download CSV</th>
+                                <th scope="col">Download NetCDF</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    data_highcharts.url.map((value, idx) => {
+                                        return (
+                                            <tr key={idx}>
+                                            <td>{idx+1}</td>
+                                            <td>{value.split('/').at(-1).replace(".nc", "")}</td>
+                                            <td>
+                                            <LoadingButton
+                                                sx={{ border:  1}}
+                                                size="medium"
+                                                onClick={() => downloadCSV(value)}
+                                                loadingPosition="end"
+                                                variant="outlined"
+                                                color="success"
+                                                endIcon={<FileDownloadIcon />}
+                                                >
+                                                Download CSV
+                                                </LoadingButton>
+                                            </td>
+                                            <td>
+                                            <LoadingButton
+                                                sx={{ border:  1}}
+                                                size="medium"
+                                                onClick={() => downloadNetCDF()}
+                                                loadingPosition="end"
+                                                variant="outlined"
+                                                color="primary"
+                                                endIcon={<FileDownloadIcon />}
+                                                href={data_highcharts.url_download[idx]}
+                                                >
+                                                Download NC
+                                            </LoadingButton>
+                                            </td>
+                                            </tr>
+                                        );
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                        { loadingLinearProgress ?
+                        <LinearProgress />
+                        :
+                        null
                         }
                         
-
-                        <div className='row justify-content-left mt-4  text-center'>
-                            <div className='col-2'>
-                                {/* <button type="submit" className="btn btn-success" onClick={() => downloadCSV(data_highcharts.url)}>Download CSV</button> */}
-                                <LoadingButton
-                                    sx={{ border:  1}}
-                                    size="medium"
-                                    onClick={() => downloadCSV(data_highcharts.url)}
-                                    loading={loadingCSV}
-                                    loadingPosition="end"
-                                    variant="outlined"
-                                    color="success"
-                                    endIcon={<FileDownloadIcon />}
-                                    >
-                                    Download CSV
-                                    </LoadingButton>
-                            </div>
-                            <div className='col-2'>
-                                <LoadingButton
-                                    sx={{ border:  1}}
-                                    size="medium"
-                                    loading={loadingNetCDF}
-                                    onClick={() => downloadNetCDF()}
-                                    loadingPosition="end"
-                                    variant="outlined"
-                                    color="primary"
-                                    endIcon={<FileDownloadIcon />}
-                                    href={data_highcharts.url_download}
-                                    >
-                                    Download NC
-                                </LoadingButton>
-                            {/* <a className="btn btn-primary" href={data_highcharts.url_download} role="button">Download NetCDF</a> */}
-                            </div>
-                            
                         </div>
 
                         <div className="row">

@@ -99,20 +99,20 @@ const FixedObsHighStockMultiple = ({data}) => {
         exporting:{
           enabled: true,
           tableCaption: 'Data table',
-        csv: {
-          columnHeaderFormatter: function(item, key) {
-            if (!item || item instanceof Highcharts.Axis) {
-              return 'Datetime';
+          csv: {
+            columnHeaderFormatter: function(item, key) {
+              if (!item || item instanceof Highcharts.Axis) {
+                return 'Datetime';
+              }
+              // Item is not axis, now we are working with series.
+              // Key is the property on the series we show in this column.
+              return {
+                  topLevelColumnTitle: `${data.Standard_name} (${data.dataset_multiple[0].units[0].toLowerCase()}) - ${data.Standard_name_coord.toLowerCase()} (${data.dataset_multiple[0].units[1].toLowerCase()})`,
+                  columnTitle: key === 'y' ? `${data.name_data}(${data.dataset_multiple[0].units[0].toLowerCase()}) (at ${data.dataset_multiple[item.index].value_coord} ${data.dataset_multiple[0].units[1].toLowerCase()})` : key
+                  
+              };
             }
-            // Item is not axis, now we are working with series.
-            // Key is the property on the series we show in this column.
-            return {
-                topLevelColumnTitle: `${data.Standard_name} (${data.dataset_multiple[0].units[0].toLowerCase()}) - ${data.Standard_name_coord.toLowerCase()} (${data.dataset_multiple[0].units[1].toLowerCase()})`,
-                columnTitle: key === 'y' ? `${data.name_data}(${data.dataset_multiple[0].units[0].toLowerCase()}) (at ${data.dataset_multiple[item.index].value_coord} ${data.dataset_multiple[0].units[1].toLowerCase()})` : key
-                
-            };
-          }
-        },
+          },
         // chartOptions: {
         //   chart: {
         //     events: {
