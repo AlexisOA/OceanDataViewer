@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import  TreeView from '@mui/lab/TreeView/TreeView';
 import TreeItem from '@mui/lab/TreeItem/TreeItem';
 import SvgIcon from '@mui/material/SvgIcon';
 import '../SelectCatalogs/SelectCatalogs.css';
-import { getCoordinatesFromLocalFile } from '../../services/ThreddsService';
+import { getCatalogsThredds, getCoordinatesFromLocalFile } from '../../services/ThreddsService';
 
 function MinusSquare(props) {
     return (
@@ -134,7 +134,21 @@ const SelectCatalogs = ({send}) => {
       ]
   };
 
-  const [markers, setMarkers] = useState(null);
+  const [dataThredds, setDataThredds] = useState(null);
+  useEffect(() => {
+    obtainLayersBase();
+  }, []);
+
+  const obtainLayersBase = () => {
+    getCatalogsThredds()
+    .then((response) => {
+        if(response.status === 200){
+          console.log(response.data);
+          setDataThredds(response.data);
+        }
+    })
+    .catch((error) => alert(`Error loading thredds catalog: ${error}`))
+  }
       
     const renderTree = (nodes) => (
       <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name} onClick={() => send(nodes.is_file, nodes.id)}>
@@ -153,7 +167,13 @@ const SelectCatalogs = ({send}) => {
     //   defaultEndIcon={<CloseSquare />}
       sx={{ height: 500, flexGrow: 1, maxWidth: 500, overflow: "auto", fontSize: "0.5rem"}}
     >
-      {renderTree(data)}
+    
+      { 
+        dataThredds != null ?
+        renderTree(dataThredds)
+        :
+        null
+      }
     </TreeView>
     );
 }

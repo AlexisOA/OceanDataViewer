@@ -9,6 +9,11 @@ export const getAllCatalogs = (baselayer) =>{
     }
 }
 
+
+export const getCatalogsThredds = () =>{
+    return axios.get('http://127.0.0.1:8000/api/estoc/threddscatalog');
+}
+
 export const getCatalogByURL = (url, baselayer) =>{
     console.log(baselayer);
     let body = {

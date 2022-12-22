@@ -11,6 +11,8 @@ import { setDataFile, setTranferlistChoose } from '../../../store/actions/highch
 import Swal from 'sweetalert2';
 import { setSizeWindow } from '../../../store/actions/windowActions';
 import { setStateLoading } from '../../../store/actions/LoadingActions';
+import SelectCatalogs from '../../SelectCatalogs/SelectCatalogs';
+import FixedObsCatalogsThredds from './FixedObsCatalogsThredds';
 
 const EstocView = () => {
     const [dataFile, setDataPopUp] = useState(null);
@@ -124,7 +126,9 @@ const EstocView = () => {
                     <Tab eventKey="source" title="Data Source Selection">
                         <div className="row m-3 bg-light border p-2 ">
                             <div className="col-sm-6 col-md-3 ">
-                                <EstocCatalogs send={obtainCoords} baselayer={"fixedobs"}/>
+                                {/* <EstocCatalogs send={obtainCoords} baselayer={"fixedobs"}/> */}
+                                {/* <SelectCatalogs send={obtainCoords} /> */}
+                                <FixedObsCatalogsThredds send={obtainCoords} />
                             </div>
                         
                             {/* Map */}
