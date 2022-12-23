@@ -126,10 +126,7 @@ const MapViewEstoc = ({filesData, loadingMap}) => {
             style={{ height: "100vh"}}
             center={[28.0000000, -15.5000000]}
             zoom={8}
-            ref={setMap}
-            whenReady={(f) => {
-                console.log(f)
-            }}>
+            ref={setMap}>
               <LayersControl position="topright">
                 <BaseLayer checked name="OpenStreetMap">
                 <TileLayer
@@ -149,7 +146,7 @@ const MapViewEstoc = ({filesData, loadingMap}) => {
           {
             filesData != null ?
             (
-                dispatch(setStateLoading(false)),
+                
                 <Marker position={[filesData.site.Latitude, filesData.site.Longitude]}
                 >   
                     <Popup maxWidth={600} maxHeight={600} closeButton={false}>

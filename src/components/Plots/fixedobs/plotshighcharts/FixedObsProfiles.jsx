@@ -9,7 +9,7 @@ const FixedObsProfiles = ({data}) => {
     let series = []
     data.dataset.map((value, index) => {
         let data_series = []
-        let chartData = value.dataset.values.sort((a, b) => a[0] - b[0]);
+        let chartData = value.dataset.values.sort((a, b) => b[0] - a[0]);
         // let chartData2 = value.dataset.values.sort((a, b) => b[0] - a[0]);
         // console.log(chartData2)
         chartData.map((val, idx) => {
@@ -46,24 +46,6 @@ const FixedObsProfiles = ({data}) => {
             inverted: true,
             zoomType: "xy"
           },
-          // exporting:{
-          //   enabled: true,
-          //   tableCaption: 'Data table',
-          //     csv: {
-          //       columnHeaderFormatter: function(item, key) {
-          //         if (!item || item instanceof Highcharts.Axis) {
-          //           return 'Datetime';
-          //         }
-          //         // Item is not axis, now we are working with series.
-          //         // Key is the property on the series we show in this column.
-          //         return {
-          //             topLevelColumnTitle: "a",
-          //             columnTitle: key === 'y' ? "e" : key
-                      
-          //         };
-          //       }
-          //     },
-          // },
           title: {
             text: "Profiles for " + data.dataset[0].long_name
           },
