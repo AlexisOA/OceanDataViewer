@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { getCoordinatesFromURL } from '../../../services/ThreddsService';
 import EstocCatalogs from '../fixedobs/FixedObsCatalogs';
 import MapViewEstoc from '../fixedobs/FixedObsMapView';
+import GlidersCatalogs from './GlidersCatalogs';
 
 const GlidersView = () => {
     const [dataFile, setDataPopUp] = useState(null);
@@ -36,13 +37,13 @@ const GlidersView = () => {
 
             <div className="row m-3">
                 <div className="col-12">
-                    <h1 className="text-center">Fixed Observatories</h1>
+                    <h1 className="text-center">Autonomous systems</h1>
                 </div>
             </div>
 
             <div className="row m-3 bg-light border p-2 ">
                 <div className="col-sm-6 col-md-3 ">
-                    <EstocCatalogs send={obtainCoords} baselayer={"gliders"}/>
+                    <GlidersCatalogs send={obtainCoords}/>
                 </div>
             
                 {/* Map */}

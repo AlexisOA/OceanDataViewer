@@ -41,12 +41,9 @@ function MinusSquare(props) {
   }
 
   
-const FixedObsCatalogsThredds = ({send}) => {
+const GlidersCatalogs = ({send}) => {
 
     const [layerList, setLayerList] = useState(null);
-
-
-
 
 
     const obtainLayersBase = () => {
@@ -54,7 +51,7 @@ const FixedObsCatalogsThredds = ({send}) => {
             .then((response) => {
                 if(response.status === 200){
                   setLayerList(layerList => ({
-                    ...response.data, children: response.data.children.filter((item) => item.name !== 'Gliders')
+                    ...response.data, children: response.data.children.filter((item) => item.name === 'Gliders')
                   }));
                 }
             })
@@ -111,4 +108,4 @@ const FixedObsCatalogsThredds = ({send}) => {
     );
 }
 
-export default FixedObsCatalogsThredds;
+export default GlidersCatalogs;
