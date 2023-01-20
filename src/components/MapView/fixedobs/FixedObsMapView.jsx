@@ -25,7 +25,7 @@ const MapViewEstoc = ({filesData, loadingMap}) => {
 
     const sizewindow = state.getSizeWindowMap;
     const stateLoading = state.StateLoading;
-    console.log("estado de loading redux: ",stateLoading)
+    
     useEffect(() => {
         if(sizewindow.width != null){
          console.log("estamos redimensionando el mapa")

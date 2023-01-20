@@ -35,6 +35,13 @@ export const getCoordinatesFromURL = (url, url_download) =>{
     return axios.post('http://127.0.0.1:8000/api/estoc/coords', body);
 }
 
+export const getCoordinatesGlidersFromURL = (url) =>{
+    let body = {
+        url: url
+    }
+    return axios.post('http://127.0.0.1:8000/api/gliders/dataset', body);
+}
+
 export const getCoordinatesProfilesFromURL = (url, url_download) =>{
     let body = {
         url_download: url_download,
@@ -100,3 +107,12 @@ export const getCSVFileFromNetcdf = (url) =>{
     return axios.post('http://127.0.0.1:8000/api/estoc/convertcsv', body);
 }
 
+//Gliders
+
+export const getDatasetGliderFromVariableName = (url, name_variable) =>{
+    let body = {
+        url: url,
+        name_variable:name_variable
+    }
+    return axios.post('http://127.0.0.1:8000/api/gliders/datasetvariable', body);
+}

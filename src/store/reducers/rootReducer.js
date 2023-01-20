@@ -3,6 +3,7 @@ import { dataHighchartReducer, dataTransferList } from "./statusHighchartReducer
 import { TabPlotReducer, TabProductReducer, TabSelect } from "./statusTabReducer";
 import {getSizeWindow} from "./windowReduces"
 import { stateLoadingMarker } from "./loadingReducer";
+import { stateRouteDataGlider } from "./routeGliderReducer";
 
 export const rootReducer = combineReducers(
     {
@@ -13,7 +14,8 @@ export const rootReducer = combineReducers(
         dataHighchart:dataHighchartReducer,
         transferListData:dataTransferList,
         getSizeWindowMap: getSizeWindow,
-        StateLoading :stateLoadingMarker
+        StateLoading :stateLoadingMarker,
+        stateRouteGlider: stateRouteDataGlider
         //... add more states and reducers to include them in the store
     }
 )

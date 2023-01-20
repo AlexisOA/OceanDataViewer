@@ -67,8 +67,6 @@ const EstocView = () => {
         dispatch(setStateLoading(true))
         getCoordinatesFromURL(url, url_download)
             .then((response) => {
-                console.log("a ver: ")
-                console.log(response.data)
                 setDataPopUp(response.data);
             })
             .catch((error) => {
@@ -91,8 +89,6 @@ const EstocView = () => {
         dispatch(setStateLoading(true))
         getCoordinatesProfilesFromURL(url, url_download)
             .then((response) => {
-                console.log("a ver: ")
-                console.log(response.data)
                 setDataPopUp(response.data);
             })
             .catch((error) => {

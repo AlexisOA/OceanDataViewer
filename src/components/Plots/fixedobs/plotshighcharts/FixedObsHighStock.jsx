@@ -9,6 +9,7 @@ exporting(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
 const FixedObsHighStock = ({data}) => {
   const dispatch = useDispatch();
+  
   (function(H) {
     H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
         var rows = proceed.call(this, multiLevelHeaders),
