@@ -59,10 +59,10 @@ const Home = () => {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      Gliders
+                    Autonomous systems
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      Gliders description
+                    Autonomous systems description
                     </Typography>
                   </CardContent>
                 </CardActionArea>

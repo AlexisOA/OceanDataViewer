@@ -145,7 +145,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                             <caption>List of files</caption>
                             <thead>
                                 <tr>
-                                <th scope="col">#</th>
+                                <th scope="col"></th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Download CSV</th>
                                 <th scope="col">Download NetCDF</th>

@@ -13,6 +13,7 @@ import { setSizeWindow } from '../../../store/actions/windowActions';
 import { setStateLoading } from '../../../store/actions/LoadingActions';
 import SelectCatalogs from '../../SelectCatalogs/SelectCatalogs';
 import FixedObsCatalogsThredds from './FixedObsCatalogsThredds';
+import NavigationMenu from '../../Home/Navigation/NavigationMenu';
 
 const EstocView = () => {
     const [dataFile, setDataPopUp] = useState(null);
@@ -102,13 +103,10 @@ const EstocView = () => {
     };
     
     return (
-        <div className="container-fluid">
-
-            <div className="row m-3">
-                <div className="col-12">
-                    <h1 className="text-center">Fixed Observatories</h1>
-                </div>
-            </div>
+        <div>
+        <NavigationMenu/>
+            <div className="container-fluid">
+            
 
             <div className='row m-3'>
             
@@ -146,6 +144,8 @@ const EstocView = () => {
             </div>
             
         </div>
+        </div>
+        
     );
 }
 

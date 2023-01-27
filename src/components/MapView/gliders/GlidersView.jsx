@@ -4,16 +4,27 @@ import Swal from 'sweetalert2';
 import { getCoordinatesFromURL, getCoordinatesGlidersFromURL } from '../../../services/ThreddsService';
 import { setStateLoading } from '../../../store/actions/LoadingActions';
 import { setDataRoute } from '../../../store/actions/routeGliderActions';
+import NavigationMenu from '../../Home/Navigation/NavigationMenu';
 import EstocCatalogs from '../fixedobs/FixedObsCatalogs';
 import MapViewEstoc from '../fixedobs/FixedObsMapView';
 import GlidersCatalogs from './GlidersCatalogs';
 import GlidersMapView from './GlidersMapView';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
 const GlidersView = () => {
     const [dataFile, setDataPopUp] = useState([]);
     const [fullDataset, setFullData] = useState(null);
     const state = useSelector(state=>state);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        window.history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function(event) {
+            window.location.replace("/");
+        });
+    }, []);
+
     function obtainCoords(is_file, url, url_download) {
         console.log(url)
         if(is_file){
@@ -43,27 +54,35 @@ const GlidersView = () => {
             })
     };
     return (
-        <div className="container-fluid">
+        <div>
+            <NavigationMenu/>
+            <div className="container-fluid">
+            <div className='row m-3'>
+            <Tabs
+                    defaultActiveKey="source"
+                    id="uncontrolled-tab-example"
+                >
+                <Tab eventKey="source" title="Data Source Selection">
+                    <div className="row m-3 bg-light border p-2 ">
+                        <div className="col-sm-6 col-md-3 ">
+                            <GlidersCatalogs send={obtainCoords}/>
+                        </div>
 
-            <div className="row m-3">
-                <div className="col-12">
-                    <h1 className="text-center">Autonomous systems</h1>
-                </div>
+                        {/* Map */}
+                        <div className="col-sm-6 col-sm-offset-4 col-md-9 col-md-offset-3">
+                            <GlidersMapView dataGlider={[]} fullData={fullDataset}/>
+                        </div>
+                    </div>
+                </Tab>
+            </Tabs>
             </div>
 
-            <div className="row m-3 bg-light border p-2 ">
-                <div className="col-sm-6 col-md-3 ">
-                    <GlidersCatalogs send={obtainCoords}/>
-                </div>
             
-                {/* Map */}
-                <div className="col-sm-6 col-sm-offset-4 col-md-9 col-md-offset-3">
-                    <GlidersMapView dataGlider={[]} fullData={fullDataset} dataHighStock={null}/>
-                </div>
-            </div>
 
-            
+
+            </div>
         </div>
+       
     );
 }
 

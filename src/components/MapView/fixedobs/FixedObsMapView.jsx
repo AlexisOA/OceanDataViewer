@@ -12,7 +12,9 @@ import { setStateLoading } from '../../../store/actions/LoadingActions';
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
-    shadowUrl: iconShadow
+    shadowUrl: iconShadow,
+    iconSize: [25, 36],
+    iconAnchor: [15, 33]
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
