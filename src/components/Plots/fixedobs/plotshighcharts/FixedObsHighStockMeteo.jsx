@@ -84,7 +84,7 @@ const FixedObsHighStockMeteo = ({data}) => {
         },
         exporting:{
           enabled: true,
-          tableCaption: 'Data table',
+          tableCaption: 'Data table (dd-mm-aaaa h:m)',
         csv: {
           columnHeaderFormatter: function(item, key) {
             if (!item || item instanceof Highcharts.Axis) {

@@ -1,8 +1,17 @@
 import React, {useState} from 'react';
 import '../Navigation/NavigationMenu.css'
 import logo from '../../../assets/images/logo_laplocan.png'
+import {useNavigate} from 'react-router-dom';
+
 const NavigationMenu = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false)
+    const navigate = useNavigate();
+    
+    const redirectToPath = (path) => {
+    navigate(path)
+    }
+
+
     return (
         <nav className="navigation">
             <a href="/" className="brand-name">
@@ -29,16 +38,16 @@ const NavigationMenu = () => {
             }>
                 <ul>
                     <li>
-                    <a href="/home">Fixed observatories</a>
+                    <a href="/estoc">Fixed observatories</a>
                     </li>
                     <li>
-                    <a href="/about">Autonomous systems</a>
+                    <a href="/gliders">Autonomous systems</a>
                     </li>
                     <li>
-                    <a href="/contact">Data portal</a>
+                    <a href="http://obsplatforms.plocan.eu/" Target="_blank">Data portal</a>
                     </li>
                     <li>
-                    <a href="/contact">Contact us</a>
+                    <a href="#">Contact us</a>
                     </li>
                 </ul>
             </div>

@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, WMSTileLayer, LayersControl, useMap, Marker, Popup, Polyline} from "react-leaflet";
-import GeoUtil from "leaflet-geometryutil";
 import { Icon } from 'leaflet';
 import marker from '../../../assets/images/seaexp_jAByXKG_.svg';
 import end_circle from '../../../assets/images/end_circle.svg';
@@ -12,7 +11,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LoadingButton from '@mui/lab/LoadingButton';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import './css/GlidersMapView.css'
-import GlidersHighchart from '../../../components/Plots/gliders/GlidersHighchart'
 import { getDatasetGliderFromVariableName } from '../../../services/ThreddsService';
 import { setStateLoading } from '../../../store/actions/LoadingActions';
 import Highcharts, { correctFloat } from 'highcharts/highstock';
@@ -20,6 +18,8 @@ import HighchartsReact from 'highcharts-react-official';
 import CloseIcon from '@mui/icons-material/Close';
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import icon from 'leaflet/dist/images/marker-icon.png';
+
+
 var collapsedFlag = (window.innerHeight < 800) || (window.innerWidth < 767) ? true : false;
 var layerControl = L.control.layers(undefined, undefined, {
   collapsed: false

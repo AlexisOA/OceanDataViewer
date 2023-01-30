@@ -134,9 +134,9 @@ const EstocView = () => {
 
 
 
-                    <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>
+                    {/* <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>
                         
-                    </Tab>
+                    </Tab> */}
                     <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
                         <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download} is_profile={dataFile ? dataFile.site.isprofile: null}/>
                     </Tab>
