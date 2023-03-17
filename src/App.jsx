@@ -8,6 +8,7 @@ import { getCoordinatesFromLocalFile } from './services/ThreddsService';
 import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 import EstocView from './components/MapView/fixedobs/FixedObsView';
 import GlidersView from './components/MapView/gliders/GlidersView';
+import AppSidebar from './components/MapView/fixedobs/TestingSidebar/SidebarView';
 
 
 const App = () => {
@@ -34,8 +35,9 @@ const App = () => {
         {/* HomePage Cards*/}
         <Route exact path='/' element={<Home/>}/>
         <Route exact path='/estoc' element={<EstocView/>}/>
-        <Route exact path='/gliders' element={<GlidersView/>}/>
+        <Route exact path='/gliders' element={<GlidersView/>}/> 
         <Route exact path='/dataportal'/>
+        <Route exact path='/test' element={<AppSidebar/>}/> 
       </Routes>
 
     </Router>

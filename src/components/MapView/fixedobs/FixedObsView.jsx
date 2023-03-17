@@ -106,7 +106,6 @@ const EstocView = () => {
         <div>
         <NavigationMenu/>
             <div className="container-fluid">
-            
 
             <div className='row m-3'>
             

@@ -32,7 +32,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
 
     const data_highcharts = state.dataHighchart;
     const transferList_Data = state.transferListData;
-
+    console.log(transferList_Data)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -204,9 +204,10 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                 {
                                     
                                     transferList_Data.length > 0 ?
-
+                                    
                                     (
                                         transferList_Data.map((value, index) => {
+                                            console.log("VALUEEEEEEEEEEEE", value)
                                             if(value.type_chart == "basic"){
                                                 return (<div key={index} className='card text-center  mt-5'>
                                                         {<FixedObsHighcharts data={value}/>}
@@ -240,8 +241,6 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                             
                                             
                                         })
-
-                                        
                                     )
                                     :
                                     null

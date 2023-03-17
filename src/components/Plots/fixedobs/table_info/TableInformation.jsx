@@ -104,6 +104,7 @@ function Row(props) {
 const TableInformation = () => {
   const state = useSelector(state=>state);
   const data_highcharts = state.dataHighchart;
+  console.log(data_highcharts);
 
     return (
         <TableContainer component={Paper} className='mt-4 d-flex justify-content-start '>
