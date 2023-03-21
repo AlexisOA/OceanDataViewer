@@ -16,7 +16,7 @@ const FixedObsHighcharts = ({data}) => {
   let chartData = data.dataset.values.sort((a, b) => a[0] - b[0]);
   useEffect(() => {
   }, []);
-
+  console.log(data);
   (function(H) {
     H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
         var rows = proceed.call(this, multiLevelHeaders),

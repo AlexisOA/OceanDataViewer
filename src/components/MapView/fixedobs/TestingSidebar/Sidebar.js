@@ -52,6 +52,7 @@ const SidebarComponent = ({ map }) => {
    function obtainCoords(is_file, url, url_download, is_profile) {
       if(is_file){
           setDataPopUp(null);
+          setClickPlots(false);
           clearMap();
           if(is_profile){
               obtainCoordinatesProfilesNetCDF(url, url_download)

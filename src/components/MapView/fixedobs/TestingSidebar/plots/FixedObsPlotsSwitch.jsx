@@ -13,41 +13,49 @@ const FixedObsPlotsSwitch = ({data, type_chart}) => {
 
         <div>
             <div>
-                {data != null ? (
-                value.type_chart === "basic" ? (
+                {data != null  ?
+                (
+                type_chart === "basic" ? 
+                (
                     <div className='card text-center  mt-5'>
-                        <FixedObsHighcharts data={value}/>
+                        <FixedObsHighcharts data={data}/>
                     </div>
                 ) 
-                : value.type_chart === "complex" && value.sediments_info.length > 0 ? (
+                : type_chart === "complex" && data.sediments ? 
+                (
                     <div className='card text-center  mt-5'>
-                        <FixedObsHighStockSediments data={value}/>
+                        <FixedObsHighStockSediments data={data}/>
                     </div>
                 )
-                : value.type_chart == "multiple" ? (
+                : type_chart == "multiple" ? 
+                (
                     <div className='card text-center  mt-5'>
-                        <FixedObsHighStockMultiple data={value}/>
+                        <FixedObsHighStockMultiple data={data}/>
                     </div>
                 )
-                : value.type_chart == "meteo" ? (
+                : type_chart == "meteo" ? 
+                (
                     <div className='card text-center  mt-5'>
-                        <FixedObsHighStockMeteo data={value}/>
+                        <FixedObsHighStockMeteo data={data}/>
                     </div>
                 )
-                : value.type_chart == "profile" ? (
+                : type_chart == "profile" ? 
+                (
                     <div className='card text-center  mt-5'>
-                        <FixedObsProfiles data={value}/>
+                        <FixedObsProfiles data={data}/>
                     </div>
                 )
                 : 
                 (
                     <div className='card text-center  mt-5'>
-                        <FixedObsHighStock data={value}/>
+                        <FixedObsHighStock data={data}/>
                     </div>
                 )
-                ) : (
+                ) : 
+                (
                 null
-                )}
+                )
+                }
             </div>
         </div>
 

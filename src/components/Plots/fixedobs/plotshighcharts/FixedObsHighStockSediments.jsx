@@ -116,7 +116,7 @@ const FixedObsHighStockSediments = ({data}) => {
             // Key is the property on the series we show in this column.
             return {
                 topLevelColumnTitle: `${data.Standard_name} (${data.dataset.units[0].toLowerCase()})`,
-                columnTitle: key === 'y' ? `${data.name_data} (${data.dataset.units[0].toLowerCase()})` : "Datetime"
+                columnTitle: key === 'y' ? `${data.Variable_name} (${data.dataset.units[0].toLowerCase()})` : "Datetime"
                 
             };
           }
@@ -151,7 +151,7 @@ const FixedObsHighStockSediments = ({data}) => {
                 }
             },
             title: {
-                text: data.name_data,
+                text: data.Variable_name,
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }

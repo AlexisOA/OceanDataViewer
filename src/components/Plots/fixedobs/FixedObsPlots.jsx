@@ -207,7 +207,6 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                     
                                     (
                                         transferList_Data.map((value, index) => {
-                                            console.log("VALUEEEEEEEEEEEE", value)
                                             if(value.type_chart == "basic"){
                                                 return (<div key={index} className='card text-center  mt-5'>
                                                         {<FixedObsHighcharts data={value}/>}
