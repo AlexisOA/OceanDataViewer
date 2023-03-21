@@ -4,6 +4,7 @@ import exporting from "highcharts/modules/exporting.js";
 import HighchartsReact from 'highcharts-react-official';
 import {useDispatch } from 'react-redux';
 import { setSizeWindow } from '../../../../store/actions/windowActions';
+import "./style.css";
 // init the module
 exporting(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
@@ -51,6 +52,7 @@ const FixedObsHighStock = ({data}) => {
     const options = {
       chart: {
         animation: false,
+        backgroundColor: "#f2f4f5",
         // events: {
         //   exportData : function(){
         //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
@@ -105,11 +107,8 @@ const FixedObsHighStock = ({data}) => {
         enabled: true
     },
         title: {
-          text: data.Standard_name
+          text: data.Standard_name,
         },
-        subtitle: {
-          text: data.description
-      },
         yAxis: [{ // Primary yAxis
           labels: {
               // format: '{value}°C',
@@ -153,6 +152,7 @@ const FixedObsHighStock = ({data}) => {
               highcharts={Highcharts}
               constructorType={'stockChart'}
               options={options}
+              containerProps={{ className: "test-class" }}
             />
         </div>
     );

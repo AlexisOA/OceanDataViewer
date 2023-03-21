@@ -4,23 +4,31 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDataFile } from '../../../../../store/actions/highchartActions';
 import FixedObsPlotsSwitch from './FixedObsPlotsSwitch';
-import IconButton from '@mui/material/IconButton';
-import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
-import InfoIcon from '@mui/icons-material/Info';
-import GetAppIcon from '@mui/icons-material/GetApp';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { makeStyles } from "@material-ui/core";
+import { createTheme } from '@mui/material/styles';
+const useStyles = makeStyles(theme => ({
+    root: {
+      "& .css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root": {
+        zIndex: "2000"
+      }
+    }
+  }));
+
+
+const theme = createTheme({
+    overrides: {
+        MuiModal:{
+            root: {
+                zIndex: 2000,
+            }
+        }
+    }
+});
 
 const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
     const state = useSelector(state=>state);
@@ -40,10 +48,22 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
     const handleCloseZoom = () => setShowZoom(!showZoom);
     const handleShowZoom = () => setShowZoom(!showZoom);
 
+
+    const [checked, setChecked] = useState(false);
+    const [stateSwitchs, setStateSwitchs] = useState(null);
+    let switchState = {};
+
+    const [variable, setVariable] = useState('');
+
+
     const data_highcharts = state.dataHighchart;
     const transferList_Data = state.transferListData;
     const dispatch = useDispatch();
     console.log("deee: ", data_highcharts)
+
+    const classes = useStyles();
+
+
     useEffect(() => {
         if(url != null){
             console.log(is_profile)
@@ -134,6 +154,25 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
         console.log("datasr: ",dataset)
     }
 
+    const handleChange = (event) => {
+        console.log("event", event.target.value)
+        setVariable(event.target.value);
+      };
+
+    const handleChangeSwitch = (idx, event, checked) => {
+        console.log(idx)
+        console.log(event)
+        console.log(checked)
+        switchState['switch-' + idx] = checked;
+    };
+
+    const setStateSwitch = () => {
+        switchState = {};
+        data_highcharts.table_info.map((val, index) => {
+            switchState['switch-' + index] = false;
+        })
+    };
+
 
     return (
         <div className='container'>
@@ -142,11 +181,11 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                 data_highcharts != null ?
                 
                 (
-                    <div className='mt-3'>
+                    <div className='col mt-3'>
                         
                             {
                                 (data_highcharts.isprofile) ?
-                                <div >
+                                <div className='row'>
                                     {
                                         setDatasetProfile()
                                     }
@@ -158,8 +197,6 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                             <div key={index} className='mb-3'>
                                             <h6>{value} ({data_highcharts.variables_names[index]})</h6>
                                             <FixedObsPlotsSwitch data={dataset[index]} type_chart={dataset[index].type_chart}/>
-                                            
-                                            
                                             </div>)
                                     })
                                      :
@@ -167,69 +204,43 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                     }
                                 </div>
                                 :
-                                <div>
-                                    {
-                                        data_highcharts.table_info.map((value, idx) => {
-                                            return (
-                                            <section key={idx} className='row mb-3'>
-                                                {
-                                                value.show_data ?
-                                                    (   
-                                                        <div>
-                                                        <h6>{value.Standard_name} ({value.Variable_name})</h6>
-                                                        <FixedObsPlotsSwitch data={value} type_chart={value.type_chart}/>
-                                                        <div className='justify-content-end'>
-
-                                                            <IconButton aria-label="delete" size="small" color="primary" onClick={handleShowInfo}>
-                                                                <InfoIcon />
-                                                                <Modal
-                                                                size="lg"
-                                                                show={showInfo}
-                                                                onHide={handleCloseInfo}
-                                                                aria-labelledby="contained-modal-title-vcenter"
-                                                                centered>
-                                                                    <Modal.Header closeButton>
-                                                                    <Modal.Title id="contained-modal-title-vcenter">Information</Modal.Title>
-                                                                    </Modal.Header>
-                                                                    <Modal.Body>{value.description}</Modal.Body>
-                                                                </Modal>
-                                                            </IconButton>
-
-                                                            <IconButton aria-label="delete" size="small" color="primary"
-                                                            onClick={() => {
-                                                                alert('button download');
-                                                            }}> 
-                                                                <GetAppIcon />
-                                                            </IconButton>
-                                                            <IconButton aria-label="delete" size="small" color="primary"
-                                                            onClick={handleShowZoom}>
-                                                                <ZoomOutMapIcon/>
-                                                                <Modal
-                                                                size="lg"
-                                                                show={showZoom}
-                                                                onHide={handleCloseZoom}
-                                                                aria-labelledby="contained-modal-title-vcenter"
-                                                                centered>
-                                                                    <Modal.Header closeButton>
-                                                                    <Modal.Title id="contained-modal-title-vcenter">Plot</Modal.Title>
-                                                                    </Modal.Header>
-                                                                    <Modal.Body>
-                                                                        {<FixedObsPlotsSwitch data={value} type_chart={value.type_chart}/>}
-                                                                    </Modal.Body>
-                                                                </Modal>
-                                                            </IconButton>
-
-                                                        </div>
-                                                        </div>
-                                                    )
-                                                    :
-                                                    null
+                                <div className='row mt-3'>
+                                    <Box sx={{ minWidth: 120 }}>
+                                    <FormControl fullWidth >
+                                        <InputLabel id="demo-simple-select-label">Variables</InputLabel>
+                                        <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={variable}
+                                        label="Variables"
+                                        onChange={handleChange}
+                                        MenuProps={{
+                                            style: {zIndex: 2000}
+                                        }}
+                                        >
+                                        {
+                                            data_highcharts.table_info.map((value, idx) => {
+                                                if(value.show_data){
+                                                    return  <MenuItem key={idx} value={idx}>{value.Standard_name}</MenuItem>
                                                 }
-                                            </section>)
-                                        })
-                                    }
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>   
+                                </Box>
                                 </div>
                             
+                            }
+                            {
+                                variable != 2000 ?
+                                    data_highcharts.table_info.map((value, idx) => {
+                                        if(idx === variable){
+                                            return  <div className='row' key={idx}><FixedObsPlotsSwitch  data={value} type_chart={value.type_chart}/></div>
+                                        }
+                                    })
+                                :
+                                null
+                                
                             }
                     </div>
                 )

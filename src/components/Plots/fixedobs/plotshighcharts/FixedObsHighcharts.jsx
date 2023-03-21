@@ -10,8 +10,9 @@ import { setSizeWindow } from '../../../../store/actions/windowActions';
 exporting(Highcharts);
 drilldown(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
-
 const FixedObsHighcharts = ({data}) => {
+
+
   const dispatch = useDispatch();
   let chartData = data.dataset.values.sort((a, b) => a[0] - b[0]);
   useEffect(() => {

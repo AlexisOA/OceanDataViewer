@@ -15,7 +15,7 @@
     bottom: 0;
     width: 100%;
     overflow: inherit;
-    z-index: 2000;
+    z-index: 1000;
     box-shadow: 0 1px 5px rgba(0, 0, 0, .65)
 }
 
@@ -213,8 +213,10 @@
 
 .sidebar.leaflet-touch {
     box-shadow: none;
+    width: 25%;
     .sidebar-left~.sidebar-map .leaflet-left {
-        left: 315px
+        left: 315px;
+        
     }
     .sidebar-right~.sidebar-map .leaflet-right {
         right: 315px
@@ -278,12 +280,15 @@
     border: none;
 }
 
-/* Rehomed controls css, if props.rehomeControls is true */
+/* Rehomed controls css, if props.rehomeControls is true - aqui el puesto el zoom del sidebar y los KM position y los dos margin*/
 .rehomed-top-left, .rehomed-bottom-left {
     .collapsed & {
         left: 40px;
     }
     transition: left 500ms;
+    position: fixed;
+    margin-top: 10px;
+    margin-left: 25px;
 }
 
 .rehomed-top-right, .rehomed-bottom-right {
