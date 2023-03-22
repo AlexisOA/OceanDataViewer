@@ -78,6 +78,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
     }
 
     const downloadCSV = (url) => {
+        console.log("URLLLL", url)
         setLinearProgress(true)
         getCSVFileFromNetcdf(url)
         .then((response) => {

@@ -78,6 +78,7 @@ const FixedObsHighStockSediments = ({data}) => {
     const options = {
         chart: {
           animation: false,
+          backgroundColor: "#f2f4f5",
           // events: {
           //   exportData : function(){
           //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
@@ -140,9 +141,6 @@ const FixedObsHighStockSediments = ({data}) => {
           title: {
             text: data.Standard_name
           },
-          subtitle: {
-            text: data.description + " Data collected at a depth of"
-        },
           yAxis: [{ // Primary yAxis
             labels: {
                 // format: '{value}°C',

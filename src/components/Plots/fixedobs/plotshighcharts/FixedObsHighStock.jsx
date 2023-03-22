@@ -152,7 +152,6 @@ const FixedObsHighStock = ({data}) => {
               highcharts={Highcharts}
               constructorType={'stockChart'}
               options={options}
-              containerProps={{ className: "test-class" }}
             />
         </div>
     );

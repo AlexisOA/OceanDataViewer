@@ -44,14 +44,12 @@ const FixedObsProfiles = ({data}) => {
         chart: {
             type: "line",
             inverted: true,
-            zoomType: "xy"
+            zoomType: "xy",
+            backgroundColor: "#f2f4f5",
           },
           title: {
             text: "Profiles for " + data.dataset[0].long_name
           },
-          subtitle: {
-            text: data.dataset[0].description
-        },
           accessibility: {
             enabled: false
           },

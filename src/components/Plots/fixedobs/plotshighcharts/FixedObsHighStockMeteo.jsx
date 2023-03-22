@@ -62,6 +62,7 @@ const FixedObsHighStockMeteo = ({data}) => {
     const options = {
       chart: {
         animation: false,
+        backgroundColor: "#f2f4f5",
         // events: {
         //   exportData : function(){
         //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
@@ -118,9 +119,6 @@ const FixedObsHighStockMeteo = ({data}) => {
         title: {
           text: data.Standard_name
         },
-        subtitle: {
-          text: data.description
-      },
         yAxis: [{ // Primary yAxis
           labels: {
               // format: '{value}°C',

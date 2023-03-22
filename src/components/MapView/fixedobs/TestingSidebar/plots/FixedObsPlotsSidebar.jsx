@@ -9,60 +9,65 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { makeStyles } from "@material-ui/core";
 import { createTheme } from '@mui/material/styles';
-const useStyles = makeStyles(theme => ({
-    root: {
-      "& .css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root": {
-        zIndex: "2000"
-      }
-    }
-  }));
 
+import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
+import InfoIcon from '@mui/icons-material/Info';
+import GetAppIcon from '@mui/icons-material/GetApp';
+import IconButton from '@mui/material/IconButton';
 
-const theme = createTheme({
-    overrides: {
-        MuiModal:{
-            root: {
-                zIndex: 2000,
-            }
-        }
-    }
-});
+import LoadingButton from '@mui/lab/LoadingButton';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+
+import Modal from 'react-bootstrap/Modal';
 
 const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
     const state = useSelector(state=>state);
     const [loading, setLoading] = useState(true);
     const [datasetProfile, setDatasetProfiles] = useState(null);
     let dataset = []
-    const [loadingCSV, setLoadingCSV] = useState(false);
-    const [loadingNetCDF, setLoadingNetCDF] = useState(false);
-    const [loadingLinearProgress, setLinearProgress] = useState(false);
-    const [disabledBtnLoadings, setDisabledBtnLoadings] = useState(false);
 
-    const [showInfo, setShowInfo] = useState(false);
-    const handleCloseInfo = () => setShowInfo(!showInfo);
-    const handleShowInfo = () => setShowInfo(!showInfo);
+    const [variable, setVariable] = useState('');
+
+    //Button for downloads
+    const [loadingNc, setLoadingNc] = useState(false);
+    const [loadingCsv, setLoadingCsv] = useState(false);
+
 
     const [showZoom, setShowZoom] = useState(false);
     const handleCloseZoom = () => setShowZoom(!showZoom);
     const handleShowZoom = () => setShowZoom(!showZoom);
-
-
-    const [checked, setChecked] = useState(false);
-    const [stateSwitchs, setStateSwitchs] = useState(null);
-    let switchState = {};
-
-    const [variable, setVariable] = useState('');
-
 
     const data_highcharts = state.dataHighchart;
     const transferList_Data = state.transferListData;
     const dispatch = useDispatch();
     console.log("deee: ", data_highcharts)
 
-    const classes = useStyles();
+    function handleClickNc() {
+        setLoadingNc(true)
+        setTimeout(() => setLoadingNc(false), 2000);
+    }
 
+    const handleClickCSV = (url) => {
+        setLoadingCsv(true)
+        getCSVFileFromNetcdf(url)
+        .then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${data_highcharts.name}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            setLoadingCsv(false)
+            // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
+
+        })
+        .catch((error) => {
+            alert("Error al descargar fichero", error)
+            setLoadingCsv(false)
+
+        })
+    }
 
     useEffect(() => {
         if(url != null){
@@ -105,36 +110,7 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
         })
         
     }
-
-    const downloadCSV = (url) => {
-        setLinearProgress(true)
-        getCSVFileFromNetcdf(url)
-        .then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${data_highcharts.name}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            setLinearProgress(false)
-            // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
-
-        })
-        .catch((error) => {
-            console.log("Error al descargar fichero", error)
-            setLinearProgress(false)
-
-        })
-    }
-
-    const downloadNetCDF = () => {
-        setLinearProgress(true)
-        setTimeout(() => setLinearProgress(false), 2000);
-        // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
-    }
-
     const setDatasetProfile = () => {
-        console.log("hola")
         dataset = []
         data_highcharts.variables_names.map((value, idx) => {
             let data_obj = {}
@@ -159,21 +135,6 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
         setVariable(event.target.value);
       };
 
-    const handleChangeSwitch = (idx, event, checked) => {
-        console.log(idx)
-        console.log(event)
-        console.log(checked)
-        switchState['switch-' + idx] = checked;
-    };
-
-    const setStateSwitch = () => {
-        switchState = {};
-        data_highcharts.table_info.map((val, index) => {
-            switchState['switch-' + index] = false;
-        })
-    };
-
-
     return (
         <div className='container'>
             {
@@ -185,23 +146,30 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                         
                             {
                                 (data_highcharts.isprofile) ?
-                                <div className='row'>
-                                    {
-                                        setDatasetProfile()
-                                    }
-                                    { 
-                                     dataset.length > 0 ? 
-
-                                     data_highcharts.standard_names.map((value, index) => {
-                                        return (
-                                            <div key={index} className='mb-3'>
-                                            <h6>{value} ({data_highcharts.variables_names[index]})</h6>
-                                            <FixedObsPlotsSwitch data={dataset[index]} type_chart={dataset[index].type_chart}/>
-                                            </div>)
-                                    })
-                                     :
-                                     null      
-                                    }
+                                <div className='row mt-3'>
+                                    <Box sx={{ minWidth: 120 }}>
+                                    <FormControl fullWidth >
+                                        <InputLabel id="demo-simple-select-label">Variables</InputLabel>
+                                        <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={variable}
+                                        label="Variables"
+                                        onChange={handleChange}
+                                        MenuProps={{
+                                            style: {zIndex: 2000, whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'}
+                                        }}
+                                        >
+                                        {
+                                            data_highcharts.table_info.profile0.map((value, idx) => {
+                                                return  <MenuItem key={idx} value={idx}>{value.long_name}</MenuItem>
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>   
+                                </Box>
                                 </div>
                                 :
                                 <div className='row mt-3'>
@@ -233,15 +201,188 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                             }
                             {
                                 variable != 2000 ?
-                                    data_highcharts.table_info.map((value, idx) => {
-                                        if(idx === variable){
-                                            return  <div className='row' key={idx}><FixedObsPlotsSwitch  data={value} type_chart={value.type_chart}/></div>
-                                        }
-                                    })
+                                    (!data_highcharts.isprofile) ?
+                                        data_highcharts.table_info.map((value, idx) => {
+                                            if(idx === variable){
+                                                return  <div>
+                                                            <div className='row' key={idx}>
+                                                                <FixedObsPlotsSwitch  data={value} type_chart={value.type_chart}/>
+                                                                <div className='d-flex mb-2 justify-content-end'>
+                                                                    <IconButton
+                                                                    aria-label="delete"
+                                                                    size="small"
+                                                                    style={{'color': 'black'}}
+                                                                    onClick={handleShowZoom}>
+                                                                        <ZoomOutMapIcon fontSize="inherit"/>
+                                                                    </IconButton>
+                                                                </div>
+
+                                                                <div className='container-fluid mt-2'>
+                                                                    <IconButton  aria-label="delete" size="small" >
+                                                                        <InfoIcon />
+                                                                        <h5 className='mx-3 mt-2'>Information</h5>
+                                                                        
+                                                                    </IconButton>
+                                                                    <p>{value.description}</p>
+                                                                </div>
+
+                                                                <div className='container-fluid mt-2'>
+                                                                    <IconButton aria-label="download" size="small"> 
+                                                                        <GetAppIcon />
+                                                                        <h5 className='mx-3 mt-2'>Download File</h5>
+                                                                    </IconButton>
+                                                                    <div className='mt-2'>
+                                                                    <p className='mb-3'>
+                                                                        {
+                                                                            data_highcharts.name
+                                                                        }
+                                                                        
+                                                                    </p>
+                                                                        <LoadingButton
+                                                                            className='mx-1'
+                                                                            sx={{ border:  1}}
+                                                                            size="medium"
+                                                                            onClick={handleClickNc}
+                                                                            loading={loadingNc}
+                                                                            loadingPosition="end"
+                                                                            variant="outlined"
+                                                                            color="primary"
+                                                                            endIcon={<FileDownloadIcon />}
+                                                                            href={data_highcharts.url_download[0]}
+                                                                            >
+                                                                            Download NC
+                                                                        </LoadingButton>
+                                                                        <LoadingButton
+                                                                            sx={{ border:  1}}
+                                                                            size="medium"
+                                                                            onClick={() => handleClickCSV(data_highcharts.url[0])}
+                                                                            loading={loadingCsv}
+                                                                            loadingPosition="end"
+                                                                            variant="outlined"
+                                                                            color="success"
+                                                                            endIcon={<FileDownloadIcon />}
+                                                                            >
+                                                                            Download CSV
+                                                                        </LoadingButton>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div key={idx+1}>
+                                                                <Modal
+                                                                size="lg"
+                                                                show={showZoom}
+                                                                onHide={handleCloseZoom}
+                                                                backdrop='static'
+                                                                aria-labelledby="contained-modal-title-vcenter"
+                                                                centered
+                                                                >
+                                                                    <Modal.Header closeButton>
+                                                                    <Modal.Title id="contained-modal-title-vcenter">{data_highcharts.name}</Modal.Title>
+                                                                    </Modal.Header>
+                                                                    <Modal.Body>
+                                                                    <FixedObsPlotsSwitch  data={value} type_chart={value.type_chart}/>
+                                                                    </Modal.Body>
+                                                                </Modal>
+                                                            </div>
+                                                        </div>
+                                            }
+                                            
+                                        })
+                                        :
+                                        data_highcharts.table_info.profile0.map((value, idx) => {
+                                            if(idx === variable){
+                                                setDatasetProfile()
+                                                return <div key={idx}>
+                                                            <div className='row' >
+                                                                <FixedObsPlotsSwitch  data={dataset[idx]} type_chart={dataset[idx].type_chart}/>
+                                                                <div className='d-flex mb-2 justify-content-end'>
+                                                                            <IconButton
+                                                                            aria-label="delete"
+                                                                            size="small"
+                                                                            style={{'color': 'black'}}
+                                                                            onClick={handleShowZoom}>
+                                                                                <ZoomOutMapIcon fontSize="inherit"/>
+                                                                            </IconButton>
+                                                                </div>
+                                                        
+                                                                <div className='container-fluid mt-2'>
+                                                                            <IconButton  aria-label="delete" size="small" >
+                                                                                <InfoIcon />
+                                                                                <h5 className='mx-3 mt-2'>Information</h5>
+                                                                                
+                                                                            </IconButton>
+                                                                            <p>{value.description}</p>
+                                                                </div>
+
+                                                                <div className='container-fluid mt-2 mb-3'>
+                                                                    <IconButton aria-label="download" size="small"> 
+                                                                        <GetAppIcon />
+                                                                        <h5 className='mx-3 mt-2'>Download Files</h5>
+                                                                    </IconButton>
+                                                                    {data_highcharts.url.map((url, index) =>{
+                                                                        return (<div key={index} className='mb-2'>
+                                                                            <p className='mb-3'>
+                                                                                {
+                                                                                    url.substring(url.lastIndexOf("/")+1) + " (" +
+                                                                                    dataset[idx].dataset[index].time + ")"
+                                                                                }
+                                                                                
+                                                                            </p>
+                                                                            <LoadingButton
+                                                                                    className='mx-1'
+                                                                                    sx={{ border:  1}}
+                                                                                    size="medium"
+                                                                                    onClick={handleClickNc}
+                                                                                    loading={loadingNc}
+                                                                                    loadingPosition="end"
+                                                                                    variant="outlined"
+                                                                                    color="primary"
+                                                                                    endIcon={<FileDownloadIcon />}
+                                                                                    href={data_highcharts.url_download[index]}
+                                                                                    >
+                                                                                    Download NC
+                                                                                </LoadingButton>
+                                                                                <LoadingButton
+                                                                                    sx={{ border:  1}}
+                                                                                    size="medium"
+                                                                                    onClick={() => handleClickCSV(url)}
+                                                                                    loading={loadingCsv}
+                                                                                    loadingPosition="end"
+                                                                                    variant="outlined"
+                                                                                    color="success"
+                                                                                    endIcon={<FileDownloadIcon />}
+                                                                                    >
+                                                                                    Download CSV
+                                                                                </LoadingButton>
+                                                                        </div>)
+                                                                    })}
+                                                                </div>
+                                                            </div>
+                                                            <div key={idx+1}>
+                                                                <Modal
+                                                                size="lg"
+                                                                show={showZoom}
+                                                                onHide={handleCloseZoom}
+                                                                backdrop='static'
+                                                                aria-labelledby="contained-modal-title-vcenter"
+                                                                centered
+                                                                >
+                                                                    <Modal.Header closeButton>
+                                                                    <Modal.Title id="contained-modal-title-vcenter">Vertical Profiles</Modal.Title>
+                                                                    </Modal.Header>
+                                                                    <Modal.Body>
+                                                                    <FixedObsPlotsSwitch  data={dataset[idx]} type_chart={dataset[idx].type_chart}/>
+                                                                    </Modal.Body>
+                                                                </Modal>
+                                                            </div>
+                                                        </div>
+                                            }
+                                        })
                                 :
                                 null
                                 
                             }
+                            
                     </div>
                 )
                 :

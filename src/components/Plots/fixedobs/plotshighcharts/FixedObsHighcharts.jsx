@@ -40,6 +40,7 @@ const FixedObsHighcharts = ({data}) => {
         zoomType: 'y',
         panning: true,
         panKey: 'shift',
+        backgroundColor: "#f2f4f5",
         scrollablePlotArea: {
             minWidth: 600
         },
@@ -82,9 +83,6 @@ const FixedObsHighcharts = ({data}) => {
     title: {
       text: data.Standard_name
     },
-    subtitle: {
-      text: data.description
-  },
     xAxis: {
       title: {
         text: data.name_data
