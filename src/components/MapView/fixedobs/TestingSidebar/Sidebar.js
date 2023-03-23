@@ -176,6 +176,7 @@ function Markers() {
                             $(".plotsBtn").on("click", e => {
                             e.preventDefault();
                             onClickPlot();
+                            setOpenTab('plots')
                           });
                       });
 
@@ -205,7 +206,7 @@ function Markers() {
                   }
                </div>
             </Tab>
-            <Tab id="props" header="Plots" icon={<FaChartBar />}>
+            <Tab id="plots" header="Plots" icon={<FaChartBar />}>
                <div>
                   {
                     clickPlots ?

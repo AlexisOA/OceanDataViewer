@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom
 import EstocView from './components/MapView/fixedobs/FixedObsView';
 import GlidersView from './components/MapView/gliders/GlidersView';
 import AppSidebar from './components/MapView/fixedobs/TestingSidebar/SidebarView';
+import AppSidebarGliders from './components/MapView/gliders/SidebarGliders/SidebarView';
 
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
         <Route exact path='/gliders' element={<GlidersView/>}/> 
         <Route exact path='/dataportal'/>
         <Route exact path='/test' element={<AppSidebar/>}/> 
+        <Route exact path='/testgliders' element={<AppSidebarGliders/>}/> 
       </Routes>
 
     </Router>

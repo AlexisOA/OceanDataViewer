@@ -21,6 +21,8 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import Modal from 'react-bootstrap/Modal';
 
+import LinearProgress from '@mui/material/LinearProgress';
+
 const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
     const state = useSelector(state=>state);
     const [loading, setLoading] = useState(true);
@@ -33,6 +35,8 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
     const [loadingNc, setLoadingNc] = useState(false);
     const [loadingCsv, setLoadingCsv] = useState(false);
 
+    const [loadingProfile, setLoadingProfile] = useState(false);
+    const [loadingLinearProgress, setLinearProgress] = useState(false);
 
     const [showZoom, setShowZoom] = useState(false);
     const handleCloseZoom = () => setShowZoom(!showZoom);
@@ -44,27 +48,36 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
     console.log("deee: ", data_highcharts)
 
     function handleClickNc() {
-        setLoadingNc(true)
-        setTimeout(() => setLoadingNc(false), 2000);
+        console.log("hola")
+        setLoadingProfile(true)
+        setLinearProgress(true)
+        setTimeout(() => {
+            setLoadingProfile(false);
+            setLinearProgress(false);
+          }, "2100");
     }
 
     const handleClickCSV = (url) => {
-        setLoadingCsv(true)
+        const name = url.substring(url.lastIndexOf("/")+1)
+        setLoadingProfile(true)
+        setLinearProgress(true)
         getCSVFileFromNetcdf(url)
         .then((response) => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `${data_highcharts.name}.csv`);
+            link.setAttribute('download', `${name}.csv`);
             document.body.appendChild(link);
             link.click();
-            setLoadingCsv(false)
+            setLoadingProfile(false)
+            setLinearProgress(false)
             // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
 
         })
         .catch((error) => {
             alert("Error al descargar fichero", error)
-            setLoadingCsv(false)
+            setLoadingProfile(false)
+            setLinearProgress(false)
 
         })
     }
@@ -131,9 +144,8 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
     }
 
     const handleChange = (event) => {
-        console.log("event", event.target.value)
         setVariable(event.target.value);
-      };
+    };
 
     return (
         <div className='container'>
@@ -226,25 +238,25 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                     <p>{value.description}</p>
                                                                 </div>
 
-                                                                <div className='container-fluid mt-2'>
+                                                                <div className='container-fluid mt-2 mb-4'>
                                                                     <IconButton aria-label="download" size="small"> 
                                                                         <GetAppIcon />
                                                                         <h5 className='mx-3 mt-2'>Download File</h5>
                                                                     </IconButton>
                                                                     <div className='mt-2'>
-                                                                    <p className='mb-3'>
-                                                                        {
-                                                                            data_highcharts.name
-                                                                        }
-                                                                        
-                                                                    </p>
+                                                                        <p className='mb-3'>
+                                                                            {
+                                                                                data_highcharts.name
+                                                                            }
+                                                                            
+                                                                        </p>
                                                                         <LoadingButton
                                                                             className='mx-1'
                                                                             sx={{ border:  1}}
                                                                             size="medium"
                                                                             onClick={handleClickNc}
-                                                                            loading={loadingNc}
                                                                             loadingPosition="end"
+                                                                            disabled={loadingProfile}
                                                                             variant="outlined"
                                                                             color="primary"
                                                                             endIcon={<FileDownloadIcon />}
@@ -256,8 +268,8 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                             sx={{ border:  1}}
                                                                             size="medium"
                                                                             onClick={() => handleClickCSV(data_highcharts.url[0])}
-                                                                            loading={loadingCsv}
                                                                             loadingPosition="end"
+                                                                            disabled={loadingProfile}
                                                                             variant="outlined"
                                                                             color="success"
                                                                             endIcon={<FileDownloadIcon />}
@@ -266,6 +278,13 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                         </LoadingButton>
                                                                     </div>
                                                                 </div>
+                                                                { loadingLinearProgress ?
+                                                                <div className='mt-2 mb-2'>
+                                                                    <LinearProgress />
+                                                                </div>
+                                                                :
+                                                                null
+                                                                }
                                                             </div>
                                                             <div key={idx+1}>
                                                                 <Modal
@@ -314,7 +333,7 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                             <p>{value.description}</p>
                                                                 </div>
 
-                                                                <div className='container-fluid mt-2 mb-3'>
+                                                                <div className='container-fluid mt-2 mb-4'>
                                                                     <IconButton aria-label="download" size="small"> 
                                                                         <GetAppIcon />
                                                                         <h5 className='mx-3 mt-2'>Download Files</h5>
@@ -333,10 +352,10 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                                     sx={{ border:  1}}
                                                                                     size="medium"
                                                                                     onClick={handleClickNc}
-                                                                                    loading={loadingNc}
                                                                                     loadingPosition="end"
                                                                                     variant="outlined"
                                                                                     color="primary"
+                                                                                    disabled={loadingProfile}
                                                                                     endIcon={<FileDownloadIcon />}
                                                                                     href={data_highcharts.url_download[index]}
                                                                                     >
@@ -346,10 +365,10 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                                     sx={{ border:  1}}
                                                                                     size="medium"
                                                                                     onClick={() => handleClickCSV(url)}
-                                                                                    loading={loadingCsv}
                                                                                     loadingPosition="end"
                                                                                     variant="outlined"
                                                                                     color="success"
+                                                                                    disabled={loadingProfile}
                                                                                     endIcon={<FileDownloadIcon />}
                                                                                     >
                                                                                     Download CSV
@@ -357,6 +376,13 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                         </div>)
                                                                     })}
                                                                 </div>
+                                                                { loadingLinearProgress ?
+                                                                <div className='mb-3'>
+                                                                    <LinearProgress />
+                                                                </div>
+                                                                :
+                                                                null
+                                                                }
                                                             </div>
                                                             <div key={idx+1}>
                                                                 <Modal

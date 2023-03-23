@@ -101,10 +101,32 @@ const Home = () => {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                    Testing SideBar
+                    Fixed Obs Sidebar
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                    Testing SideBar description
+                    Testing fixed observatory Sidebar
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+          </div>
+
+
+          <div className='col-md-4'>
+            <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea onClick={() => redirectToPath("/testgliders")}>
+                  <CardMedia
+                    component="img"
+                    height="180"
+                    image={gliders_card}
+                    alt="Testing SideBar"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                    Glider Sidebar
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                    Testing gliders Sidebar
                     </Typography>
                   </CardContent>
                 </CardActionArea>
