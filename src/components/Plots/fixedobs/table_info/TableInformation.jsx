@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState}from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -13,7 +13,10 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import { styled } from '@mui/material/styles';
-import { useSelector } from 'react-redux';
+import Checkbox from '@mui/material/Checkbox';
+import { useSelector, useDispatch } from 'react-redux';
+import { setTranferlistChoose } from '../../../../store/actions/highchartActions';
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,10 +38,40 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function Row(props) {
+
+
+
+const TableInformation = ({send}) => {
+  const state = useSelector(state=>state);
+  const data_highcharts = state.dataHighchart;
+  const [select, setSelect] = useState(false);
+  const dispatch = useDispatch();
+
+  let selected = []
+  console.log("holaaaaaaaaaaaaaaaaaa")
+
+  const btnClick = () => {
+    if(selected.length > 0){
+      send(selected)
+    }
+  };
+
+
+
+  function Row(props) {
     const { row } = props;
-    const [open, setOpen] = React.useState(false);
-    
+    const [open, setOpen] = useState(false);
+    const [checked, setChecked] = useState(false);
+
+    const handleChange = (row, event) => {
+      setChecked(event.target.checked);
+      if(event.target.checked){
+        selected.push(row)
+      }else{
+        selected = selected.filter(e => e.name_data !== row.name_data);
+      }
+    };
+
     return (
       <React.Fragment>
         <StyledTableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -55,15 +88,17 @@ function Row(props) {
             {row.name_data}
           </StyledTableCell>
           <StyledTableCell>{row.Standard_name}</StyledTableCell>
-          {/* <StyledTableCell padding="checkbox">
+          
+          <StyledTableCell padding="checkbox">
           <Checkbox
-                          color="secondary"
-                          // checked={isItemSelected}
+                          color="primary"
+                          checked={checked}
+                          onChange={(e) => handleChange(row, e)}
                           inputProps={{
                             // 'aria-labelledby': labelId,
                           }}
                         />
-          </StyledTableCell> */}
+          </StyledTableCell>
         </StyledTableRow>
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -100,46 +135,49 @@ function Row(props) {
     );
   }
 
-
-const TableInformation = () => {
-  const state = useSelector(state=>state);
-  const data_highcharts = state.dataHighchart;
-  console.log(data_highcharts);
-
     return (
-        <TableContainer component={Paper} className='mt-4 d-flex justify-content-start '>
-          <Table aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell />
-                <StyledTableCell>Properties</StyledTableCell>
-                <StyledTableCell >Description</StyledTableCell>
-                {/* <StyledTableCell padding="checkbox">
-                  <Checkbox
-                    color="secondary"
-                    // indeterminate={numSelected > 0 && numSelected < rowCount}
-                    // checked={rowCount > 0 && numSelected === rowCount}
-                    // onChange={onSelectAllClick}
-                    inputProps={{
-                      'aria-label': 'select all desserts',
-                    }}
-                  />
-                </StyledTableCell> */}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data_highcharts != null ?
-                data_highcharts.table_info.map((row) => (
-                   row.show_data ?
-                    <Row key={row.name_data} row={row} />
-                    :
-                    null
-              ))
-              :
-              null}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <div>
+          <TableContainer component={Paper} className='mt-4 d-flex justify-content-start '>
+                    <Table aria-label="collapsible table">
+                      <TableHead>
+                        <TableRow>
+                          <StyledTableCell />
+                          <StyledTableCell>Properties</StyledTableCell>
+                          <StyledTableCell >Description</StyledTableCell>
+                          <StyledTableCell >Select</StyledTableCell>
+                          {/* <StyledTableCell padding="checkbox">
+                            <Checkbox
+                              color="secondary"
+                              // indeterminate={numSelected > 0 && numSelected < rowCount}
+                              // checked={rowCount > 0 && numSelected === rowCount}
+                              // onChange={onSelectAllClick}
+                              inputProps={{
+                                'aria-label': 'select all desserts',
+                              }}
+                            />
+                          </StyledTableCell> */}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {data_highcharts != null ?
+                          data_highcharts.table_info.map((row) => (
+                            row.show_data ?
+                              <Row key={row.name_data} row={row} />
+                              :
+                              null
+                        ))
+                        :
+                        null}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+        <div className="row mt-3">
+          <div className='col-md-12 d-flex justify-content-end'>
+            <button className='btn btn-primary' disabled={select} onClick={() => btnClick()}>Generate Plot</button>
+          </div>
+        </div>
+      </div>
+        
     );
 }
 

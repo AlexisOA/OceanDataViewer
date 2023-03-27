@@ -16,7 +16,7 @@
     width: 100%;
     overflow: inherit;
     z-index: 1000;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, .65)
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .65);
 }
 
 .sidebar.collapsed {
@@ -213,7 +213,7 @@
 
 .sidebar.leaflet-touch {
     box-shadow: none;
-    width: 25%;
+    // width: 25%;
     .sidebar-left~.sidebar-map .leaflet-left {
         left: 315px;
         
@@ -285,10 +285,8 @@
     .collapsed & {
         left: 40px;
     }
+    
     transition: left 500ms;
-    position: fixed;
-    margin-top: 10px;
-    margin-left: 25px;
 }
 
 .rehomed-top-right, .rehomed-bottom-right {

@@ -47,11 +47,12 @@ const FinishRoute = new Icon({
         collapsed: collapsedFlag,
         position: 'bottomright'
     });
+
+    var pathLayer;
 const SidebarComponent = ({ map }) => {
     const state = useSelector(state=>state);
    const [filesData, setDataPopUp] = useState(null);
    const [openTab, setOpenTab] = useState('home')
-   const [clickPlots, setClickPlots] = useState(false);
    const dispatch = useDispatch();
    const data_highcharts = state.dataHighchart;
    const transferList_Data = state.transferListData;
@@ -66,7 +67,7 @@ const SidebarComponent = ({ map }) => {
 
     const [stateClassNameHighCharte, setstateClassNameHighCharte] = useState("close border-0");
     const [stateHighchartClassName, setHighchartClassName] = useState('highchart-block');
-
+    const [clickPlots, setClickPlots] = useState(false);
     useEffect(() => {
         setDataHighchart(null)
       }, [fullDataset]);
@@ -96,7 +97,9 @@ const SidebarComponent = ({ map }) => {
 function obtainCoords(is_file, url, url_download) {
     console.log(url)
     if(is_file){
+        clearMap()
         setFullData(null);
+        setClickPlots(false);
         obtainCoordinatesNetCDF(url);
     }
 }
@@ -104,10 +107,15 @@ function obtainCoords(is_file, url, url_download) {
   const clearMap = () =>{
     map.closePopup();
     map.eachLayer(layer=>{
+      console.log(layer)
         if (layer instanceof L.Marker) {
           map.removeLayer(layer)
         }
+        if(layer instanceof L.Polyline){
+          map.removeLayer(layer)
+        }
       })
+      console.log("-------------")
   }
 
     const obtainCoordinatesNetCDF = (url) => {
@@ -119,7 +127,9 @@ function obtainCoords(is_file, url, url_download) {
             .then((response) => {
                 console.log(response.data);
                 setFullData(response.data);
+                setClickPlots(true)
                 dispatch(setStateLoading(false))
+                
                 // dispatch(setDataRoute(response.data))
             })
             .catch((error) => {
@@ -133,14 +143,14 @@ function obtainCoords(is_file, url, url_download) {
     };
 
 const getDatasetFromVariable = (url, name_variable) => {
-    dispatch(setStateLoading(true))
-    setstateLoadingHighchart(true)
+    // dispatch(setStateLoading(true))
+    // setstateLoadingHighchart(true)
     getDatasetGliderFromVariableName(url, name_variable)
     .then((response) => {
         if(response.status === 200){
-            console.log(response.data)
+            console.log("Datita: ", response.data)
             setDataHighchart(response.data)
-            setstateLoadingHighchart(false)
+            // setstateLoadingHighchart(false)
         }
     })
     .catch((error) => {
@@ -393,17 +403,21 @@ function CreatePolylinesUniques({dataJSON}){
     map.flyTo(dataJSON.USV_DATA[2].first_coordinate, 8,{
       duration:0.5
     });
+    
+    
+  }
 
-    fullDataset.USV_DATA[1].data.names.map((value, index) => {
-        addHighChart(highchart);
-        var pathLayer = L.featureGroup([])
+  function CreateBaseLayer(){
+      fullDataset.USV_DATA[1].data.names.map((value, index) => {
+        pathLayer = L.featureGroup([])
         .on('add', function(e) {
             console.log("add");
             setDataHighchart(null);
-            legendWhenPathLayerAdd(highchart);
-            showDivHigh();
+            setClickPlots(false)
+            // legendWhenPathLayerAdd(highchart);
+            // showDivHigh();
             getDatasetFromVariable(value.url,value.variable_name);
-            showHighChart();
+            // showHighChart();
         })
         .on('remove', function() {
             console.log("remove")
@@ -413,30 +427,8 @@ function CreatePolylinesUniques({dataJSON}){
     })
 
     layerControl.addTo(map);
-
-    function addHighChart(highchart) { //TODO: HIGHCHART
-        highchart.onAdd = function() {
-            var container = L.DomUtil.create('div', 'container-high');
-            container.innerHTML = '<i id="change" class="glyphicon glyphicon-remove close" onclick="hideDivHighchart();"></i><div id="highcharts"></div>';
-            return container;
-        };
-    }
-    
   }
 
-    function legendWhenPathLayerAdd(legend) {
-        legend.addTo(map);
-    }
-
-    function showDivHigh() {
-        $('.container-high').show(200);
-    }
-
-    function showHighChart(graphicData, minim, maxim, name, units) {
-        setTimeout(function() {
-            ShowHighStock();
-        }, 200);
-    }
 
    return (
       <section className="Sidebar">
@@ -454,14 +446,21 @@ function CreatePolylinesUniques({dataJSON}){
             <Tab id="home" header="Catalog" icon={<FaMap />} active>
                <div className='mt-3'>
                      <GlidersCatalogs send={obtainCoords}/>
-                     {
+                      {
                         fullDataset != null ?
                         <CreatePolylinesUniques dataJSON={fullDataset}/>
                         :
                         null
-                    }
+                      }
+
+                      {
+                        clickPlots ?
+                          <CreateBaseLayer/>
+                        :
+                        null
+                      }
                     
-                    </div>
+                </div>
             </Tab>
             <Tab id="plots" header="Plots" icon={<FaChartBar />}>
                <div>

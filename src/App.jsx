@@ -10,6 +10,7 @@ import EstocView from './components/MapView/fixedobs/FixedObsView';
 import GlidersView from './components/MapView/gliders/GlidersView';
 import AppSidebar from './components/MapView/fixedobs/TestingSidebar/SidebarView';
 import AppSidebarGliders from './components/MapView/gliders/SidebarGliders/SidebarView';
+import AppSidebarTabs from './components/MapView/fixedobs/SidebarFixedObs/SidebarView';
 
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
         <Route exact path='/dataportal'/>
         <Route exact path='/test' element={<AppSidebar/>}/> 
         <Route exact path='/testgliders' element={<AppSidebarGliders/>}/> 
+        <Route exact path='/sidebartabs' element={<AppSidebarTabs/>}/>
       </Routes>
 
     </Router>

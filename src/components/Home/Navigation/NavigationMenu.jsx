@@ -44,7 +44,7 @@ const NavigationMenu = () => {
                     <a href="/gliders">Autonomous systems</a>
                     </li>
                     <li>
-                    <a href="http://obsplatforms.plocan.eu/" Target="_blank">Data portal</a>
+                    <a href="http://obsplatforms.plocan.eu/" target="_blank">Data portal</a>
                     </li>
                     <li>
                     <a href="#">Contact us</a>

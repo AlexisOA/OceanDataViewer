@@ -4,6 +4,7 @@ import { TabPlotReducer, TabProductReducer, TabSelect } from "./statusTabReducer
 import {getSizeWindow} from "./windowReduces"
 import { stateLoadingMarker } from "./loadingReducer";
 import { stateRouteDataGlider } from "./routeGliderReducer";
+import { PopUpReducer } from "./dataPoupReducer";
 
 export const rootReducer = combineReducers(
     {
@@ -15,7 +16,8 @@ export const rootReducer = combineReducers(
         transferListData:dataTransferList,
         getSizeWindowMap: getSizeWindow,
         StateLoading :stateLoadingMarker,
-        stateRouteGlider: stateRouteDataGlider
+        stateRouteGlider: stateRouteDataGlider,
+        popUpData: PopUpReducer,
         //... add more states and reducers to include them in the store
     }
 )

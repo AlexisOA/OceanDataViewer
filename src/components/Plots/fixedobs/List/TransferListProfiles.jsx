@@ -80,6 +80,7 @@ const TransferListProfiles = () => {
     };
 
     const btnClick = () => {
+      console.log("RIGGHT", right)
       let data = []
       right.map((value, idx) => {
         let data_obj = {}

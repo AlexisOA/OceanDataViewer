@@ -133,6 +133,27 @@ const Home = () => {
               </Card>
           </div>
 
+          <div className='col-md-4'>
+            <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea onClick={() => redirectToPath("/sidebartabs")}>
+                  <CardMedia
+                    component="img"
+                    height="180"
+                    image={gliders_card}
+                    alt="Testing SideBar"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                    Sidebar with Tabs
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                    Testing Sidebar with Tabs
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+          </div>
+
         </div>
       </div>
       
