@@ -26,6 +26,7 @@ import GetAppIcon from '@mui/icons-material/GetApp';
 import { data } from 'jquery';
 import { CheckBox } from '@mui/icons-material';
 import CheckBoxes from './checkboxes/CheckBoxes';
+import TableInformationTest from './table_info/TableInformationTest';
 
 const FixedObsPlots = ({url, url_download, is_profile}) => {
     const state = useSelector(state=>state);
@@ -86,7 +87,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
     }
 
     const downloadCSV = (url) => {
-        console.log("URLLLL", url)
+        const name = url.substring(url.lastIndexOf("/")+1).replace(".nc", "")
         setLoadingProfile(true)
         setLinearProgress(true)
         getCSVFileFromNetcdf(url)
@@ -94,7 +95,8 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `${data_highcharts.name}.csv`);
+            // link.setAttribute('download', `${data_highcharts.name}.csv`);
+            link.setAttribute('download', `${name}.csv`);
             document.body.appendChild(link);
             link.click();
             setLoadingProfile(false)
@@ -118,24 +120,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
             setLinearProgress(false);
           }, "2100");
         // dispatch(setSizeWindow(window.innerWidth, window.innerHeight))
-    }
-    function obtainCoords(selected) {
-        let new_object = []
-        data_highcharts.table_info.map((value, idx) => {
-            if(!value.show_data){
-            const obj = {
-                "name": value.name_data,
-                "value": value.dataset.values
-            }
-            new_object.push(obj)
-            }
-        });
-        selected.map((value_right, index) => {
-            value_right['sediments_info'] = new_object;
-        });
-        console.log("selected:", selected)
-        dispatch(setTranferlistChoose(selected))
-    }
+    } 
 
 
     return (
@@ -147,20 +132,79 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                         <div>
                             {
                                 (data_highcharts.isprofile) ?
-                                <div className="row">
-                                        <div className="col-sm-8 col-md-4 ">
+                                <div className='container-fluid mt-2 mb-4'>
+                                    <div className="row">
+                                        <div className="justify-content-left col-sm-8 col-md-5">
                                             <TableInformationProfiles/>
                                         </div>
-                                        <div className="col-sm-4 col-md-6">
-                                            <TransferListProfiles/>
+                                        <div className='justify-content-right col-sm-8 col-md-6 mx-5'>
+                                            <div className='container-fluid mt-3'>
+                                                <IconButton  aria-label="delete" size="small" >
+                                                <   InfoIcon />
+                                                    <h5 className='mx-3 mt-2'>Information</h5>
+                                                </IconButton>
+                                                <p>{data_highcharts.table_info.profile0[0].description}</p>
+                                            </div>
+                                            <IconButton aria-label="download" size="small" className='mt-4'> 
+                                                <GetAppIcon />
+                                                <h5 className='mx-3 mt-2'>Download Files</h5>
+                                            </IconButton>
+                                                        <div className='row justify-content-left mt-2'>
+                                                            {data_highcharts.url.map((url, index) =>{
+                                                                return (<div key={index} className='mb-2'>
+                                                                    <p className='mb-3'>
+                                                                        {
+                                                                            (data_highcharts.isprofile) ? 
+                                                                            url.substring(url.lastIndexOf("/")+1) + " (" + data_highcharts.table_info["profile" + index][0].time + ")"
+                                                                            :
+                                                                            url.substring(url.lastIndexOf("/")+1)
+                                                                        }
+                                                                    </p>
+                                                                        <LoadingButton
+                                                                            className='mx-3'
+                                                                            sx={{ border:  1}}
+                                                                            size="medium"
+                                                                            onClick={downloadNetCDF}
+                                                                            loadingPosition="end"
+                                                                            variant="outlined"
+                                                                            color="primary"
+                                                                            disabled={loadingProfile}
+                                                                            endIcon={<FileDownloadIcon />}
+                                                                            href={data_highcharts.url_download[index]}
+                                                                            >
+                                                                            Download NC
+                                                                        </LoadingButton>
+                                                                        <LoadingButton
+                                                                            sx={{ border:  1}}
+                                                                            size="medium"
+                                                                            onClick={() => downloadCSV(url)}
+                                                                            loadingPosition="end"
+                                                                            variant="outlined"
+                                                                            color="success"
+                                                                            disabled={loadingProfile}
+                                                                            endIcon={<FileDownloadIcon />}
+                                                                            >
+                                                                            Download CSV
+                                                                        </LoadingButton>
+                                                                        </div>)
+                                                                })}
+                                            { loadingLinearProgress ?
+                                            <LinearProgress className='mt-3'/>
+                                            :
+                                            null
+                                            }
+                                        
+                                                        </div>
                                         </div>
-                                        <Divider/>
+                                        
+                                    </div>
                                 </div>
+                                
                                 :
                                 <div className='container-fluid mt-2 mb-4'>
                                     <div className="row">
                                         <div className="justify-content-left col-sm-8 col-md-5 ">
-                                            <TableInformation send={obtainCoords}/>
+                                            <TableInformation/>
                                         </div>
                                         <div className="justify-content-right col-sm-8 col-md-6 mx-5">
                                             <div className='container-fluid mt-3'>
@@ -220,7 +264,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                             null
                                             }
                                         
-                                        </div>
+                                                        </div>
                                         </div>
                                     </div>
                                 </div>

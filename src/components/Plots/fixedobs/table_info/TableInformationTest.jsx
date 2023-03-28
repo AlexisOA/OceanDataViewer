@@ -38,7 +38,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const TableInformation = () => {
+
+
+
+const TableInformationTest = () => {
   const state = useSelector(state=>state);
   const data_highcharts = state.dataHighchart;
   const [select, setSelect] = useState(false);
@@ -48,6 +51,8 @@ const TableInformation = () => {
   const [checked, setChecked] = useState(false);
 
   const [selected, setSelected] = React.useState([]);
+  const [selectedObj, setSelectedObj] = React.useState([]);
+  // let selected = []
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const btnClick = () => {
@@ -208,4 +213,4 @@ const TableInformation = () => {
     );
 }
 
-export default TableInformation;
+export default TableInformationTest;

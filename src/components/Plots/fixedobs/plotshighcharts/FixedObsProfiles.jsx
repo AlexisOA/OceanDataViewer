@@ -69,7 +69,7 @@ const FixedObsProfiles = ({data}) => {
             line: {
               tooltip: {
               headerFormat: '<b>{series.name}</b><br>',
-              pointFormat: `{point.x} ${data.dataset[0].units[0]}, {point.y} ${data.dataset[0].units[1]}`
+              pointFormat: `{point.x} ${data.dataset[0].units[1]}, {point.y} ${data.dataset[0].units[0]}`
               }
             }
           },

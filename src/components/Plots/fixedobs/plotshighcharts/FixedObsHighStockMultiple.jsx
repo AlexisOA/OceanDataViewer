@@ -99,6 +99,19 @@ const FixedObsHighStockMultiple = ({data}) => {
         },
         exporting:{
           enabled: true,
+          buttons: {
+            contextButton: {
+                menuItems: [
+                    'downloadPNG',
+                    'downloadJPEG',
+                    'downloadPDF',
+                    'downloadSVG',
+                    'downloadCSV',
+                    'downloadXLS',
+                    'viewData'
+                  ]
+                }
+          },
           tableCaption: 'Data table (dd-mm-aaaa h:m)',
           csv: {
             columnHeaderFormatter: function(item, key) {

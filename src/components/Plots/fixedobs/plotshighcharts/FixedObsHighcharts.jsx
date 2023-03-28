@@ -58,6 +58,19 @@ const FixedObsHighcharts = ({data}) => {
     },
       exporting:{
         enabled: true,
+        buttons: {
+          contextButton: {
+              menuItems: [
+                  'downloadPNG',
+                  'downloadJPEG',
+                  'downloadPDF',
+                  'downloadSVG',
+                  'downloadCSV',
+                  'downloadXLS',
+                  'viewData'
+                ]
+              }
+        },
         csv: {
           columnHeaderFormatter: function(item, key) {
             if (item.isXAxis) {

@@ -5,6 +5,7 @@ import {getSizeWindow} from "./windowReduces"
 import { stateLoadingMarker } from "./loadingReducer";
 import { stateRouteDataGlider } from "./routeGliderReducer";
 import { PopUpReducer } from "./dataPoupReducer";
+import { getDataHighcharts } from "./dataHighchartsReducer";
 
 export const rootReducer = combineReducers(
     {
@@ -18,6 +19,7 @@ export const rootReducer = combineReducers(
         StateLoading :stateLoadingMarker,
         stateRouteGlider: stateRouteDataGlider,
         popUpData: PopUpReducer,
+        dataHigcharting: getDataHighcharts
         //... add more states and reducers to include them in the store
     }
 )

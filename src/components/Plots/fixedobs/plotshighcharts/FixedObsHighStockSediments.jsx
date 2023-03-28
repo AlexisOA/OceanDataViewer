@@ -105,6 +105,19 @@ const FixedObsHighStockSediments = ({data}) => {
         },
           exporting:{
             enabled: true,
+            buttons: {
+              contextButton: {
+                  menuItems: [
+                      'downloadPNG',
+                      'downloadJPEG',
+                      'downloadPDF',
+                      'downloadSVG',
+                      'downloadCSV',
+                      'downloadXLS',
+                      'viewData'
+                    ]
+                  }
+            },
           tableCaption: 'Data table',
         csv: {
           columnHeaderFormatter: function(item, key) {

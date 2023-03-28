@@ -8,6 +8,7 @@ import "./style.css";
 // init the module
 exporting(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
+
 const FixedObsHighStock = ({data}) => {
   const dispatch = useDispatch();
   
@@ -20,7 +21,6 @@ const FixedObsHighStock = ({data}) => {
         rows = rows.filter(function(row) {
             return typeof row.x !== 'number' || (row.x >= xMin && row.x <= xMax);
         });
-
         return rows;
     });
   }(Highcharts));
@@ -75,6 +75,19 @@ const FixedObsHighStock = ({data}) => {
       },
         exporting:{
           enabled: true,
+          buttons: {
+            contextButton: {
+                menuItems: [
+                    'downloadPNG',
+                    'downloadJPEG',
+                    'downloadPDF',
+                    'downloadSVG',
+                    'downloadCSV',
+                    'downloadXLS',
+                    'viewData'
+                  ]
+                }
+          },
           tableCaption: 'Data table (dd-mm-aaaa h:m)',
         csv: {
           columnHeaderFormatter: function(item, key) {
