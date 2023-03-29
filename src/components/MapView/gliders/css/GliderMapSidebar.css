@@ -1,0 +1,39 @@
+.container-high{
+    max-width: 1000px;
+    max-height: 600px;
+    background: white;
+    float: right;
+    left: 30px;
+    /* padding: 20px; */
+    margin-left: 10px;
+    z-index: 800;
+}
+
+.close{
+    position: absolute;
+    right: 2px;
+    top:3px;
+    float: right;
+    z-index: 1000;
+}
+
+
+
+.hide::before{
+    content: "\e018";
+    width: 34px;
+    height: 34px;
+    position: absolute;
+    opacity: 0;
+}
+
+.highchart-block{
+    overflow: hidden !important;
+    display: block !important;
+}
+
+.highchart-none{
+    overflow: hidden !important;
+    display: none !important;
+}
+

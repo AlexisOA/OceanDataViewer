@@ -77,17 +77,18 @@ const TransferList = () => {
     };
 
     const btnClick = () => {
+      console.log(right)
       let new_object = []
       data_highcharts.table_info.map((value, idx) => {
         if(!value.show_data){
           const obj = {
-            "name": value.Variable_name,
+            "name": value.name_data,
             "value": value.dataset.values
           }
           new_object.push(obj)
         }
       });
-
+      console.log("righhht", right)
       right.map((value_right, index) => {
         value_right['sediments_info'] = new_object;
       });

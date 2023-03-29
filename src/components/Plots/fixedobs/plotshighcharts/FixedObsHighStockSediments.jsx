@@ -78,6 +78,7 @@ const FixedObsHighStockSediments = ({data}) => {
     const options = {
         chart: {
           animation: false,
+          backgroundColor: "#f2f4f5",
           // events: {
           //   exportData : function(){
           //     dispatch(setSizeWindow(window.innerWidth, window.innerHeight))		                
@@ -104,6 +105,19 @@ const FixedObsHighStockSediments = ({data}) => {
         },
           exporting:{
             enabled: true,
+            buttons: {
+              contextButton: {
+                  menuItems: [
+                      'downloadPNG',
+                      'downloadJPEG',
+                      'downloadPDF',
+                      'downloadSVG',
+                      'downloadCSV',
+                      'downloadXLS',
+                      'viewData'
+                    ]
+                  }
+            },
           tableCaption: 'Data table',
         csv: {
           columnHeaderFormatter: function(item, key) {
@@ -116,7 +130,7 @@ const FixedObsHighStockSediments = ({data}) => {
             // Key is the property on the series we show in this column.
             return {
                 topLevelColumnTitle: `${data.Standard_name} (${data.dataset.units[0].toLowerCase()})`,
-                columnTitle: key === 'y' ? `${data.name_data} (${data.dataset.units[0].toLowerCase()})` : "Datetime"
+                columnTitle: key === 'y' ? `${data.Variable_name} (${data.dataset.units[0].toLowerCase()})` : "Datetime"
                 
             };
           }
@@ -140,9 +154,6 @@ const FixedObsHighStockSediments = ({data}) => {
           title: {
             text: data.Standard_name
           },
-          subtitle: {
-            text: data.description + " Data collected at a depth of"
-        },
           yAxis: [{ // Primary yAxis
             labels: {
                 // format: '{value}°C',
@@ -151,7 +162,7 @@ const FixedObsHighStockSediments = ({data}) => {
                 }
             },
             title: {
-                text: data.name_data,
+                text: data.Variable_name,
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }

@@ -10,13 +10,14 @@ import { setSizeWindow } from '../../../../store/actions/windowActions';
 exporting(Highcharts);
 drilldown(Highcharts);
 require("highcharts/modules/export-data")(Highcharts);
-
 const FixedObsHighcharts = ({data}) => {
+
+
   const dispatch = useDispatch();
   let chartData = data.dataset.values.sort((a, b) => a[0] - b[0]);
   useEffect(() => {
   }, []);
-
+  console.log(data);
   (function(H) {
     H.wrap(H.Chart.prototype, 'getDataRows', function(proceed, multiLevelHeaders) {
         var rows = proceed.call(this, multiLevelHeaders),
@@ -39,6 +40,7 @@ const FixedObsHighcharts = ({data}) => {
         zoomType: 'y',
         panning: true,
         panKey: 'shift',
+        backgroundColor: "#f2f4f5",
         scrollablePlotArea: {
             minWidth: 600
         },
@@ -56,6 +58,19 @@ const FixedObsHighcharts = ({data}) => {
     },
       exporting:{
         enabled: true,
+        buttons: {
+          contextButton: {
+              menuItems: [
+                  'downloadPNG',
+                  'downloadJPEG',
+                  'downloadPDF',
+                  'downloadSVG',
+                  'downloadCSV',
+                  'downloadXLS',
+                  'viewData'
+                ]
+              }
+        },
         csv: {
           columnHeaderFormatter: function(item, key) {
             if (item.isXAxis) {
@@ -81,9 +96,6 @@ const FixedObsHighcharts = ({data}) => {
     title: {
       text: data.Standard_name
     },
-    subtitle: {
-      text: data.description
-  },
     xAxis: {
       title: {
         text: data.name_data

@@ -5,7 +5,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import { Provider } from 'react-redux';
 import {createAppStore} from './store/config/storeConfig'
-
+import '../src/sidevar-v2/leaflet-sidebar.css'
+import '../src/sidevar-v2/leaflet-sidebar.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let appStore = createAppStore()

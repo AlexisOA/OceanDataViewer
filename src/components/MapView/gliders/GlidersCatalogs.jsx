@@ -94,7 +94,7 @@ const GlidersCatalogs = ({send}) => {
               defaultExpanded={['root']}
               defaultExpandIcon={<PlusSquare />}
               // defaultEndIcon={<FolderIcon />}
-              sx={{ height: "100vh", flexGrow: 1, maxWidth: 500, overflow: "auto", fontSize: "0.5rem"}}
+              sx={{ marginTop:"10px", flexGrow: 1, maxWidth: 500, overflow: "auto", fontSize: "0.5rem"}}
             >
               {renderTree(layerList)}
             </TreeView>

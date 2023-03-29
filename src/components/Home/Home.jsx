@@ -34,7 +34,7 @@ const Home = () => {
                     height="180"
                     image={estoc_card}
                     alt="estoc platform"
-                    onClick={()=> redirectToPath("/estoc")}
+                    onClick={()=> redirectToPath("/fixedobs")}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">

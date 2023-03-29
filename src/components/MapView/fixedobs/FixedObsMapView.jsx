@@ -103,7 +103,6 @@ const MapViewEstoc = ({filesData, loadingMap}) => {
                                 </ul>
                             </div>
                             <div className='d-flex justify-content-end'>
-                                <Button variant="primary" onClick={()=> onClickProducto("product")} disabled={true}>Select Product</Button>
                                 <Button className='mx-2' variant="primary" onClick={()=> onClickPlot("plots")}>Generate Plots</Button>
                             </div>
 
