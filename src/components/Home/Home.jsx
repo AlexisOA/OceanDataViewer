@@ -34,7 +34,7 @@ const Home = () => {
                     height="180"
                     image={estoc_card}
                     alt="estoc platform"
-                    onClick={()=> redirectToPath("/estoc")}
+                    onClick={()=> redirectToPath("/fixedobs")}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -84,70 +84,6 @@ const Home = () => {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       PLOCAN Data Portal description
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-          </div>
-
-          <div className='col-md-4'>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea onClick={() => redirectToPath("/test")}>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={gliders_card}
-                    alt="Testing SideBar"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                    Fixed Obs Sidebar
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                    Testing fixed observatory Sidebar
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-          </div>
-
-
-          <div className='col-md-4'>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea onClick={() => redirectToPath("/testgliders")}>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={gliders_card}
-                    alt="Testing SideBar"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                    Glider Sidebar
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                    Testing gliders Sidebar
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-          </div>
-
-          <div className='col-md-4'>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea onClick={() => redirectToPath("/sidebartabs")}>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={gliders_card}
-                    alt="Testing SideBar"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                    Sidebar with Tabs
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                    Testing Sidebar with Tabs
                     </Typography>
                   </CardContent>
                 </CardActionArea>
