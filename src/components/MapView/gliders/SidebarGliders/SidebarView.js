@@ -24,9 +24,9 @@ export default function AppSidebar() {
   const dataFile = states.popUpData;
   const dispatch = useDispatch();
 
-  const dataHigh = states.dataHigcharting;
+  // const dataHigh = states.dataHigcharting;
 
-  console.log(dataHigh)
+  // console.log(dataHigh)
 
 
   return (
@@ -57,7 +57,7 @@ export default function AppSidebar() {
                             null
                         }
                             {map && <Sidebar dataGlider={[]} map={map}/>}
-                            <Map setMap={setMap} fullData={dataFile} dataHighchart={dataHigh} myMap={map}/>
+                            <Map setMap={setMap} fullData={dataFile}  myMap={map}/>
                       </div>
                     </Tab>
                 </Tabs>

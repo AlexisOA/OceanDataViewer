@@ -22,13 +22,7 @@ import FixedObsPlotsSidebar from './plots/FixedObsPlotsSidebar';
 import { getDataFilePopUp } from '../../../../store/actions/dataPoupActions';
 
 
-// let DefaultIcon = L.icon({
-//    iconUrl: icon,
-//    shadowUrl: iconShadow,
-//    iconSize: [25, 36],
-//    iconAnchor: [15, 33]
-// });
-// L.Marker.prototype.options.icon = DefaultIcon;
+
 
 
 const SidebarComponent = ({ map }) => {
@@ -213,11 +207,11 @@ function Markers() {
                   }
                </div>
             </Tab>
-            <Tab id="plots" header="Plots" icon={<FaChartBar />}>
+            {/* <Tab id="plots" header="Plots" icon={<FaChartBar />}>
                <div>
                   
                </div>
-            </Tab>
+            </Tab> */}
 
             <Tab id="info" header="Information" icon={<FaInfo />}>
             <div id="disclaimer">

@@ -22,6 +22,7 @@ import { Icon } from 'leaflet';
 import end_circle from '../../../../assets/images/end_circle.svg';
 import glider_start from '../../../../assets/images/SLOCUM_G2.svg';
 import {getCoordinatesGlidersFromURL } from '../../../../services/ThreddsService';
+import { setDataHighcharts } from '../../../../store/actions/dataHighcharts';
 
 const FinishRoute = new Icon({
     iconUrl: end_circle,
@@ -169,7 +170,7 @@ function Markers({dataJSON}) {
                                         <b>Date start: </b>${dataJSON.USV_DATA[3].date_start} <br>
                                         <b>Date end: </b>${dataJSON.USV_DATA[3].date_end}<br><br>
                                         <a class="btn btn-outline-primary btn-sm d-flex justify-content-center" href='${dataJSON.USV_DATA[3].url_download}' role="button">Download NetCDF</a>`);
-      L.marker(dataJSON.USV_DATA[2].first_coordinate, {icon: GliderStarting}).bindPopup(popup).addTo(map);
+      L.marker(dataJSON.USV_DATA[2].first_coordinate, {icon: GliderStarting}).bindPopup(popup).addTo(map).openPopup();
       L.marker(dataJSON.USV_DATA[2].last_coordinate, {icon: FinishRoute}).addTo(map);
       map.flyTo(dataJSON.USV_DATA[2].first_coordinate, 8,{
         duration:0.5
@@ -201,11 +202,11 @@ function Markers({dataJSON}) {
                   }
                </div>
             </Tab>
-            <Tab id="plots" header="Plots" icon={<FaChartBar />}>
+            {/* <Tab id="plots" header="Plots" icon={<FaChartBar />}>
                <div>
                   
                </div>
-            </Tab>
+            </Tab> */}
 
             <Tab id="info" header="Information" icon={<FaInfo />}>
             <div id="disclaimer">

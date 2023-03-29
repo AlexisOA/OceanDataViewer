@@ -27,22 +27,25 @@ const Map = props => {
    const [stateClassNameHighCharte, setstateClassNameHighCharte] = useState("close border-0");
    const [stateHighchartClassName, setHighchartClassName] = useState('highchart-block');
 
+   const [dataHighchart, setDataHighchart] = useState(null);
    
-  //  useEffect(() => {
-  //   setDataHighchart(null)
-  // }, [props]);
+
+   
+   useEffect(() => {
+    setDataHighchart(null)
+  }, [props.fullData]);
   
   const getDatasetFromVariable = (url, name_variable) => {
     // dispatch(setStateLoading(true))
-    // setstateLoadingHighchart(true)
+    setstateLoadingHighchart(true)
     getDatasetGliderFromVariableName(url, name_variable)
     .then((response) => {
         if(response.status === 200){
             console.log(response.data)
-            // setDataHighchart(response.data)
-            // setstateLoadingHighchart(false)
+            setDataHighchart(response.data)
+            setstateLoadingHighchart(false)
             console.log(response.data)
-            dispatch(setDataHighcharts(response.data))
+            // dispatch(setDataHighcharts(response.data))
         }
     })
     .catch((error) => {
@@ -80,8 +83,8 @@ const Map = props => {
     var markers = []
     let date_time = []
     let data_time = []
-    if("values" in props.dataHighchart.variable_info.dataset){
-      props.dataHighchart.variable_info.dataset.values.map((value, index) => {
+    if("values" in dataHighchart.variable_info.dataset){
+      dataHighchart.variable_info.dataset.values.map((value, index) => {
         data_time.push([new Date(value[0]).getTime(), value[1]])
         date_time.push(new Date(value[0]).getTime())
       })
@@ -166,7 +169,7 @@ const Map = props => {
               enabled: true
           },
           title: {
-              text: props.dataHighchart.variable_info.dataset.axis[1]
+              text: dataHighchart.variable_info.dataset.axis[1]
             },
             yAxis: [{ // Primary yAxis
               labels: {
@@ -176,7 +179,7 @@ const Map = props => {
                   }
               },
               title: {
-                  text: props.dataHighchart.variable_info.dataset.axis[1],
+                  text: dataHighchart.variable_info.dataset.axis[1],
                   style: {
                       color: Highcharts.getOptions().colors[0]
                   }
@@ -189,8 +192,8 @@ const Map = props => {
                 events: {
                     mouseOver: function () {
                       var i = searchIndex(date_time, this.x);
-                      if (i < props.dataHighchart.variable_info.dataset.coordinates.length){
-                        var latlng = L.latLng(props.dataHighchart.variable_info.dataset.coordinates[i]);
+                      if (i < dataHighchart.variable_info.dataset.coordinates.length){
+                        var latlng = L.latLng(dataHighchart.variable_info.dataset.coordinates[i]);
                         var miMarker = L.marker(latlng).addTo(props.myMap)
                         markers.push(miMarker);
                       }
@@ -203,7 +206,7 @@ const Map = props => {
                 }
               },
               type: 'spline',
-              name: `<b>${props.dataHighchart.variable_info.dataset.short_names[1]} </b>`,
+              name: `<b>${dataHighchart.variable_info.dataset.short_names[1]} </b>`,
               // color: '#7cb5ef',
               data: data_time.sort(),
               marker: {enabled: false, radius : 3},
@@ -211,7 +214,7 @@ const Map = props => {
               gapSize: 2000000,
               gapUnit: 'value',
               tooltip: {
-                valueSuffix: " " + props.dataHighchart.variable_info.dataset.units,
+                valueSuffix: " " + dataHighchart.variable_info.dataset.units,
                 valueDecimals: 3
               },
             }],
@@ -266,7 +269,8 @@ const Map = props => {
                         opacity={0}
                         eventHandlers={{
                         add: (e) => {
-                          dispatch(setDataHighcharts(null))
+                          // dispatch(setDataHighcharts(null))
+                          setDataHighchart(null)
                           setstateHideShowChart(true)
                           getDatasetFromVariable(value.url,value.variable_name);
                           
@@ -285,7 +289,7 @@ const Map = props => {
                   :
                   null
                 }
-                {props.dataHighchart != null ?
+                {dataHighchart != null ?
                   <div className='leaflet-bottom leaflet-right mx-4'>
                     <div  className='container-high leaflet-control' >
                     {stateHideShowChart ?
@@ -309,11 +313,16 @@ const Map = props => {
                     </div>
                   </div>
                   :
-                    null
+                  stateLoadingHighchart ?
+                  <div className='d-flex align-items-center justify-content-center align-self-center' style={{minHeight: "100vh", zIndex: 400, position: "relative"}}>
+                    <CircularProgress style={{'color': 'white'}}/>
+                  </div>
+                :
+                  null
                 } 
          </MapContainer>
       )
-   }, [props])
+   }, [props, stateHideShowChart, stateClassNameHighCharte, stateHighchartClassName, stateLoadingHighchart, dataHighchart])
 
    return  map
 
