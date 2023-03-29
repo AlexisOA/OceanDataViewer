@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Map from './SideBarMap'
 import Sidebar from './Sidebar'
 import "./styles.scss";
-import NavigationMenu from '../../../Home/Navigation/NavigationMenu';
 import { useSelector, useDispatch } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 import Tab from 'react-bootstrap/Tab';
@@ -10,6 +9,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { getSelectTab } from "../../../../store/actions/tabActions";
 import { Navigation } from "@mui/icons-material";
 import FixedObsPlots from "../../../Plots/fixedobs/FixedObsPlots";
+import Navbar from "../../../Home/Navigation/NavBar";
 
 
 export default function AppSidebar() {
@@ -32,7 +32,7 @@ export default function AppSidebar() {
   return (
 
     <div>
-        <NavigationMenu/>
+        <Navbar/>
             <div className="container-fluid">
 
             <div className='row mt-5'>

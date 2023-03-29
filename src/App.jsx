@@ -36,12 +36,9 @@ const App = () => {
       <Routes>
         {/* HomePage Cards*/}
         <Route exact path='/' element={<Home/>}/>
-        <Route exact path='/estoc' element={<EstocView/>}/>
-        <Route exact path='/gliders' element={<GlidersView/>}/> 
+        <Route exact path='/fixedobs' element={<AppSidebarTabs/>}/>
+        <Route exact path='/gliders' element={<AppSidebarGliders/>}/> 
         <Route exact path='/dataportal'/>
-        <Route exact path='/test' element={<AppSidebar/>}/> 
-        <Route exact path='/testgliders' element={<AppSidebarGliders/>}/> 
-        <Route exact path='/sidebartabs' element={<AppSidebarTabs/>}/>
       </Routes>
 
     </Router>
