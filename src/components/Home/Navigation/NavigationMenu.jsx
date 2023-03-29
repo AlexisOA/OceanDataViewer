@@ -1,58 +1,29 @@
-import React, {useState} from 'react';
-import '../Navigation/NavigationMenu.css'
+import React, {useState} from "react";
+import "./NavigationMenu.css"
 import logo from '../../../assets/images/logo_laplocan.png'
-import {useNavigate} from 'react-router-dom';
 
-const NavigationMenu = () => {
-    const [isNavExpanded, setIsNavExpanded] = useState(false)
-    const navigate = useNavigate();
-    
-    const redirectToPath = (path) => {
-    navigate(path)
-    }
+const Navbar = () => {
+    const [isOpen, setIsOpen] = useState(false)
 
-
-    return (
-        <nav className="navigation">
-            <a href="/" className="brand-name">
-                <img src={logo} alt="logo_plocan"></img>
-            </a>
-            <button className="hamburger"
-            onClick={() => {setIsNavExpanded(!isNavExpanded);}}>
-                {/* icon from heroicons.com */}
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="white"
-                >
-                <path
-                    fillRule="evenodd"
-                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-                    clipRule="evenodd"
-                />
-                </svg>
-            </button>
-            <div className={
-            isNavExpanded ? "navigation-menu expanded" : "navigation-menu"
-            }>
-                <ul>
-                    <li>
-                    <a href="/estoc">Fixed observatories</a>
-                    </li>
-                    <li>
-                    <a href="/gliders">Autonomous systems</a>
-                    </li>
-                    <li>
-                    <a href="http://obsplatforms.plocan.eu/" target="_blank">Data portal</a>
-                    </li>
-                    <li>
-                    <a href="#">Contact us</a>
-                    </li>
-                </ul>
+    return(
+        <div className="navbar">
+            <div className="nav_logo"> 
+                <a href="/" className="brand-name">
+                    <img src={logo} alt="logo_plocan"></img>
+                </a>
             </div>
-    </nav>
-    );
+            <div className={`nav_items ${isOpen && "open"}`}>
+                <a href="/fixedobs">Fixed Observatory</a>
+                <a href="/gliders">Autonomous systems</a>
+                <a href="http://obsplatforms.plocan.eu/" target="_blank">Data Portal</a>
+                <a href="#">Contact</a>
+            </div>
+            <div className={`nav_toggle ${isOpen && "open"}`} onClick={ () => setIsOpen(!isOpen)} >
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    )
 }
-
-export default NavigationMenu;
+export default Navbar
