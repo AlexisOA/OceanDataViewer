@@ -134,9 +134,10 @@ const handleClick = async () =>{
 
 
 function Markers() {
-   map.flyTo([filesData.site.Latitude, filesData.site.Longitude], 7,{
-       duration:0.5
-   });
+//    map.flyTo([filesData.site.Latitude, filesData.site.Longitude], 7,{
+//        duration:0.5
+//    });
+   map.flyTo([filesData.site.Latitude, filesData.site.Longitude], 7);
     var marker = L.marker([filesData.site.Latitude, filesData.site.Longitude]).addTo(map);
     let itemList=[];
     filesData.properties_file.Properties.map((dataProperties, index) => {
