@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Map from './SideBarMap'
 import Sidebar from './Sidebar'
 import "./styles.scss";
@@ -10,6 +10,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { getSelectTab } from "../../../../store/actions/tabActions";
 import { Navigation } from "@mui/icons-material";
 import FixedObsPlots from "../../../Plots/fixedobs/FixedObsPlots";
+import { setSizeWindow } from "../../../../store/actions/windowActions";
 
 
 export default function AppSidebar() {
@@ -24,7 +25,21 @@ export default function AppSidebar() {
   const statusProduct = states.statusProductTab;
   const selectTab = states.statusSelect;
   const dataFile = states.popUpData;
+
+  const sizewindow = state.getSizeWindowMap;
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    function handleResize() {
+        console.log("resizing event sidebarview");
+        dispatch(setSizeWindow(window.devicePixelRatio, window.innerHeight))
+    }
+    window.addEventListener('resize', handleResize);
+    return _ => {
+        window.removeEventListener('resize', handleResize)
+    };
+
+  }, []);
 
   return (
 
@@ -54,7 +69,7 @@ export default function AppSidebar() {
                             null
                         }
                             {map && <Sidebar map={map}/>}
-                            <Map setMap={setMap}/>
+                            <Map setMap={setMap} />
                       </div>
                     </Tab>
                     {/* <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>

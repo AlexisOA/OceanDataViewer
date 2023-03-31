@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FiHome, FiChevronLeft, FiCompass, FiSettings } from "react-icons/fi";
 import { Sidebar, Tab } from '../../../../react-leaflet-sidetabs'
 import FixedObsCatalogsThredds from '../FixedObsCatalogsThredds';
@@ -20,6 +20,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery'; 
 import FixedObsPlotsSidebar from './plots/FixedObsPlotsSidebar';
 import { getDataFilePopUp } from '../../../../store/actions/dataPoupActions';
+import { setSizeWindow } from '../../../../store/actions/windowActions';
 
 
 
@@ -35,6 +36,8 @@ const SidebarComponent = ({ map }) => {
    const transferList_Data = state.transferListData;
    const statusPlot = state.statusPlotTab;
 
+   const sizewindow = state.getSizeWindowMap;
+
    const onClose = () => {
       setOpenTab(false)
    }
@@ -42,6 +45,17 @@ const SidebarComponent = ({ map }) => {
    const onOpen = id => {
       setOpenTab(id)
    }
+
+   useEffect(() => {
+        if(sizewindow.width != null){
+            console.log("estamos redimensionando el mapa")
+            setInterval(function () {
+                map.invalidateSize();
+                }, 100);
+
+        }
+    
+    }, [sizewindow]);
 
 
    function obtainCoords(is_file, url, url_download, is_profile) {

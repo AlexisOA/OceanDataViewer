@@ -41,6 +41,8 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
 
     const data_highcharts = state.dataHighchart;
     const transferList_Data = state.transferListData;
+
+
     console.log(transferList_Data)
     const dispatch = useDispatch();
 
@@ -55,6 +57,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                 obtainDataForm(url)
             }
         }
+
     }, [url]);
 
     const obtainDataForm = (url) => {
@@ -140,16 +143,18 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                         <div className='justify-content-right col-sm-8 col-md-6 mx-5'>
                                             <div className='container-fluid mt-3'>
                                                 <IconButton  aria-label="delete" size="small" >
-                                                <   InfoIcon />
+                                                < InfoIcon />
                                                     <h5 className='mx-3 mt-2'>Information</h5>
                                                 </IconButton>
                                                 <p>{data_highcharts.table_info.profile0[0].description}</p>
                                             </div>
-                                            <IconButton aria-label="download" size="small" className='mt-4'> 
-                                                <GetAppIcon />
-                                                <h5 className='mx-3 mt-2'>Download Files</h5>
-                                            </IconButton>
-                                                        <div className='row justify-content-left mt-2'>
+                                            <div className='container-fluid mt-3'>
+                                                <IconButton aria-label="download" size="small" className='mt-4'> 
+                                                    <GetAppIcon />
+                                                    <h5 className='mx-3 mt-2'>Download Files</h5>
+                                                </IconButton>
+                                            </div>
+                                                    <div className='row justify-content-left mt-2'>
                                                             {data_highcharts.url.map((url, index) =>{
                                                                 return (<div key={index} className='mb-2'>
                                                                     <p className='mb-3'>
@@ -161,7 +166,7 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                                                         }
                                                                     </p>
                                                                         <LoadingButton
-                                                                            className='mx-3'
+                                                                            className='mx-3 my-1 justify-content-center'
                                                                             sx={{ border:  1}}
                                                                             size="medium"
                                                                             onClick={downloadNetCDF}
@@ -215,10 +220,13 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                                 </IconButton>
                                                 <p>{data_highcharts.table_info[0].description}</p>
                                             </div>
-                                            <IconButton aria-label="download" size="small" className='mt-4'> 
-                                                <GetAppIcon />
-                                                <h5 className='mx-3 mt-2'>Download Files</h5>
-                                            </IconButton>
+                                            <div className='container-fluid mt-3'>
+                                                <IconButton aria-label="download" size="small" className='mt-2'> 
+                                                    <GetAppIcon />
+                                                    <h5 className='mx-3 mt-2'>Download Files</h5>
+                                                </IconButton>
+                                            </div>
+                                            
                                                         <div className='row justify-content-left mt-2'>
                                                             {data_highcharts.url.map((url, index) =>{
                                                                 return (<div key={index} className='mb-2'>
