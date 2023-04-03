@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { MapContainer, TileLayer, ScaleControl, LayersControl, FeatureGroup, Marker, ZoomControl } from 'react-leaflet'
 const Map = props => {
-
+   
    const map = useMemo( () => {
       return  (
          <MapContainer 
@@ -27,7 +27,7 @@ const Map = props => {
             </LayersControl> */}
          </MapContainer>
       )
-   }, [])
+   }, [props])
 
    return  map
 

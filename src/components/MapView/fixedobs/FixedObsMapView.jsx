@@ -28,15 +28,15 @@ const MapViewEstoc = ({filesData, loadingMap}) => {
     const sizewindow = state.getSizeWindowMap;
     const stateLoading = state.StateLoading;
     
-    useEffect(() => {
-        if(sizewindow.width != null){
-         console.log("estamos redimensionando el mapa")
-           setInterval(function () {
-                map.invalidateSize();
-                }, 100);
+    // useEffect(() => {
+    //     if(sizewindow.width != null){
+    //      console.log("estamos redimensionando el mapa")
+    //        setInterval(function () {
+    //             map.invalidateSize();
+    //             }, 100);
 
-        }
-    }, [sizewindow]);
+    //     }
+    // }, [sizewindow]);
 
     const onClickProducto = (name) => {
         // dispatch(getStatusProductTab(false, filesData.site.url));

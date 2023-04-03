@@ -50,6 +50,11 @@ const TableInformation = () => {
   const [selected, setSelected] = React.useState([]);
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
+  const [selectedTable, setSelectedTable] = useState([]);
+  const isSelectedTable = (name) => selectedTable.indexOf(name) !== -1;
+
+  const [opened, setOpened] = useState(-1);
+
   const btnClick = () => {
     console.log(selected)
     if(selected.length > 0){
@@ -101,6 +106,25 @@ const TableInformation = () => {
     setSelected(newSelected);
   };
 
+  const handleClickTable = (event, name) => {
+    const selectedIndex = selectedTable.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selectedTable, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selectedTable.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selectedTable.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selectedTable.slice(0, selectedIndex),
+        selectedTable.slice(selectedIndex + 1),
+      );
+    }
+    setSelectedTable(newSelected);
+  };
+
 
     return (
       <div>
@@ -137,9 +161,9 @@ const TableInformation = () => {
                                     <IconButton
                                       aria-label="expand row"
                                       size="small"
-                                      onClick={() => setOpen(!open)}
+                                      onClick={() => setOpened(opened === index ? -1: index)}
                                     >
-                                      {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                      {opened === index ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                     </IconButton>
                                   </StyledTableCell>
                                   <StyledTableCell component="th" scope="row">
@@ -161,7 +185,7 @@ const TableInformation = () => {
                                 </StyledTableRow>
                                 <TableRow>
                                   <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                    <Collapse in={open} timeout="auto" unmountOnExit>
+                                    <Collapse in={opened === index} timeout="auto" unmountOnExit>
                                       <Box sx={{ margin: 1 }}>
                                         <Typography variant="h6" gutterBottom component="div">
                                           Info
