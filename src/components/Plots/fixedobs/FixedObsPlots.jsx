@@ -135,12 +135,12 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                         <div>
                             {
                                 (data_highcharts.isprofile) ?
-                                <div className='container-fluid mt-2 mb-4'>
-                                    <div className="row">
-                                        <div className="justify-content-left col-sm-8 col-md-5">
+                                <div className='container mt-2 mb-4'>
+                                    <div className='row'>
+                                        <div className='col-md-12 col-lg-6'>
                                             <TableInformationProfiles/>
                                         </div>
-                                        <div className='justify-content-right col-sm-8 col-md-6 mx-5'>
+                                        <div className='col'>
                                             <div className='container-fluid mt-3'>
                                                 <IconButton  aria-label="delete" size="small" >
                                                 < InfoIcon />
@@ -154,19 +154,19 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                                     <h5 className='mx-3 mt-2'>Download Files</h5>
                                                 </IconButton>
                                             </div>
-                                                    <div className='row justify-content-left mt-2'>
+                                                    <div className='mt-2'>
                                                             {data_highcharts.url.map((url, index) =>{
                                                                 return (<div key={index} className='mb-2'>
                                                                     <p className='mb-3'>
                                                                         {
                                                                             (data_highcharts.isprofile) ? 
-                                                                            url.substring(url.lastIndexOf("/")+1) + " (" + data_highcharts.table_info["profile" + index][0].time + ")"
+                                                                            url.substring(url.lastIndexOf("/")+1) + " (" + data_highcharts.table_info["profile" + index][0].time_info + ")"
                                                                             :
                                                                             url.substring(url.lastIndexOf("/")+1)
                                                                         }
                                                                     </p>
                                                                         <LoadingButton
-                                                                            className='mx-3 my-1 justify-content-center'
+                                                                            className='mx-1 my-1 '
                                                                             sx={{ border:  1}}
                                                                             size="medium"
                                                                             onClick={downloadNetCDF}
@@ -193,26 +193,26 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                                                         </LoadingButton>
                                                                         </div>)
                                                                 })}
-                                            { loadingLinearProgress ?
-                                            <LinearProgress className='mt-3'/>
-                                            :
-                                            null
-                                            }
+                                                                { loadingLinearProgress ?
+                                                                <LinearProgress className='mt-3'/>
+                                                                :
+                                                                null
+                                                                }
                                         
-                                                        </div>
+                                                    </div>
                                         </div>
                                         
                                     </div>
                                 </div>
                                 
                                 :
-                                <div className='container-fluid mt-2 mb-4'>
+                                <div className='container mt-2 mb-4'>
                                     <div className="row">
-                                        <div className="justify-content-left col-sm-8 col-md-5 ">
+                                        <div className="col">
                                             <TableInformation/>
                                         </div>
-                                        <div className="justify-content-right col-sm-8 col-md-6 mx-5">
-                                            <div className='container-fluid mt-3'>
+                                        <div className="col">
+                                            <div className='container mt-3'>
                                                 <IconButton  aria-label="delete" size="small" >
                                                     <InfoIcon />
                                                     <h5 className='mx-3 mt-2'>Information</h5>
@@ -220,57 +220,57 @@ const FixedObsPlots = ({url, url_download, is_profile}) => {
                                                 </IconButton>
                                                 <p>{data_highcharts.table_info[0].description}</p>
                                             </div>
-                                            <div className='container-fluid mt-3'>
+                                            <div className='container mt-3'>
                                                 <IconButton aria-label="download" size="small" className='mt-2'> 
                                                     <GetAppIcon />
                                                     <h5 className='mx-3 mt-2'>Download Files</h5>
                                                 </IconButton>
                                             </div>
                                             
-                                                        <div className='row justify-content-left mt-2'>
+                                                        <div className='row'>
                                                             {data_highcharts.url.map((url, index) =>{
                                                                 return (<div key={index} className='mb-2'>
-                                                                    <p className='mb-3'>
-                                                                        {
-                                                                            (data_highcharts.isprofile) ? 
-                                                                            url.substring(url.lastIndexOf("/")+1) + " (" + data_highcharts.table_info["profile" + index][0].time + ")"
-                                                                            :
-                                                                            url.substring(url.lastIndexOf("/")+1)
-                                                                        }
-                                                                    </p>
-                                                                        <LoadingButton
-                                                                            className='mx-3'
-                                                                            sx={{ border:  1}}
-                                                                            size="medium"
-                                                                            onClick={downloadNetCDF}
-                                                                            loadingPosition="end"
-                                                                            variant="outlined"
-                                                                            color="primary"
-                                                                            disabled={loadingProfile}
-                                                                            endIcon={<FileDownloadIcon />}
-                                                                            href={data_highcharts.url_download[index]}
-                                                                            >
-                                                                            Download NC
-                                                                        </LoadingButton>
-                                                                        <LoadingButton
-                                                                            sx={{ border:  1}}
-                                                                            size="medium"
-                                                                            onClick={() => downloadCSV(url)}
-                                                                            loadingPosition="end"
-                                                                            variant="outlined"
-                                                                            color="success"
-                                                                            disabled={loadingProfile}
-                                                                            endIcon={<FileDownloadIcon />}
-                                                                            >
-                                                                            Download CSV
-                                                                        </LoadingButton>
+                                                                            <p className='mb-3'>
+                                                                                {
+                                                                                    (data_highcharts.isprofile) ? 
+                                                                                    url.substring(url.lastIndexOf("/")+1) + " (" + data_highcharts.table_info["profile" + index][0].time_info + ")"
+                                                                                    :
+                                                                                    url.substring(url.lastIndexOf("/")+1)
+                                                                                }
+                                                                            </p>
+                                                                            <LoadingButton
+                                                                                className='mx-3'
+                                                                                sx={{ border:  1}}
+                                                                                size="medium"
+                                                                                onClick={downloadNetCDF}
+                                                                                loadingPosition="end"
+                                                                                variant="outlined"
+                                                                                color="primary"
+                                                                                disabled={loadingProfile}
+                                                                                endIcon={<FileDownloadIcon />}
+                                                                                href={data_highcharts.url_download[index]}
+                                                                                >
+                                                                                Download NC
+                                                                            </LoadingButton>
+                                                                            <LoadingButton
+                                                                                sx={{ border:  1}}
+                                                                                size="medium"
+                                                                                onClick={() => downloadCSV(url)}
+                                                                                loadingPosition="end"
+                                                                                variant="outlined"
+                                                                                color="success"
+                                                                                disabled={loadingProfile}
+                                                                                endIcon={<FileDownloadIcon />}
+                                                                                >
+                                                                                Download CSV
+                                                                            </LoadingButton>
                                                                         </div>)
                                                                 })}
-                                            { loadingLinearProgress ?
-                                            <LinearProgress className='mt-3'/>
-                                            :
-                                            null
-                                            }
+                                                                        { loadingLinearProgress ?
+                                                                        <LinearProgress className='mt-3'/>
+                                                                        :
+                                                                        null
+                                                                        }
                                         
                                                         </div>
                                         </div>
