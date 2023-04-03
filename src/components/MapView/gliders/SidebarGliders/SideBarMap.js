@@ -293,25 +293,27 @@ const Map = props => {
                 {dataHighchart != null ?
                   <div className='leaflet-bottom leaflet-right mx-4'>
                     <div  className='container-high leaflet-control' >
-                    {stateHideShowChart ?
-                      (<button
-                        className={stateClassNameHighCharte}
-                        onClick={() => hideHighchart()}>
-                        <CloseIcon/>
-                      </button>
-                      )
-                      :
-                      <button
-                        className={stateClassNameHighCharte}
-                        onClick={() => showHighchart()}>
-                        <SignalCellularAltIcon/>
-                      </button>
-                    }
-                      
-                    <div className={stateHighchartClassName}> 
+                      {stateHideShowChart ?
+                        (<button
+                          className={stateClassNameHighCharte}
+                          onClick={() => hideHighchart()}>
+                          <CloseIcon/>
+                        </button>
+                        )
+                        :
+                        <button
+                          className={stateClassNameHighCharte}
+                          onClick={() => showHighchart()}>
+                          <SignalCellularAltIcon/>
+                        </button>
+                      }
+                      <div className={stateHighchartClassName}> 
                         <ShowHighStock/>
                       </div>
+
+                        
                     </div>
+                    
                   </div>
                   :
                   stateLoadingHighchart ?
