@@ -44,11 +44,12 @@ const Map = props => {
             console.log(response.data)
             setDataHighchart(response.data)
             setstateLoadingHighchart(false)
-            console.log(response.data)
             // dispatch(setDataHighcharts(response.data))
         }
     })
     .catch((error) => {
+      console.log("Error to load dataset", error)
+      setstateLoadingHighchart(false)
     })
     
   }
