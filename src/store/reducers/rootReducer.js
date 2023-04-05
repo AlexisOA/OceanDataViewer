@@ -6,6 +6,8 @@ import { stateLoadingMarker } from "./loadingReducer";
 import { stateRouteDataGlider } from "./routeGliderReducer";
 import { PopUpReducer } from "./dataPoupReducer";
 import { getDataHighcharts } from "./dataHighchartsReducer";
+import {getDataVariableGlider} from "./dataGliderVariablesReducer";
+import {getDataVariableGliderLoading} from "./LoadingGliderVariableReducer";
 
 export const rootReducer = combineReducers(
     {
@@ -19,7 +21,9 @@ export const rootReducer = combineReducers(
         StateLoading :stateLoadingMarker,
         stateRouteGlider: stateRouteDataGlider,
         popUpData: PopUpReducer,
-        dataHigcharting: getDataHighcharts
+        dataHigcharting: getDataHighcharts,
+        dataGliderVar: getDataVariableGlider,
+        dataGliderVarLoading: getDataVariableGliderLoading
         //... add more states and reducers to include them in the store
     }
 )

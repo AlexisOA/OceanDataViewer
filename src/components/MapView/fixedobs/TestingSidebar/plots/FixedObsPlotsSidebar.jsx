@@ -186,28 +186,28 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                 :
                                 <div className='row mt-3'>
                                     <Box sx={{ minWidth: 120 }}>
-                                    <FormControl fullWidth >
-                                        <InputLabel id="demo-simple-select-label">Variables</InputLabel>
-                                        <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={variable}
-                                        label="Variables"
-                                        onChange={handleChange}
-                                        MenuProps={{
-                                            style: {zIndex: 2000}
-                                        }}
-                                        >
-                                        {
-                                            data_highcharts.table_info.map((value, idx) => {
-                                                if(value.show_data){
-                                                    return  <MenuItem key={idx} value={idx}>{value.Standard_name}</MenuItem>
-                                                }
-                                            })
-                                        }
-                                    </Select>
-                                </FormControl>   
-                                </Box>
+                                        <FormControl fullWidth >
+                                            <InputLabel id="demo-simple-select-label">Variables</InputLabel>
+                                            <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={variable}
+                                            label="Variables"
+                                            onChange={handleChange}
+                                            MenuProps={{
+                                                style: {zIndex: 2000}
+                                            }}
+                                            >
+                                            {
+                                                data_highcharts.table_info.map((value, idx) => {
+                                                    if(value.show_data){
+                                                        return  <MenuItem key={idx} value={idx}>{value.Standard_name}</MenuItem>
+                                                    }
+                                                })
+                                            }
+                                            </Select>
+                                        </FormControl>   
+                                    </Box>
                                 </div>
                             
                             }
@@ -230,7 +230,7 @@ const FixedObsPlotsSidebar = ({url, url_download, is_profile}) => {
                                                                 </div>
 
                                                                 <div className='container-fluid mt-2'>
-                                                                    <IconButton  aria-label="delete" size="small" >
+                                                                    <IconButton  aria-label="delete" size="small">
                                                                         <InfoIcon />
                                                                         <h5 className='mx-3 mt-2'>Information</h5>
                                                                         

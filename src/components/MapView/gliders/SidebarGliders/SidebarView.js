@@ -22,7 +22,11 @@ export default function AppSidebar() {
   const states = useSelector(state=>state);
   const selectTab = states.statusSelect;
   const dataFile = states.popUpData;
+  const dataGlider = state.dataGliderVar;
+  const dataGliderLoading = state.dataGliderVarLoading
   const dispatch = useDispatch();
+
+  console.log(dataGlider)
 
   // const dataHigh = states.dataHigcharting;
 
@@ -57,7 +61,7 @@ export default function AppSidebar() {
                             null
                         }
                             {map && <Sidebar dataGlider={[]} map={map}/>}
-                            <Map setMap={setMap} fullData={dataFile}  myMap={map}/>
+                            <Map setMap={setMap} fullData={dataFile}  myMap={map} gliderVariableData={dataGlider} gliderVariableLoading={dataGliderLoading}/>
                       </div>
                     </Tab>
                 </Tabs>
