@@ -24,13 +24,13 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 const GlidersVariables = ({fullData}) => {
     const dispatch = useDispatch();
     const [variable, setVariable] = useState('');
-
+    
     const [dateInit, setDateInit] = useState(fullData.USV_DATA[4].date_picker[0]);
     const [dateFin, setDateFin] = useState('');
 
     const [stateButton, setStateButton] = useState(true);
     const [loading, setLoading] = useState(false);
-
+    console.log("aaaa", fullData)
     function handleClickNc() {
         setLoading(true);
         setTimeout(() => {
@@ -179,7 +179,7 @@ const GlidersVariables = ({fullData}) => {
                     variant="primary"
                     disabled={stateButton}
                     onClick={() => handleClick()}
-                    style={{'justify-content': 'right'}}
+                    style={{'justifyContent': 'right'}}
                     >
                      Generate Plot
                     </Button>
