@@ -109,10 +109,12 @@ export const getCSVFileFromNetcdf = (url) =>{
 
 //Gliders
 
-export const getDatasetGliderFromVariableName = (url, name_variable) =>{
+export const getDatasetGliderFromVariableName = (url, name_variable, date_init, date_fin) =>{
     let body = {
         url: url,
-        name_variable:name_variable
+        name_variable:name_variable,
+        date_init:date_init,
+        date_fin:date_fin
     }
     return axios.post('http://127.0.0.1:8000/api/gliders/datasetvariable', body);
 }

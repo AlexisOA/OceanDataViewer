@@ -35,24 +35,6 @@ const Map = props => {
     setDataHighchart(null)
   }, [props.fullData]);
   
-  const getDatasetFromVariable = (url, name_variable) => {
-    // dispatch(setStateLoading(true))
-    setstateLoadingHighchart(true)
-    getDatasetGliderFromVariableName(url, name_variable)
-    .then((response) => {
-        if(response.status === 200){
-            console.log(response.data)
-            setDataHighchart(response.data)
-            setstateLoadingHighchart(false)
-            // dispatch(setDataHighcharts(response.data))
-        }
-    })
-    .catch((error) => {
-      console.log("Error to load dataset", error)
-      setstateLoadingHighchart(false)
-    })
-    
-  }
 
   const hideHighchart = () => {
     setstateClassNameHighCharte('hide border-0')
@@ -84,8 +66,8 @@ const Map = props => {
     var markers = []
     let date_time = []
     let data_time = []
-    if("values" in dataHighchart.variable_info.dataset){
-      dataHighchart.variable_info.dataset.values.map((value, index) => {
+    if("values" in props.gliderVariableData.variable_info.dataset){
+      props.gliderVariableData.variable_info.dataset.values.map((value, index) => {
         data_time.push([new Date(value[0]).getTime(), value[1]])
         date_time.push(new Date(value[0]).getTime())
       })
@@ -170,7 +152,7 @@ const Map = props => {
               enabled: true
           },
           title: {
-              text: dataHighchart.variable_info.dataset.axis[1]
+              text: props.gliderVariableData.variable_info.dataset.axis[1]
             },
             yAxis: [{ // Primary yAxis
               labels: {
@@ -180,7 +162,7 @@ const Map = props => {
                   }
               },
               title: {
-                  text: dataHighchart.variable_info.dataset.axis[1],
+                  text: props.gliderVariableData.variable_info.dataset.axis[1],
                   style: {
                       color: Highcharts.getOptions().colors[0]
                   }
@@ -193,8 +175,8 @@ const Map = props => {
                 events: {
                     mouseOver: function () {
                       var i = searchIndex(date_time, this.x);
-                      if (i < dataHighchart.variable_info.dataset.coordinates.length){
-                        var latlng = L.latLng(dataHighchart.variable_info.dataset.coordinates[i]);
+                      if (i < props.gliderVariableData.variable_info.dataset.coordinates.length){
+                        var latlng = L.latLng(props.gliderVariableData.variable_info.dataset.coordinates[i]);
                         var miMarker = L.marker(latlng).addTo(props.myMap)
                         markers.push(miMarker);
                       }
@@ -207,7 +189,7 @@ const Map = props => {
                 }
               },
               type: 'spline',
-              name: `<b>${dataHighchart.variable_info.dataset.short_names[1]} </b>`,
+              name: `<b>${props.gliderVariableData.variable_info.dataset.short_names[1]} </b>`,
               // color: '#7cb5ef',
               data: data_time.sort(),
               marker: {enabled: false, radius : 3},
@@ -215,7 +197,7 @@ const Map = props => {
               gapSize: 2000000,
               gapUnit: 'value',
               tooltip: {
-                valueSuffix: " " + dataHighchart.variable_info.dataset.units,
+                valueSuffix: " " + props.gliderVariableData.variable_info.dataset.units,
                 valueDecimals: 3
               },
             }],
@@ -258,39 +240,7 @@ const Map = props => {
                   />
                   <ZoomControl position='topright'/>
             <ScaleControl />
-
-            { props.fullData != null ?
-                  <>
-                  <LayersControl collapsed={false}>
-                  {
-                    props.fullData.USV_DATA[1].data.names.map((value, idx) => {
-                      return <BaseLayer key={idx} name={value.standard_name}>
-                      <Marker
-                        position={[28.0000000, -15.5000000]}
-                        opacity={0}
-                        eventHandlers={{
-                        add: (e) => {
-                          // dispatch(setDataHighcharts(null))
-                          setDataHighchart(null)
-                          setstateHideShowChart(true)
-                          getDatasetFromVariable(value.url,value.variable_name);
-                          
-                        },
-                        remove: (e) => {
-                          console.log("Removed layer:", e.target);
-                        }
-                        }}
-                      ></Marker>
-                      </BaseLayer>
-                    })
-                    
-                  }
-                  </LayersControl>
-                  </>
-                  :
-                  null
-                }
-                {dataHighchart != null ?
+                {props.gliderVariableData != null ?
                   <div className='leaflet-bottom leaflet-right mx-4'>
                     <div  className='container-high leaflet-control' >
                       {stateHideShowChart ?
@@ -316,7 +266,7 @@ const Map = props => {
                     
                   </div>
                   :
-                  stateLoadingHighchart ?
+                  props.gliderVariableLoading ?
                   <div className='d-flex align-items-center justify-content-center align-self-center' style={{minHeight: "100vh", zIndex: 400, position: "relative"}}>
                     <CircularProgress style={{'color': 'white'}}/>
                   </div>
