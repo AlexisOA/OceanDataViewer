@@ -82,9 +82,7 @@ const GlidersVariables = ({fullData}) => {
 
     const handleDateStart = (value) => {
         const date = new Date(value.replaceAll("-", "/"));
-        console.log("Actual date: ", date)
         const next_date = new Date(date.setDate(date.getDate() + 30));
-        console.log("Next date: ", next_date)
         // Date string format
         var dateString = new Date(next_date.getTime() - (next_date.getTimezoneOffset() * 60000 ))
                     .toISOString()

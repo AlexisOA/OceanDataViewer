@@ -26,7 +26,6 @@ export default function AppSidebar() {
   const dataGliderLoading = state.dataGliderVarLoading
   const dispatch = useDispatch();
 
-  console.log(dataGlider)
 
   // const dataHigh = states.dataHigcharting;
 
