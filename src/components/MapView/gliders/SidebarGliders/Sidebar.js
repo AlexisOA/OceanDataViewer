@@ -68,7 +68,6 @@ const SidebarComponent = ({ dataGlider, map }) => {
   const clearMap = () =>{
     map.closePopup();
     map.eachLayer(layer=>{
-      console.log(layer)
         if (layer instanceof L.Marker) {
           map.removeLayer(layer)
         }
@@ -76,7 +75,6 @@ const SidebarComponent = ({ dataGlider, map }) => {
           map.removeLayer(layer)
         }
       })
-      console.log("-------------")
   }
 
 const obtainCoordinatesNetCDF = (url, url_download) => {
