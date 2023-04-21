@@ -11,6 +11,7 @@ import { getSelectTab } from "../../../../store/actions/tabActions";
 import { Navigation } from "@mui/icons-material";
 import FixedObsPlots from "../../../Plots/fixedobs/FixedObsPlots";
 import { setSizeWindow } from "../../../../store/actions/windowActions";
+import Footer from "../../../Footer/Footer";
 
 
 export default function AppSidebar() {
@@ -31,7 +32,6 @@ export default function AppSidebar() {
 
   useEffect(() => {
     function handleResize() {
-        console.log("resizing event sidebarview");
         dispatch(setSizeWindow(window.devicePixelRatio, window.innerHeight))
     }
     window.addEventListener('resize', handleResize);
@@ -47,42 +47,43 @@ export default function AppSidebar() {
         <NavigationMenu/>
             <div className="container-fluid">
 
-            <div className='row mt-5'>
+              <div className='row mt-5'>
+              
+                  <Tabs
+                      // defaultActiveKey={tabStatus.key}
+                      activeKey={selectTab.status}
+                      id="controlled-tab-example"
+                      onSelect={(k) => dispatch(getSelectTab(k))}
+                      style={{'marginBottom': '10px'}}
+                      
+                  >
+                      <Tab eventKey="source" title="Data Source Selection">
+                        <div className="Appsidebar">
+                          {
+                            stateLoading ?
+                              (<div className='d-flex align-items-center justify-content-center align-self-center'
+                              style={{minHeight: "100vh", zIndex: 1000, position: "absolute", width:"100%"}}>
+                                  <CircularProgress style={{'color': 'white'}}/>
+                              </div>)
+                            :
+                              null
+                          }
+                              {map && <Sidebar map={map}/>}
+                              <Map setMap={setMap} />
+                        </div>
+                      </Tab>
+                      {/* <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>
+                          
+                      </Tab> */}
+                      <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
+                          <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download} is_profile={dataFile ? dataFile.site.isprofile: null}/>
+                      </Tab>
+                  </Tabs>
+              </div>
             
-                <Tabs
-                    // defaultActiveKey={tabStatus.key}
-                    activeKey={selectTab.status}
-                    id="controlled-tab-example"
-                    onSelect={(k) => dispatch(getSelectTab(k))}
-                    style={{'marginBottom': '10px'}}
-                    
-                >
-                    <Tab eventKey="source" title="Data Source Selection">
-                      <div className="Appsidebar">
-                        {
-                          stateLoading ?
-                            (<div className='d-flex align-items-center justify-content-center align-self-center'
-                            style={{minHeight: "100vh", zIndex: 1000, position: "absolute", width:"100%"}}>
-                                <CircularProgress style={{'color': 'white'}}/>
-                            </div>)
-                          :
-                            null
-                        }
-                            {map && <Sidebar map={map}/>}
-                            <Map setMap={setMap} />
-                      </div>
-                    </Tab>
-                    {/* <Tab eventKey="product" title="Data Product Selection" disabled={statusProduct.status}>
-                        
-                    </Tab> */}
-                    <Tab label="Tab Style" eventKey="plots" title="Plots" disabled={statusPlot.status}>
-                        <FixedObsPlots url={statusPlot.url} url_download={statusPlot.url_download} is_profile={dataFile ? dataFile.site.isprofile: null}/>
-                    </Tab>
-                </Tabs>
             </div>
-            
-        </div>
-        </div>
+          <Footer/>
+      </div>
       
     
   );

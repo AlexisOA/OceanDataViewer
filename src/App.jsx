@@ -11,25 +11,10 @@ import GlidersView from './components/MapView/gliders/GlidersView';
 import AppSidebar from './components/MapView/fixedobs/TestingSidebar/SidebarView';
 import AppSidebarGliders from './components/MapView/gliders/SidebarGliders/SidebarView';
 import AppSidebarTabs from './components/MapView/fixedobs/SidebarFixedObs/SidebarView';
+import Contact from './components/Contact/Contact';
 
 
 const App = () => {
-  const [markers, setMarkers] = useState(null);
-
-  function obtainCoords(is_file, id) {
-    (is_file) ?
-        obtainCoordinatesNetCDF(id)
-        : 
-        console.log()
-  }
-
-  const obtainCoordinatesNetCDF = (name) => {
-    getCoordinatesFromLocalFile(name)
-        .then((response) => {
-            setMarkers(response.data);
-        })
-        .catch((error) => alert(`Error method post coordinates: ${error}`))
-  }
   return (
     <Router>
   
@@ -39,6 +24,7 @@ const App = () => {
         <Route exact path='/fixedobs' element={<AppSidebarTabs/>}/>
         <Route exact path='/gliders' element={<AppSidebarGliders/>}/> 
         <Route exact path='/dataportal'/>
+        <Route exact path='/contact' element={<Contact/>}/> 
       </Routes>
 
     </Router>

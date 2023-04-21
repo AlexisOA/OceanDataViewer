@@ -11,7 +11,7 @@ import Highcharts, { correctFloat } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { setDataHighcharts } from '../../../../store/actions/dataHighcharts';
 import '../css/GliderMapSidebar.css'
-
+import '../SidebarGliders/highchart.css'
 var layerControl = L.control.layers(undefined, undefined, {
   collapsed: false
 });
@@ -216,11 +216,12 @@ const Map = props => {
               }
           },
       }
-    return <HighchartsReact
+    return <div className='highchartClass'><HighchartsReact
             highcharts={Highcharts}
+            containerProps={{ style: { height: "100%", width:"100%" } }}
             constructorType={'stockChart'}
             options={options}
-            />
+            /></div>
   }
 
 
@@ -231,7 +232,7 @@ const Map = props => {
             doubleClickZoom={false}
             id="mapId"
             zoom={7}
-            center={{lat: 28.275358, lng: -18.303223}}
+            center={{lat: 27.958, lng: -15.592}}
             ref={props.setMap}>
    
                   <TileLayer

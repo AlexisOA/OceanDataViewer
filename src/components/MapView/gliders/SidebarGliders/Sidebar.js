@@ -236,9 +236,9 @@ function Markers({dataJSON}) {
 
             </Tab>
 
-            <Tab id="settings" header="Settings" icon={<FaCog     />} anchor="bottom">
+            {/* <Tab id="settings" header="Settings" icon={<FaCog     />} anchor="bottom">
                <p>The button for this tab can be anchored to the bottom by using the <code>anchor="bottom"</code> props on the <code>Tab</code> component</p>
-            </Tab>
+            </Tab> */}
 
          </Sidebar>
       </section>

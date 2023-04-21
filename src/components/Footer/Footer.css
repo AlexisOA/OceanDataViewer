@@ -1,0 +1,12 @@
+footer{
+    height: 50px;
+    position:relative;
+    margin-top: 85vh;
+    clear: both;
+    
+}
+
+footer img{
+    height: 120px;
+    border: 0;
+}

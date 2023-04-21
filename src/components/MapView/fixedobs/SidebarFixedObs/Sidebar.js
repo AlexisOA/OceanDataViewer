@@ -25,7 +25,6 @@ import { setSizeWindow } from '../../../../store/actions/windowActions';
 
 
 
-
 const SidebarComponent = ({ map }) => {
     const state = useSelector(state=>state);
    const [filesData, setDataPopUp] = useState(null);
@@ -35,7 +34,11 @@ const SidebarComponent = ({ map }) => {
    const data_highcharts = state.dataHighchart;
    const transferList_Data = state.transferListData;
    const statusPlot = state.statusPlotTab;
-
+   const [popupSize, setpopup] = useState({
+    'maxWidth': '400',
+    'width': '400'
+    })
+   
    const sizewindow = state.getSizeWindowMap;
 
    const onClose = () => {
@@ -47,13 +50,34 @@ const SidebarComponent = ({ map }) => {
    }
 
    useEffect(() => {
+
         if(sizewindow.width != null){
-            console.log("estamos redimensionando el mapa")
             setInterval(function () {
                 map.invalidateSize();
                 }, 100);
+        
+            if(window.innerWidth <= 500){
+                map.closePopup();
+                setpopup({
+                    'maxWidth': '270',
+                    'width': '270'
+                    })
+            }else{
+                setpopup({
+                    'maxWidth': '400',
+                    'width': '400'
+                    })
+            }
 
         }
+
+        
+
+        // window.addEventListener('resize', handleWindowSizeChange);
+        // return () => {
+        //     console.log("aaa")
+        //     window.removeEventListener('resize', handleWindowSizeChange);
+        // }
     
     }, [sizewindow]);
 
@@ -92,7 +116,6 @@ const SidebarComponent = ({ map }) => {
    getCoordinatesProfilesFromURL(url, url_download)
        .then((response) => {
            setDataPopUp(response.data);
-           console.log(response.data)
           dispatch(setStateLoading(false))
 
        })
@@ -119,7 +142,6 @@ const obtainCoordinatesNetCDF = (url, url_download) => {
    getCoordinatesFromURL(url, url_download)
        .then((response) => {
            setDataPopUp(response.data);
-         console.log(response.data)
          dispatch(setStateLoading(false))
       //      map.flyTo([response.data.site.Latitude, response.data.site.Longitude], 8,{
       //       duration:2
@@ -139,7 +161,6 @@ function onClickPlot(){
     dispatch(getStatusPlotTab(false, filesData.site.url, filesData.site.url_download, filesData.isprofile));
     dispatch(getDataFilePopUp(filesData))
     dispatch(getSelectTab("plots"));
-    console.log("clickplot")
 };
 
 const handleClick = async () =>{
@@ -147,7 +168,7 @@ const handleClick = async () =>{
 }
 
 
-function Markers() {
+function Markers(popstate) {
 //    map.flyTo([filesData.site.Latitude, filesData.site.Longitude], 7,{
 //        duration:0.5
 //    });
@@ -159,8 +180,8 @@ function Markers() {
     })
    var customOptions =
     {
-    'maxWidth': '400',
-    'width': '400'
+    'maxWidth': '350',
+    'width': '350'
     }
 
    marker.bindPopup(`<div class='container'>
@@ -188,7 +209,7 @@ function Markers() {
                             <button type="button" class="mx-2 btn btn-primary plotsBtn">Generate Plot</button>
                           </div>
    
-                      </div>`, customOptions).
+                      </div>`, popstate.popstate).
                       on("popupopen", () => {
                             $(".plotsBtn").on("click", e => {
                             e.preventDefault();
@@ -216,7 +237,7 @@ function Markers() {
                      <FixedObsCatalogsThredds send={obtainCoords} />
                      {
                      filesData != null ?
-                     <Markers/>
+                     <Markers popstate={popupSize}/>
                      :
                      null
                   }
@@ -247,9 +268,9 @@ function Markers() {
 
             </Tab>
 
-            <Tab id="settings" header="Settings" icon={<FaCog     />} anchor="bottom">
+            {/* <Tab id="settings" header="Settings" icon={<FaCog     />} anchor="bottom">
                <p>The button for this tab can be anchored to the bottom by using the <code>anchor="bottom"</code> props on the <code>Tab</code> component</p>
-            </Tab>
+            </Tab> */}
 
          </Sidebar>
       </section>

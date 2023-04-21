@@ -8,7 +8,7 @@ const Map = props => {
             doubleClickZoom={false}
             id="mapId"
             zoom={7}
-            center={{lat: 28.275358, lng: -18.303223}}
+            center={{lat: 27.958, lng: -15.592}}
             ref={props.setMap}>
    
                   <TileLayer

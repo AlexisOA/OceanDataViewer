@@ -16,7 +16,7 @@ const Navbar = () => {
                 <a href="/fixedobs">Fixed Observatory</a>
                 <a href="/gliders">Autonomous systems</a>
                 <a href="http://obsplatforms.plocan.eu/" target="_blank">Data Portal</a>
-                <a href="#">Contact</a>
+                <a href="/contact">Contact</a>
             </div>
             <div className={`nav_toggle ${isOpen && "open"}`} onClick={ () => setIsOpen(!isOpen)} >
                 <span></span>

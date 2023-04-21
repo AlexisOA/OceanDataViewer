@@ -8,6 +8,7 @@ import estoc_card from '../../assets/images/cards/estoc_card.PNG';
 import plocanportal_card from '../../assets/images/cards/plocanportal_card.PNG';
 import gliders_card from '../../assets/images/cards/gliders_card.jpg';
 import {useNavigate} from 'react-router-dom';
+import Footer from '../Footer/Footer';
 
 const Home = () => {
 
@@ -19,78 +20,77 @@ const Home = () => {
 
     return (
       <div className='container'>
-      <div className='row m-3'>
-      <div className="col-12">
-            <h1 className="text-center">Plocan Data Observatory</h1>
+          <div className='row m-3'>
+                <div className="col-12">
+                      <h1 className="text-center" style={{fontFamily:'sans-serif'}}>Plocan Data Observatory</h1>
+                </div>
           </div>
-      </div>
+          <div className='row p-2 m-4'>
+            <div className='col-md-4'>
+              <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="180"
+                      image={estoc_card}
+                      alt="estoc platform"
+                      onClick={()=> redirectToPath("/fixedobs")}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Fixed Observatories
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        <p>Various fixed platforms are built, deployed, mantained and managed by PLOCAN in order to obtain oceanographic and weather continuous time series from a single area in the ocean.</p>
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+            </div>
 
-        <div className='row p-2 m-4'>
-          <div className='col-md-4'>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={estoc_card}
-                    alt="estoc platform"
-                    onClick={()=> redirectToPath("/fixedobs")}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      Fixed Observatories
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                       Description
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+            <div className='col-md-4'>
+              <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea onClick={() => redirectToPath("/gliders")}>
+                    <CardMedia
+                      component="img"
+                      height="180"
+                      image={gliders_card}
+                      alt="estoc platform"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                      Autonomous systems
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        <p>PLOCAN manages a wide variety of vehicles, such as a series of Underwater Unmanned Vehicles (UUVs) profiler technologies, best known as Gliders.</p>
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+            </div>
+
+            <div className='col-md-4'>
+              <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea href='http://obsplatforms.plocan.eu/' target={"_blank"}>
+                    <CardMedia
+                      component="img"
+                      height="180"
+                      image={plocanportal_card}
+                      alt="estoc platform"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        PLOCAN Data Portal
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Access to OBSPlatform.
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+            </div>
+
           </div>
-
-          <div className='col-md-4'>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea onClick={() => redirectToPath("/gliders")}>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={gliders_card}
-                    alt="estoc platform"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                    Autonomous systems
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                    Autonomous systems description
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-          </div>
-
-          <div className='col-md-4'>
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea href='http://obsplatforms.plocan.eu/' target={"_blank"}>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image={plocanportal_card}
-                    alt="estoc platform"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      PLOCAN Data Portal
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      PLOCAN Data Portal description
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-          </div>
-
-        </div>
       </div>
       
         
