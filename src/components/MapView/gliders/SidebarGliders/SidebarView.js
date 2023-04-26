@@ -60,12 +60,13 @@ export default function AppSidebar() {
                           }
                               {map && <Sidebar dataGlider={[]} map={map}/>}
                               <Map setMap={setMap} fullData={dataFile}  myMap={map} gliderVariableData={dataGlider} gliderVariableLoading={dataGliderLoading}/>
+                              <Footer/>
                         </div>
                       </Tab>
                   </Tabs>
               </div>
         </div>
-        <Footer/>
+        
         </div>
       
     

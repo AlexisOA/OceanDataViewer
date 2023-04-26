@@ -11,7 +11,6 @@ const Contact = () => {
     return(
             <div>
                 <NavigationMenu/>
-                <div className="row">
                     <div className="container mt-5" style={{ width:'200vh' }}>
                         <div className="row">
                             <div className="col-6" >
@@ -41,13 +40,7 @@ const Contact = () => {
                             </div>
                         </div>
                     </div>
-                    
-                </div>
-                <div className="row mt-5">
                     <Footer/>
-                </div>
-                
-                
             </div>
             
         
